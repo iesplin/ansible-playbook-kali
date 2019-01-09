@@ -36,3 +36,8 @@
         version: "{{ item.version | default('master') }}"
       loop: "{{ git_repos | flatten(levels=1) }}"
 
+    - name: Enable Postgresql service
+      service:
+        name: postgresql
+        state: started
+        enabled: true
