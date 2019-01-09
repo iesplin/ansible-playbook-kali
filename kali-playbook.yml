@@ -1,0 +1,38 @@
+---
+# Playbook to configure Kali VM
+- hosts: kali
+  tasks:
+    - name: Update repository cache
+      apt:
+        update_cache: true
+
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+  
+    - name: Install packages
+      apt:
+        name: "{{ kali_packages }}"
+        state: latest
+
+# Install extra apps and files
+- hosts: kali
+  roles:
+    - ansible-role-chromium
+    - ansible-role-hcxdumptool
+    - ansible-role-hcxtools
+    - ansible-role-johntheripper
+    - ansible-role-nullinux
+    - ansible-role-powershell
+    - ansible-role-seclists
+    - ansible-role-vscode
+  vars:
+
+  tasks:
+    - name: Clone git repositories
+      git:
+        repo: "{{ item.repo }}"
+        dest: "/opt/{{ item.name }}"
+        version: "{{ item.version | default('master') }}"
+      loop: "{{ git_repos | flatten(levels=1) }}"
+

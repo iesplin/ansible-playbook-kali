@@ -1,0 +1,6 @@
+ansible
+molecule
+docker-py
+pylint
+pytest
+python-vagrant

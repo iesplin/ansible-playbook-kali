@@ -1,0 +1,51 @@
+---
+
+# Git repositories to clone to /opt
+git_repos:
+  - name: fuzzdb
+    repo: https://github.com/fuzzdb-project/fuzzdb.git
+  - name: SecLists
+    repo: https://github.com/danielmiessler/SecLists.git
+  - name: PowerSploit
+    repo: https://github.com/PowerShellMafia/PowerSploit.git
+  - name: Empire
+    repo: https://github.com/EmpireProject/Empire.git
+
+# Packages to install
+kali_packages:
+  - aircrack-ng
+  - bloodhound
+  - chromium
+  - crackmapexec
+  - docker.io
+  - docker-compose
+  - dnsrecon
+  - git
+  - gobuster
+  - hostapd-wpe
+  - masscan
+  - open-vm-tools-desktop
+  - patator
+  - postgresql
+  - python3
+  - python3-pip
+  - python3-venv
+  - tmux
+  - wifite
+  - xsel
+  - zip
+
+# Settings for VS Code
+vscode_user: root
+vscode_extensions:
+  # Language extensions
+  - ms-python.python
+  - ms-vscode.go
+  - ms-vscode.cpptools
+  - ms-vscode.powershell
+  - rebornix.ruby
+  # Markdown extensions
+  - yzhang.markdown-all-in-one
+  - telesoho.vscode-markdown-paste-image
+  # Utility extensions
+  - hookyqr.beautify
