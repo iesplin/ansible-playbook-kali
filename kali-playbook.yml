@@ -24,7 +24,6 @@
     - ansible-role-johntheripper
     - ansible-role-nullinux
     - ansible-role-powershell
-    - ansible-role-seclists
     - ansible-role-vscode
   vars:
 
