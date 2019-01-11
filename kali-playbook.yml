@@ -8,7 +8,7 @@
 
     - name: Update all packages to the latest version
       apt:
-        upgrade: dist
+        upgrade: safe
   
     - name: Install packages
       apt:
