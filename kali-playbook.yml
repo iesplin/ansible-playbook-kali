@@ -21,7 +21,7 @@
     - ansible-role-chromium
     - ansible-role-hcxdumptool
     - ansible-role-hcxtools
-    - ansible-role-johntheripper
+    #- ansible-role-johntheripper
     - ansible-role-nullinux
     - ansible-role-powershell
     - ansible-role-vscode
