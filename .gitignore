@@ -11,3 +11,6 @@ __pycache__/
 
 # Ansible roles
 roles/ansible-role-*
+
+# Ansible retry files
+*.retry
