@@ -42,3 +42,14 @@
     - name: Initialize msfdb
       command: msfdb init
       when: "'No configuration file found' in msfdb_status.stdout"
+
+    - name: Configure OpenSSL
+      lineinfile:
+        path: /etc/ssl/openssl.cnf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - regexp: "^MinProtocol ="
+          line: "MinProtocol = None"
+        - regexp: "^CipherStrings ="
+          line: "CipherStrings = DEFAULT"
