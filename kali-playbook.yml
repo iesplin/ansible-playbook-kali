@@ -77,7 +77,7 @@
         dest: "/root/BurpSuite/jruby-complete.jar"
         checksum: "sha256:{{ jruby_checksums[0] }}"
       vars:
-        jruby_checksums: "{{ lookup("file", "/root/BurpSuite/jruby-complete.jar.sha256").splitlines() | list }}"
+        jruby_checksums: "{{ lookup('file', '/root/BurpSuite/jruby-complete.jar.sha256').splitlines() | list }}"
 
     - name: Get Jython sha1 checksum file
       get_url:
@@ -90,7 +90,7 @@
         dest: /root/BurpSuite/jython-standalone.jar
         checksum: "sha1:{{ jython_checksums[0] }}"
       vars:
-        jython_checksums: "{{ lookup("file", "/root/BurpSuite/jython-standalone.jar.sha1").splitlines() | list }}"
+        jython_checksums: "{{ lookup('file', '/root/BurpSuite/jython-standalone.jar.sha1').splitlines() | list }}"
 
     - name: Copy tmux config
       copy:
