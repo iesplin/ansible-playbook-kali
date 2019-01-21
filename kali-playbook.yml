@@ -21,6 +21,9 @@
     - ansible-role-hcxtools
     - ansible-role-nullinux
     - ansible-role-vscode
+  vars:
+    jruby_version: "9.2.5.0"
+    jython_version: "2.7.1"
   tasks:
     - name: Clone git repositories
       git:
@@ -59,14 +62,14 @@
         path: /root/BurpSuite
         state: directory
 
-    - name: Download Jython for Burp Suite
-      get_url:
-        src: https://repo1.maven.org/maven2/org/python/jython-standalone/2.7.1/jython-standalone-2.7.1.jar
-        dest: /root/BurpSuite/jython-standalone-2.7.1.jar
-        checksum: "sha1:942c3294840dc9dfb3528d775f4d02a6d57c421f"
-
     - name: Download Jruby for Burp Suite
       get_url:
-        src: https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.2.5.0/jruby-complete-9.2.5.0.jar
-        dest: /root/BurpSuite/jruby-complete-9.2.5.0.jar
-        checksum: "sha265:070d6b8a311aea95b6024f3ecb6de2bd0ec56da80883c9708254caa9e535aeca"
+        src: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar"
+        dest: "/root/BurpSuite/jruby-complete.jar"
+        checksum: "sha256:https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar.sha256"
+
+    - name: Download Jython for Burp Suite
+      get_url:
+        src: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar"
+        dest: /root/BurpSuite/jython-standalone.jar
+        checksum: "sha1:https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar.sha1"
