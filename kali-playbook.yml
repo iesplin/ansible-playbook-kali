@@ -64,13 +64,13 @@
 
     - name: Download Jruby for Burp Suite
       get_url:
-        src: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar"
+        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar"
         dest: "/root/BurpSuite/jruby-complete.jar"
         checksum: "sha256:https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar.sha256"
 
     - name: Download Jython for Burp Suite
       get_url:
-        src: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar"
+        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar"
         dest: /root/BurpSuite/jython-standalone.jar
         checksum: "sha1:https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar.sha1"
 
