@@ -2,12 +2,9 @@
 # Playbook to configure Kali VM
 - hosts: kali
   tasks:
-    - name: Update repository cache
-      apt:
-        update_cache: true
-
     - name: Update all packages to the latest version
       apt:
+        update_cache: true
         upgrade: safe
   
     - name: Install packages
@@ -21,12 +18,9 @@
     - ansible-role-chromium
     - ansible-role-hcxdumptool
     - ansible-role-hcxtools
-    #- ansible-role-johntheripper
     - ansible-role-nullinux
     - ansible-role-powershell
     - ansible-role-vscode
-  vars:
-
   tasks:
     - name: Clone git repositories
       git:
@@ -40,3 +34,11 @@
         name: postgresql
         state: started
         enabled: true
+
+    - name: Check msfdb status
+      command: msfdb status
+      register: msfdb_status
+
+    - name: Initialize msfdb
+      command: msfdb init
+      when: "'No configuration file found' in msfdb_status.stdout"
