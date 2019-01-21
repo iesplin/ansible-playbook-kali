@@ -13,7 +13,6 @@ git_repos:
 kali_packages:
   - aircrack-ng
   - bloodhound
-  - chromium
   - crackmapexec
   - docker.io
   - docker-compose
