@@ -16,10 +16,10 @@
 - hosts: kali
   roles:
     - ansible-role-chromium
+    - ansible-role-empire
     - ansible-role-hcxdumptool
     - ansible-role-hcxtools
     - ansible-role-nullinux
-    - ansible-role-powershell
     - ansible-role-vscode
   tasks:
     - name: Clone git repositories
