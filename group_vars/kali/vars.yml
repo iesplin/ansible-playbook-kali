@@ -1,4 +1,6 @@
 ---
+# Directory for BurpSuite extensions
+burpsuite_ext_dir: "/root/.BurpSuite"
 
 # Git repositories to clone to /opt
 git_repos:

@@ -22,6 +22,7 @@
     - ansible-role-nullinux
     - ansible-role-vscode
   vars:
+
     # Default idle delay (screen blanking) is 5 minutes (300)
     gnome_idle_delay: 1200
     # Default sleep type is suspend
@@ -61,36 +62,36 @@
         - regexp: "^CipherStrings ="
           line: "CipherStrings = DEFAULT"
 
-    - name: Create /root/BurpSuite directory for extensions
+    - name: Create directory for BurpSuite extensions
       file:
-        path: /root/BurpSuite
+        path: "{{ burpsuite_ext_dir }}"
         state: directory
 
     - name: Get JRuby sha256 checksum file
       get_url:
         url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar.sha256"
-        dest: /root/BurpSuite/jruby-complete.jar.sha256
+        dest: "{{ burpsuite_ext_dir }}/jruby-complete.jar.sha256"
 
-    - name: Download Jruby for Burp Suite
+    - name: Download JRuby for Burp Suite
       get_url:
         url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar"
-        dest: "/root/BurpSuite/jruby-complete.jar"
+        dest: "{{ burpsuite_ext_dir }}/jruby-complete.jar"
         checksum: "sha256:{{ jruby_checksums[0] }}"
       vars:
-        jruby_checksums: "{{ lookup('file', '/root/BurpSuite/jruby-complete.jar.sha256').splitlines() | list }}"
+        jruby_checksums: "{{ lookup('file', '{{ burpsuite_ext_dir }}/jruby-complete.jar.sha256').splitlines() | list }}"
 
     - name: Get Jython sha1 checksum file
       get_url:
         url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar.sha1"
-        dest: /root/BurpSuite/jython-standalone.jar.sha1
+        dest: "{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1"
 
     - name: Download Jython for Burp Suite
       get_url:
         url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar"
-        dest: /root/BurpSuite/jython-standalone.jar
+        dest: "{{ burpsuite_ext_dir }}/jython-standalone.jar"
         checksum: "sha1:{{ jython_checksums[0] }}"
       vars:
-        jython_checksums: "{{ lookup('file', '/root/BurpSuite/jython-standalone.jar.sha1').splitlines() | list }}"
+        jython_checksums: "{{ lookup('file', '{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1').splitlines() | list }}"
 
     - name: Copy tmux config
       copy:
