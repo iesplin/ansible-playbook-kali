@@ -73,3 +73,11 @@
         src: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar"
         dest: /root/BurpSuite/jython-standalone.jar
         checksum: "sha1:https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar.sha1"
+
+    - name: Copy tmux config
+      copy:
+        src: files/.tmux.conf
+        dest: /root/.tmux.conf
+        owner: root
+        group: root
+        mode: 0640
