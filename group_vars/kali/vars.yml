@@ -8,8 +8,6 @@ git_repos:
     repo: https://github.com/danielmiessler/SecLists.git
   - name: PowerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
-  - name: Empire
-    repo: https://github.com/EmpireProject/Empire.git
 
 # Packages to install
 kali_packages:
