@@ -69,7 +69,7 @@
     - name: Get JRuby sha256 checksum file
       get_url:
         url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar.sha256"
-        dest: /root/BurpSuite/jruby-complete.jar.sha265
+        dest: /root/BurpSuite/jruby-complete.jar.sha256
 
     - name: Download Jruby for Burp Suite
       get_url:
