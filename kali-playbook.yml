@@ -107,3 +107,12 @@
         - "org.gnome.desktop.session idle-delay {{ gnome_idle_delay }}"
         - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type '{{ gnome_sleep_type }}'"
         - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type '{{ gnome_sleep_type }}'"
+
+    - name: Configure proxychains
+      lineinfile:
+        path: "{{ item }}"
+        regexp: "^proxy_dns"
+        line: "#proxy_dns"
+      loop:
+        - "/etc/proxychains.conf"
+        - "/etc/proxychains4.conf"
