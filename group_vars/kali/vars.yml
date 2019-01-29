@@ -10,6 +10,9 @@ git_repos:
     repo: https://github.com/danielmiessler/SecLists.git
   - name: PowerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
+    version: dev
+  - name: Stego-Toolkit
+    repo: https://github.com/DominicBreuker/stego-toolkit
 
 # Packages to install
 kali_packages:
@@ -26,6 +29,7 @@ kali_packages:
   - open-vm-tools-desktop
   - patator
   - postgresql
+  - proxychains4
   - python3
   - python3-pip
   - python3-venv
