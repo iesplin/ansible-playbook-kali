@@ -22,6 +22,7 @@ kali_packages:
   - docker.io
   - docker-compose
   - dnsrecon
+  - freerdp2-x11
   - git
   - gobuster
   - hostapd-wpe
