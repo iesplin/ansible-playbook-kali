@@ -1,6 +1,13 @@
 ---
 # Directory for BurpSuite extensions
-burpsuite_ext_dir: "/root/.BurpSuite"
+burpsuite_ext_dir: "/root/BurpSuite"
+burpsuite_jruby_version: "9.2.5.0"
+burpsuite_jython_version: "2.7.1"
+
+# Default idle delay (screen blanking) is 5 minutes (300)
+gnome_idle_delay: 1800
+# Default sleep type is suspend
+gnome_sleep_type: "nothing"
 
 # Git repositories to clone to /opt
 git_repos:

@@ -21,14 +21,6 @@
     - ansible-role-hcxtools
     - ansible-role-nullinux
     - ansible-role-vscode
-  vars:
-
-    # Default idle delay (screen blanking) is 5 minutes (300)
-    gnome_idle_delay: 1200
-    # Default sleep type is suspend
-    gnome_sleep_type: "nothing"
-    jruby_version: "9.2.5.0"
-    jython_version: "2.7.1"
   tasks:
     - name: Clone git repositories
       git:
@@ -69,12 +61,12 @@
 
     - name: Get JRuby sha256 checksum file
       get_url:
-        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar.sha256"
+        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ burpsuite_jruby_version }}/jruby-complete-{{ burpsuite_jruby_version }}.jar.sha256"
         dest: "{{ burpsuite_ext_dir }}/jruby-complete.jar.sha256"
 
     - name: Download JRuby for Burp Suite
       get_url:
-        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ jruby_version }}/jruby-complete-{{ jruby_version }}.jar"
+        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ burpsuite_jruby_version }}/jruby-complete-{{ burpsuite_jruby_version }}.jar"
         dest: "{{ burpsuite_ext_dir }}/jruby-complete.jar"
         checksum: "sha256:{{ jruby_checksums[0] }}"
       vars:
@@ -82,12 +74,12 @@
 
     - name: Get Jython sha1 checksum file
       get_url:
-        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar.sha1"
+        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ burpsuite_jython_version }}/jython-standalone-{{ burpsuite_jython_version }}.jar.sha1"
         dest: "{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1"
 
     - name: Download Jython for Burp Suite
       get_url:
-        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ jython_version }}/jython-standalone-{{ jython_version }}.jar"
+        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ burpsuite_jython_version }}/jython-standalone-{{ burpsuite_jython_version }}.jar"
         dest: "{{ burpsuite_ext_dir }}/jython-standalone.jar"
         checksum: "sha1:{{ jython_checksums[0] }}"
       vars:
@@ -116,3 +108,18 @@
       loop:
         - "/etc/proxychains.conf"
         - "/etc/proxychains4.conf"
+    
+    # - name: Disable resume from swap. Quicker booting.
+    #   lineinfile:
+    #     path: "/etc/initramfs-tools/conf.d/resume"
+    #     regexp: "RESUME="
+    #     line: "RESUME=none"
+    #   register: resume_swap
+    
+    # - name: Generate new initramfs
+    #   command: update-initramfs -u
+    #   when: resume_swap is changed
+    
+    # - name: reboot
+    #   reboot:
+    #   when: resume_swap is changed
