@@ -33,6 +33,7 @@ kali_packages:
   - git
   - gobuster
   - hostapd-wpe
+  - libreoffice
   - masscan
   - open-vm-tools-desktop
   - patator
