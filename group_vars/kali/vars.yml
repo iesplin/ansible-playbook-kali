@@ -43,6 +43,7 @@ kali_packages:
   - python3-venv
   - tmux
   - wifite
+  - wireguard
   - xsel
   - zip
 
