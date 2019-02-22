@@ -1,5 +1,6 @@
 # Roles for Kali
 - src: https://github.com/iesplin/ansible-role-chromium
+- src: https://github.com/iesplin/ansible-role-crackmapexec
 - src: https://github.com/iesplin/ansible-role-empire
 - src: https://github.com/iesplin/ansible-role-hcxdumptool
 - src: https://github.com/iesplin/ansible-role-hcxtools

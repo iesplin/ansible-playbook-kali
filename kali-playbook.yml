@@ -16,6 +16,7 @@
 - hosts: kali
   roles:
     - ansible-role-chromium
+    - ansible-role-crackmapexec
     - ansible-role-empire
     - ansible-role-hcxdumptool
     - ansible-role-hcxtools
