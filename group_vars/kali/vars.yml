@@ -19,7 +19,9 @@ git_repos:
     repo: https://github.com/PowerShellMafia/PowerSploit.git
     version: dev
   - name: Stego-Toolkit
-    repo: https://github.com/DominicBreuker/stego-toolkit
+    repo: https://github.com/DominicBreuker/stego-toolkit.git
+  - name: Responder
+    repo: https://github.com/lgandx/Responder.git
 
 # Packages to install
 kali_packages:
