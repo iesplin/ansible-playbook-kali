@@ -28,6 +28,7 @@ kali_packages:
   - aircrack-ng
   - bloodhound
   - crackmapexec
+  - csvkit
   - docker.io
   - docker-compose
   - dnsrecon
