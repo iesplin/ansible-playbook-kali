@@ -20,16 +20,21 @@
     - ansible-role-empire
     - ansible-role-hcxdumptool
     - ansible-role-hcxtools
+    - ansible-role-impacket
     - ansible-role-nullinux
     - ansible-role-vscode
+    - ansible-role-wireguard
   tasks:
+    ## Download various git projects ##
     - name: Clone git repositories
       git:
         repo: "{{ item.repo }}"
         dest: "/opt/{{ item.name }}"
         version: "{{ item.version | default('master') }}"
+        force: true
       loop: "{{ git_repos | flatten(levels=1) }}"
 
+    ## Configure Metasploit ##
     - name: Enable Postgresql service
       service:
         name: postgresql
@@ -44,6 +49,7 @@
       command: msfdb init
       when: "'No configuration file found' in msfdb_status.stdout"
 
+    ## Configure OpenSSL config ##
     - name: Configure OpenSSL
       lineinfile:
         path: /etc/ssl/openssl.cnf
@@ -55,6 +61,7 @@
         - regexp: "^CipherStrings ="
           line: "CipherStrings = DEFAULT"
 
+    ## Setup Burp extension dependencies ##
     - name: Create directory for BurpSuite extensions
       file:
         path: "{{ burpsuite_ext_dir }}"
@@ -86,6 +93,7 @@
       vars:
         jython_checksums: "{{ lookup('file', '{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1').splitlines() | list }}"
 
+    ## Configure tmux ##
     - name: Copy tmux config
       copy:
         src: files/.tmux.conf
@@ -94,6 +102,7 @@
         group: root
         mode: 0640
 
+    ## Configure Gnome settings ##
     - name: Configure Gnome to less annoying defaults
       command: "gsettings set {{ item }}"
       loop:
@@ -101,6 +110,7 @@
         - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type '{{ gnome_sleep_type }}'"
         - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type '{{ gnome_sleep_type }}'"
 
+    ## Configure proxychains ##
     - name: Configure proxychains
       lineinfile:
         path: "{{ item }}"
@@ -109,18 +119,20 @@
       loop:
         - "/etc/proxychains.conf"
         - "/etc/proxychains4.conf"
+
+    ## Disable system resume ##    
+    - name: Disable resuming. Quicker booting.
+      lineinfile:
+        path: "/etc/initramfs-tools/conf.d/resume"
+        regexp: "RESUME="
+        line: "RESUME=none"
+      register: resume_swap
     
-    # - name: Disable resume from swap. Quicker booting.
-    #   lineinfile:
-    #     path: "/etc/initramfs-tools/conf.d/resume"
-    #     regexp: "RESUME="
-    #     line: "RESUME=none"
-    #   register: resume_swap
-    
-    # - name: Generate new initramfs
-    #   command: update-initramfs -u
-    #   when: resume_swap is changed
-    
-    # - name: reboot
-    #   reboot:
-    #   when: resume_swap is changed
+    - block:
+        - name: Generate new initramfs
+          command: update-initramfs -u
+        
+        - name: Display reboot message
+          debug:
+            msg: initramfs has been updated. A reboot is required.
+      when: resume_swap is changed

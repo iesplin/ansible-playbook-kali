@@ -13,21 +13,24 @@ gnome_sleep_type: "nothing"
 git_repos:
   - name: fuzzdb
     repo: https://github.com/fuzzdb-project/fuzzdb.git
-  - name: SecLists
-    repo: https://github.com/danielmiessler/SecLists.git
+  - name: Inveigh
+    repo: https://github.com/Kevin-Robertson/Inveigh.git
+  - name: Powermad
+    repo: https://github.com/Kevin-Robertson/Powermad.git
   - name: PowerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
     version: dev
-  - name: Stego-Toolkit
-    repo: https://github.com/DominicBreuker/stego-toolkit.git
   - name: Responder
     repo: https://github.com/lgandx/Responder.git
+  - name: SecLists
+    repo: https://github.com/danielmiessler/SecLists.git
+  - name: Stego-Toolkit
+    repo: https://github.com/DominicBreuker/stego-toolkit.git
 
 # Packages to install
 kali_packages:
   - aircrack-ng
   - bloodhound
-  - crackmapexec
   - csvkit
   - docker.io
   - docker-compose
@@ -47,7 +50,6 @@ kali_packages:
   - python3-venv
   - tmux
   - wifite
-  - wireguard
   - xsel
   - zip
 

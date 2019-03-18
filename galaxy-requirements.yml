@@ -4,7 +4,8 @@
 - src: https://github.com/iesplin/ansible-role-empire
 - src: https://github.com/iesplin/ansible-role-hcxdumptool
 - src: https://github.com/iesplin/ansible-role-hcxtools
-#- src: https://github.com/iesplin/ansible-role-johntheripper
+- src: https://github.com/iesplin/ansible-role-impacket
 - src: https://github.com/iesplin/ansible-role-nullinux
 - src: https://github.com/iesplin/ansible-role-powershell
 - src: https://github.com/iesplin/ansible-role-vscode
+- src: https://github.com/iesplin/ansible-role-wireguard
