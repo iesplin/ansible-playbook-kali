@@ -26,9 +26,21 @@
     - ansible-role-wireguard
   tasks:
     ## VMware SSH issue workaround ##
-    - name: SSH config
+    - name: Ensure .ssh directory exists
+      file:
+        path: /root/.ssh
+        state: directory
+        owner: root
+        group: root
+        mode: 0700
+  
+    - name: Configure SSH with workaround
       blockinfile:
         path: /root/.ssh/config
+        create: true
+        owner: root
+        group: root
+        mode: 0600
         marker: "# {mark} ANSIBLE MANAGED BLOCK vmware-ssh-workaround"
         state: present
         block: |
