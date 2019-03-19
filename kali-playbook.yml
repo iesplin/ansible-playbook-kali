@@ -25,6 +25,17 @@
     - ansible-role-vscode
     - ansible-role-wireguard
   tasks:
+    ## VMware SSH issue workaround ##
+    - name: SSH config
+      blockinfile:
+        path: /root/.ssh/config
+        marker: "# {mark} ANSIBLE MANAGED BLOCK vmware-ssh-workaround"
+        state: present
+        block: |
+          # Workaround for VMware SSH issue - https://github.com/vmware/open-vm-tools/issues/287
+          Host *
+          IPQoS lowdelay throughput
+
     ## Download various git projects ##
     - name: Clone git repositories
       git:
