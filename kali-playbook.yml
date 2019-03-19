@@ -126,7 +126,7 @@
       lineinfile:
         path: "{{ item }}"
         regexp: "^proxy_dns"
-        line: "#proxy_dns"
+        state: absent
       loop:
         - "/etc/proxychains.conf"
         - "/etc/proxychains4.conf"
