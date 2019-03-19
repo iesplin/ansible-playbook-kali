@@ -136,3 +136,12 @@
           debug:
             msg: initramfs has been updated. A reboot is required.
       when: resume_swap is changed
+
+    ## Clean-up apt ##
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: true
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: true
