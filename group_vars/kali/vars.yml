@@ -15,6 +15,8 @@ git_repos:
     repo: https://github.com/fuzzdb-project/fuzzdb.git
   - name: Inveigh
     repo: https://github.com/Kevin-Robertson/Inveigh.git
+  - name: PayloadsAllTheThings
+    repo: https://github.com/swisskyrepo/PayloadsAllTheThings
   - name: Powermad
     repo: https://github.com/Kevin-Robertson/Powermad.git
   - name: PowerSploit
@@ -36,6 +38,7 @@ kali_packages:
   - docker-compose
   - dnsrecon
   - freerdp2-x11
+  - ftp
   - git
   - gobuster
   - hostapd-wpe
