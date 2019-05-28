@@ -116,6 +116,25 @@
       vars:
         jython_checksums: "{{ lookup('file', '{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1').splitlines() | list }}"
 
+    ## Other downloads
+    - name: Ensure destination directory exists
+      file:
+        dest: "{{ item.dest | dirname }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      loop: "{{ misc_downloads }}"
+            
+    - name: Download files
+      get_url:
+        url: "{{ item.url }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: "{{ item.mode | default('0644') }}"
+      loop: "{{ misc_downloads }}"
+
     ## Configure tmux ##
     - name: Copy tmux config
       copy:

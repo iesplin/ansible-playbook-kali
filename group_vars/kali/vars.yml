@@ -56,6 +56,20 @@ kali_packages:
   - xsel
   - zip
 
+misc_downloads:
+  - url: "https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy32"
+    dest: /opt/pspy/pspy32
+    mode: 0755
+  - url: "https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy64"
+    dest: /opt/pspy/pspy64
+    mode: 0755
+  - url: "https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy32s"
+    dest: /opt/pspy/pspy32s
+    mode: 0755
+  - url: "https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy64s"
+    dest: /opt/pspy/pspy64s
+    mode: 0755
+
 # Settings for VS Code
 vscode_user: root
 vscode_extensions:
