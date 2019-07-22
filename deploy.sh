@@ -1,8 +1,8 @@
-#!/bin/bash -eux
-if [ ! -f "/usr/bin/pipenv" ]; then
-    sudo apt-get install pipenv
+#!/bin/bash
+if [ ! -f "/usr/bin/ansible" ]; then
+    sudo apt-get install -y ansible
 fi
 
-pipenv run ansible-galaxy install --force -r galaxy-requirements.yml
-pipenv run ansible-playbook -i inventory --become kali-playbook.yml
-pipenv run ansible-playbook -i inventory kali-personalize-playbook.yml
+ansible-galaxy install --force -r galaxy-requirements.yml
+ansible-playbook -i inventory --become kali-playbook.yml
+ansible-playbook -i inventory kali-personalize-playbook.yml
