@@ -71,6 +71,34 @@
 - hosts: kali
   become: true
   tasks:
+    ### Configure apt automatic updates ###
+    # Updates to be applied manually as we don't want these being
+    # applied during a network test.
+    - name: Disable apt systemd timers
+      systemd:
+        name: "{{ item }}"
+        state: stopped
+        enabled: false
+      loop:
+        - apt-daily.timer
+        - apt-daily-upgrade.timer
+
+    - name: Prevent apt services from running
+      systemd:
+        name: "{{ item }}"
+        masked: true
+      loop:
+        - apt-daily.service
+        - apt-daily-upgrade.service
+
+    - name: Disable apt periodic updates
+      template:
+        src: templates/apt/10periodic.j2
+        dest: /etc/apt/apt.conf.d/10periodic
+        owner: root
+        group: root
+        mode: 0644
+
     ### Configure Metasploit ###
     - name: Enable Postgresql service
       service:
