@@ -4,15 +4,10 @@ burpsuite_extras_dir: "/opt/BurpSuiteExtras"
 burpsuite_jruby_version: "9.2.5.0"
 burpsuite_jython_version: "2.7.1"
 
-# Default idle delay (screen blanking) is 5 minutes (300)
-gnome_idle_delay: 1800
-# Default sleep type is suspend
-gnome_sleep_type: "nothing"
-
 gnome_settings:
-  - "org.gnome.desktop.session idle-delay {{ gnome_idle_delay }}"
-  - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type '{{ gnome_sleep_type }}'"
-  - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type '{{ gnome_sleep_type }}'"
+  - "org.gnome.desktop.session idle-delay 1800"
+  - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'"
+  - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'"
   - "org.gnome.desktop.interface gtk-theme 'Kali-X-Dark'"
   - "org.gnome.desktop.interface icon-theme 'Vibrancy-Kali-Dark'"
   - "org.gnome.shell.extensions.user-theme name 'Kali-X'"

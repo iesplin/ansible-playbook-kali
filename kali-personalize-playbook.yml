@@ -10,8 +10,7 @@
     ## Configure Gnome settings ##
     - name: Tweak Gnome settings
       command: "gsettings set {{ item }}"
-      loop:
-        - "{{ gnome_settings }}"
+      loop: "{{ gnome_settings }}"
 
     - name: Get current terminal profile
       command: gsettings get org.gnome.Terminal.ProfilesList default
