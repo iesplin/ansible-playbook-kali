@@ -4,5 +4,5 @@ if [ ! -f "/usr/bin/ansible" ]; then
 fi
 
 ansible-galaxy install --force -r galaxy-requirements.yml
-ansible-playbook -i inventory --become kali-playbook.yml
-ansible-playbook -i inventory --become kali-personalize-playbook.yml
+ansible-playbook -i inventory --ask-become-pass kali-playbook.yml
+ansible-playbook -i inventory --ask-become-pass kali-personalize-playbook.yml
