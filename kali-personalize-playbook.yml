@@ -4,14 +4,14 @@
 ## Personalize Kali
 - hosts: kali
   become: true
-  become_user: "{{ kali_user }}"
+  roles:
+    - ansible-role-vscode
   tasks:
     ## Configure Gnome settings ##
     - name: Tweak Gnome settings
       command: "gsettings set {{ item }}"
       loop:
         - "{{ gnome_settings }}"
-      become: true
 
     - name: Get current terminal profile
       command: gsettings get org.gnome.Terminal.ProfilesList default
