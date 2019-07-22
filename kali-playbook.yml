@@ -141,35 +141,3 @@
         checksum: "sha1:{{ jython_checksums[0] }}"
       vars:
         jython_checksums: "{{ lookup('file', '{{ burpsuite_extras_dir }}/jython-standalone.jar.sha1').splitlines() | list }}"
-
-
-## Personalize Kali
-- hosts: kali
-  become: true
-  become_user: "{{ kali_user }}"
-  tasks:
-    ## Configure Gnome settings ##
-    - name: Tweak Gnome settings
-      command: "gsettings set {{ item }}"
-      loop:
-        - "{{ gnome_settings }}"
-      become: true
-
-    - name: Get current terminal profile
-      command: gsettings get org.gnome.Terminal.ProfilesList default
-      changed_when: false
-      register: terminal_profile
-
-    - name: Configure Terminal settings
-      command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${TERM_PROFILE:1:-1}/ use-transparent-background false"
-      enviroment:
-        TERM_PROFILE: terminal_profile.stdout
-
-    ## Configure tmux ##
-    - name: Copy tmux config
-      copy:
-        src: files/.tmux.conf
-        dest: "/home/{{ kali_user }}/.tmux.conf"
-        owner: "{{ kali_user }}"
-        group: "{{ kali_user }}"
-        mode: 0640
