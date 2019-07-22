@@ -9,7 +9,14 @@
       apt:
         update_cache: true
         upgrade: safe
-  
+
+    - name: Accept Wireshark setuid group
+      debconf:
+        name: wireshark
+        question: wireshark-common/install-setuid
+        value: 'true'
+        vtype: boolean 
+
     - name: Install OS packages
       apt:
         name: "{{ kali_os_packages }}"
