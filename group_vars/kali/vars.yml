@@ -32,8 +32,6 @@ git_repos:
   - name: SecLists
     repo: https://github.com/danielmiessler/SecLists.git
 
-kali_default_user: hacker
-
 kali_os_packages:
   - apparmor
   - apt-transport-https
@@ -128,6 +126,8 @@ kali_tool_packages:
   - wireshark
   - wpscan
   - xtightvncviewer
+
+kali_user: hacker
 
 misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy64
