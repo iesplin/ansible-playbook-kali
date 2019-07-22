@@ -20,7 +20,7 @@
 
     - name: Configure Terminal settings
       command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${TERM_PROFILE:1:-1}/ use-transparent-background false"
-      enviroment:
+      environment:
         TERM_PROFILE: terminal_profile.stdout
 
     ## Configure tmux ##
