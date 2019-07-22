@@ -1,6 +1,6 @@
 ---
 # Directory for BurpSuite extensions
-burpsuite_ext_dir: "/root/BurpSuite"
+burpsuite_extras_dir: "/opt/BurpSuiteExtras"
 burpsuite_jruby_version: "9.2.5.0"
 burpsuite_jython_version: "2.7.1"
 
@@ -8,6 +8,18 @@ burpsuite_jython_version: "2.7.1"
 gnome_idle_delay: 1800
 # Default sleep type is suspend
 gnome_sleep_type: "nothing"
+
+gnome_settings:
+  - "org.gnome.desktop.session idle-delay {{ gnome_idle_delay }}"
+  - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type '{{ gnome_sleep_type }}'"
+  - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type '{{ gnome_sleep_type }}'"
+  - "org.gnome.desktop.interface gtk-theme 'Kali-X-Dark'"
+  - "org.gnome.desktop.interface icon-theme 'Vibrancy-Kali-Dark'"
+  - "org.gnome.shell.extensions.user-theme name 'Kali-X'"
+  - "org.gnome.shell.extensions.dash-to-dock dock-fixed true"
+  - "org.gnome.shell.extensions.dash-to-dock background-color '#1c2123'"
+  - "org.gnome.shell.extensions.dash-to-dock force-straight-corner true"
+  - "org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'firefox-esr.desktop', 'chromium.desktop', 'kali-burpsuite.desktop', 'org.keepassxc.KeePassXC.desktop', 'SciTE.desktop']\""
 
 # Git repositories to clone to /opt
 git_repos:
@@ -22,60 +34,120 @@ git_repos:
   - name: PowerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
     version: dev
-  - name: Responder
-    repo: https://github.com/lgandx/Responder.git
   - name: SecLists
     repo: https://github.com/danielmiessler/SecLists.git
-  - name: Stego-Toolkit
-    repo: https://github.com/DominicBreuker/stego-toolkit.git
 
-# Packages to install
-kali_packages:
-  - aircrack-ng
-  - bloodhound
-  - csvkit
+kali_default_user: hacker
+
+kali_os_packages:
+  - apparmor
+  - apt-transport-https
+  - chromium
+  - cifs-utils
+  - dnsutils
   - docker.io
   - docker-compose
+  - dos2unix
+  - expect
+  - gdisk
+  - gparted
+  - gufw
+  - iw
+  - keepassxc
+  - lvm2
+  - macchanger
+  - mlocate
+  - default-mysql-client
+  - openresolv
+  - openvpn
+  - p7zip-full
+  - parted
+  - php
+  - postgresql
+  - python-pip
+  - python3-pip
+  - rfkill
+  - ruby
+  - scite
+  - screen
+  - ssh
+  - sudo
+  - tcpdump
+  - testdisk
+  - tmux
+  - ufw
+  - unrar
+  - wireguard
+  - vim                              
+
+# Packages to install
+kali_tool_packages:
+  - aircrack-ng
+  - apache2
+  - bloodhound
+  - burpsuite
+  - cadaver
+  - cewl
+  - creddump
+  - dirb
   - dnsrecon
+  - exe2hexbat
+  - exploitdb
+  - eyewitness
   - freerdp2-x11
   - ftp
-  - git
+  - gdb
   - gobuster
-  - hostapd-wpe
-  - libreoffice
+  - gpp-decrypt
+  - hash-identifier
+  - hydra
+  - john
   - masscan
-  - open-vm-tools-desktop
+  - metasploit-framework
+  - nasm
+  - nbtscan-unixwiz
+  - neo4j
+  - netcat-traditional
+  - netdiscover
+  - nikto
+  - nmap
+  - onesixtyone
+  - passing-the-hash
   - patator
-  - postgresql
   - proxychains4
-  - python3
-  - python3-pip
-  - python3-venv
-  - tmux
-  - wifite
-  - xsel
-  - zip
+  - python-impacket
+  - responder
+  - smbclient
+  - smbmap
+  - socat
+  - sqlmap
+  - tftp
+  - wafw00f
+  - webshells
+  - weevely
+  - wfuzz
+  - whatweb
+  - whois
+  - wifiphisher
+  - windows-binaries
+  - wireshark
+  - wpscan
+  - xtightvncviewer
 
 misc_downloads:
-  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy32
-    dest: /opt/pspy/pspy32
-    mode: "0755"
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy64
     dest: /opt/pspy/pspy64
-    mode: "0755"
-  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy32s
-    dest: /opt/pspy/pspy32s
     mode: "0755"
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.0.0/pspy64s
     dest: /opt/pspy/pspy64s
     mode: "0755"
 
 # Settings for VS Code
-vscode_user: root
+vscode_user: hacker
 vscode_extensions:
   # Language extensions
   - ms-python.python
-  - ms-vscode.go
+  #- ms-vscode.go
   - ms-vscode.cpptools
   - ms-vscode.powershell
   - rebornix.ruby

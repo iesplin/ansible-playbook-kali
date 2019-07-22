@@ -1,54 +1,45 @@
 ---
-# Playbook to configure Kali VM
+# Playbook for Kali
+
+## Update Kali and deploy packages
 - hosts: kali
+  become: true
   tasks:
     - name: Update all packages to the latest version
       apt:
         update_cache: true
         upgrade: safe
   
-    - name: Install packages
+    - name: Install OS packages
       apt:
-        name: "{{ kali_packages }}"
-        state: latest
-
-# Install extra apps and files
-- hosts: kali
-  roles:
-    - ansible-role-chromium
-    - ansible-role-crackmapexec
-    - ansible-role-empire
-    - ansible-role-hcxdumptool
-    - ansible-role-hcxtools
-    - ansible-role-impacket
-    - ansible-role-nullinux
-    - ansible-role-vscode
-    - ansible-role-wireguard
-  tasks:
-    ## VMware SSH issue workaround ##
-    - name: Ensure .ssh directory exists
-      file:
-        path: /root/.ssh
-        state: directory
-        owner: root
-        group: root
-        mode: 0700
-  
-    - name: Configure SSH with workaround
-      blockinfile:
-        path: /root/.ssh/config
-        create: true
-        owner: root
-        group: root
-        mode: 0600
-        marker: "# {mark} ANSIBLE MANAGED BLOCK vmware-ssh-workaround"
+        name: "{{ kali_os_packages }}"
         state: present
-        block: |
-          # Workaround for VMware SSH issue - https://github.com/vmware/open-vm-tools/issues/287
-          Host *
-          IPQoS lowdelay throughput
+    
+    - name: Install tool packages
+      apt:
+        name: "{{ kali_tool_packages }}"
+        state: present
+      environment:
+        RUNLEVEL: 1
 
-    ## Download various git projects ##
+    - name: Remove unnecessary packages
+      apt:
+        autoremove: true
+
+    - name: Clean apt cache
+      apt:
+        autoclean: true
+
+
+## Deploy tools not in the Kali repositories
+- hosts: kali
+  become: true
+  roles:
+    - ansible-role-crackmapexec
+    - ansible-role-vscode
+  tasks:
+    ### Clone projects from git repos ###
+    # Various projects that are either not in Kali or are updated more frequently than Kali repos
     - name: Clone git repositories
       git:
         repo: "{{ item.repo }}"
@@ -57,66 +48,7 @@
         force: true
       loop: "{{ git_repos | flatten(levels=1) }}"
 
-    ## Configure Metasploit ##
-    - name: Enable Postgresql service
-      service:
-        name: postgresql
-        state: started
-        enabled: true
-
-    - name: Check msfdb status
-      command: msfdb status
-      register: msfdb_status
-
-    - name: Initialize msfdb
-      command: msfdb init
-      when: "'No configuration file found' in msfdb_status.stdout"
-
-    ## Configure OpenSSL config ##
-    - name: Configure OpenSSL
-      lineinfile:
-        path: /etc/ssl/openssl.cnf
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-      loop:
-        - regexp: "^MinProtocol ="
-          line: "MinProtocol = None"
-        - regexp: "^CipherStrings ="
-          line: "CipherStrings = DEFAULT"
-
-    ## Setup Burp extension dependencies ##
-    - name: Create directory for BurpSuite extensions
-      file:
-        path: "{{ burpsuite_ext_dir }}"
-        state: directory
-
-    - name: Get JRuby sha256 checksum file
-      get_url:
-        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ burpsuite_jruby_version }}/jruby-complete-{{ burpsuite_jruby_version }}.jar.sha256"
-        dest: "{{ burpsuite_ext_dir }}/jruby-complete.jar.sha256"
-
-    - name: Download JRuby for Burp Suite
-      get_url:
-        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ burpsuite_jruby_version }}/jruby-complete-{{ burpsuite_jruby_version }}.jar"
-        dest: "{{ burpsuite_ext_dir }}/jruby-complete.jar"
-        checksum: "sha256:{{ jruby_checksums[0] }}"
-      vars:
-        jruby_checksums: "{{ lookup('file', '{{ burpsuite_ext_dir }}/jruby-complete.jar.sha256').splitlines() | list }}"
-
-    - name: Get Jython sha1 checksum file
-      get_url:
-        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ burpsuite_jython_version }}/jython-standalone-{{ burpsuite_jython_version }}.jar.sha1"
-        dest: "{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1"
-
-    - name: Download Jython for Burp Suite
-      get_url:
-        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ burpsuite_jython_version }}/jython-standalone-{{ burpsuite_jython_version }}.jar"
-        dest: "{{ burpsuite_ext_dir }}/jython-standalone.jar"
-        checksum: "sha1:{{ jython_checksums[0] }}"
-      vars:
-        jython_checksums: "{{ lookup('file', '{{ burpsuite_ext_dir }}/jython-standalone.jar.sha1').splitlines() | list }}"
-
-    ## Other downloads
+    ### Miscellaneous tools ###
     - name: Ensure destination directory exists
       file:
         dest: "{{ item.dest | dirname }}"
@@ -135,22 +67,38 @@
         mode: "{{ item.mode | default(0644) }}"
       loop: "{{ misc_downloads }}"
 
-    ## Configure tmux ##
-    - name: Copy tmux config
-      copy:
-        src: files/.tmux.conf
-        dest: /root/.tmux.conf
-        owner: root
-        group: root
-        mode: 0640
 
-    ## Configure Gnome settings ##
-    - name: Configure Gnome to less annoying defaults
-      command: "gsettings set {{ item }}"
+## Configure Kali
+- hosts: kali
+  become: true
+  tasks:
+    ### Configure Metasploit ###
+    - name: Enable Postgresql service
+      service:
+        name: postgresql
+        state: started
+        enabled: true
+
+    - name: Check msfdb status
+      command: msfdb status
+      register: msfdb_status
+
+    - name: Initialize msfdb
+      command: msfdb init
+      when: "'No configuration file found' in msfdb_status.stdout"
+
+    ### OpenSSL config ###
+    # Default OpenSSL config is too restrictive for testing
+    - name: Configure OpenSSL
+      lineinfile:
+        path: /etc/ssl/openssl.cnf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
       loop:
-        - "org.gnome.desktop.session idle-delay {{ gnome_idle_delay }}"
-        - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type '{{ gnome_sleep_type }}'"
-        - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type '{{ gnome_sleep_type }}'"
+        - regexp: "^MinProtocol ="
+          line: "MinProtocol = None"
+        - regexp: "^CipherStrings ="
+          line: "CipherStrings = DEFAULT"
 
     ## Configure proxychains ##
     - name: Configure proxychains
@@ -162,28 +110,66 @@
         - "/etc/proxychains.conf"
         - "/etc/proxychains4.conf"
 
-    ## Disable system resume ##    
-    - name: Disable resuming. Quicker booting.
-      lineinfile:
-        path: "/etc/initramfs-tools/conf.d/resume"
-        regexp: "RESUME="
-        line: "RESUME=none"
-      register: resume_swap
-    
-    - block:
-        - name: Generate new initramfs
-          command: update-initramfs -u
-        
-        - name: Display reboot message
-          debug:
-            msg: initramfs has been updated. A reboot is required.
-      when: resume_swap is changed
+    ### Configure Burp Suite ###
+    - name: Create directory for BurpSuite extensions
+      file:
+        path: "{{ burpsuite_extras_dir }}"
+        state: directory
 
-    ## Clean-up apt ##
-    - name: Remove useless packages from the cache
-      apt:
-        autoclean: true
+    - name: Get JRuby sha256 checksum file
+      get_url:
+        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ burpsuite_jruby_version }}/jruby-complete-{{ burpsuite_jruby_version }}.jar.sha256"
+        dest: "{{ burpsuite_extras_dir }}/jruby-complete.jar.sha256"
 
-    - name: Remove dependencies that are no longer required
-      apt:
-        autoremove: true
+    - name: Download JRuby for Burp Suite
+      get_url:
+        url: "https://repo1.maven.org/maven2/org/jruby/jruby-complete/{{ burpsuite_jruby_version }}/jruby-complete-{{ burpsuite_jruby_version }}.jar"
+        dest: "{{ burpsuite_extras_dir }}/jruby-complete.jar"
+        checksum: "sha256:{{ jruby_checksums[0] }}"
+      vars:
+        jruby_checksums: "{{ lookup('file', '{{ burpsuite_extras_dir }}/jruby-complete.jar.sha256').splitlines() | list }}"
+
+    - name: Get Jython sha1 checksum file
+      get_url:
+        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ burpsuite_jython_version }}/jython-standalone-{{ burpsuite_jython_version }}.jar.sha1"
+        dest: "{{ burpsuite_extras_dir }}/jython-standalone.jar.sha1"
+
+    - name: Download Jython for Burp Suite
+      get_url:
+        url: "https://repo1.maven.org/maven2/org/python/jython-standalone/{{ burpsuite_jython_version }}/jython-standalone-{{ burpsuite_jython_version }}.jar"
+        dest: "{{ burpsuite_extras_dir }}/jython-standalone.jar"
+        checksum: "sha1:{{ jython_checksums[0] }}"
+      vars:
+        jython_checksums: "{{ lookup('file', '{{ burpsuite_extras_dir }}/jython-standalone.jar.sha1').splitlines() | list }}"
+
+
+## Personalize Kali
+- hosts: kali
+  become: true
+  become_user: "{{ kali_user }}"
+  tasks:
+    ## Configure Gnome settings ##
+    - name: Tweak Gnome settings
+      command: "gsettings set {{ item }}"
+      loop:
+        - "{{ gnome_settings }}"
+      become: true
+
+    - name: Get current terminal profile
+      command: gsettings get org.gnome.Terminal.ProfilesList default
+      changed_when: false
+      register: terminal_profile
+
+    - name: Configure Terminal settings
+      command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${TERM_PROFILE:1:-1}/ use-transparent-background false"
+      enviroment:
+        TERM_PROFILE: terminal_profile.stdout
+
+    ## Configure tmux ##
+    - name: Copy tmux config
+      copy:
+        src: files/.tmux.conf
+        dest: "/home/{{ kali_user }}/.tmux.conf"
+        owner: "{{ kali_user }}"
+        group: "{{ kali_user }}"
+        mode: 0640
