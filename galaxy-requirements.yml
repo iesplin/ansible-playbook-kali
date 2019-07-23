@@ -1,3 +1,4 @@
 # Roles for Kali
+- src: https://github.com/iesplin/ansible-role-burpsuite
 - src: https://github.com/iesplin/ansible-role-crackmapexec
 - src: https://github.com/iesplin/ansible-role-vscode

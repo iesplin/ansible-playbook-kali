@@ -1,8 +1,8 @@
 ---
-# Directory for BurpSuite extensions
-burpsuite_extras_dir: "/opt/BurpSuiteExtras"
-burpsuite_jruby_version: "9.2.5.0"
-burpsuite_jython_version: "2.7.1"
+# Burp Suite settings
+burpsuite_product_type: community
+burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/portswigger-ca.der"
+burpsuite_extras_dir: /opt/BurpSuiteExtras
 
 gnome_settings:
   - "org.gnome.desktop.session idle-delay 1800"

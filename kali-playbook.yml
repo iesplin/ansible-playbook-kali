@@ -42,6 +42,7 @@
 - hosts: kali
   become: true
   roles:
+    - ansible-role-burpsuite
     - ansible-role-crackmapexec
   tasks:
     ### Clone projects from git repos ###
