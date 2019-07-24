@@ -1,7 +1,8 @@
 ---
 # Burp Suite settings
 burpsuite_product_type: community
-burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/portswigger-ca.der"
+burpsuite_dir: /opt/BurpSuiteCommunity
+burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: /opt/BurpSuiteExtras
 
 gnome_settings:
@@ -78,7 +79,6 @@ kali_tool_packages:
   - aircrack-ng
   - apache2
   - bloodhound
-  - burpsuite
   - cadaver
   - cewl
   - creddump
