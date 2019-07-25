@@ -83,7 +83,7 @@
     - name: Block inbound traffic
       ufw:
         state: enabled
-        direction: in
+        direction: incoming
         default: reject
 
     ### User permissions ###
