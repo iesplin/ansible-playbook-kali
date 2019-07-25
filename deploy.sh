@@ -1,4 +1,5 @@
 #!/bin/bash
+echo ""
 echo " █████╗ ███╗   ██╗███████╗██╗██████╗ ██╗     ███████╗    ██╗  ██╗    ██╗  ██╗ █████╗ ██╗     ██╗"
 echo "██╔══██╗████╗  ██║██╔════╝██║██╔══██╗██║     ██╔════╝    ██║  ██║    ██║ ██╔╝██╔══██╗██║     ██║"
 echo "███████║██╔██╗ ██║███████╗██║██████╔╝██║     █████╗      ███████║    █████╔╝ ███████║██║     ██║"
@@ -11,10 +12,13 @@ if [ ! -f "/usr/bin/ansible" ]; then
     echo "[+] Installing Ansible"
     sudo apt-get install -y ansible
 fi
-echo "[+] Downloading latest versions of Ansible roles"
+echo -e "\n[+] Downloading latest versions of Ansible roles\n"
 ansible-galaxy install --force -r galaxy-requirements.yml
-echo "[+] Deploying updates, tools, and config"
+
+echo -e "\n[+] Deploying updates, tools, and config\n"
 ansible-playbook -i inventory --ask-become-pass kali-playbook.yml
-echo "[+] Deploying user personalizations"
+
+echo -e "\n[+] Deploying user personalizations\n"
 ansible-playbook -i inventory --ask-become-pass kali-personalize-playbook.yml
+
 echo "[!] Finished"
