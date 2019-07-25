@@ -79,6 +79,13 @@
 - hosts: kali
   become: true
   tasks:
+    ### Configure UFW Firewall ###
+    - name: Block inbound traffic
+      ufw:
+        state: enabled
+        direction: in
+        default: reject
+
     ### User permissions ###
     - name: Add user to wireshark group
       user:
