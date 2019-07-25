@@ -33,7 +33,7 @@
     ### Configure tmux ###
     - name: Copy tmux config
       copy:
-        src: files/.tmux.conf
+        src: files/tmux/.tmux.conf
         dest: "/home/{{ kali_user }}/.tmux.conf"
         owner: "{{ kali_user }}"
         group: "{{ kali_user }}"
@@ -51,8 +51,8 @@
           regex_search('(/.*)/prefs.js', multiline=True) |
           regex_replace('(/.*)/prefs.js', '\\1') }}"
 
-    - name: Create user.js
-      template:
-        src: firefox/user.js.j2
+    - name: Create user.js for Firefox user preferences
+      copy:
+        src: files/firefox/user.js
         dest: "{{ firefox_default_profile_dir }}/user.js"
         mode: 0640
