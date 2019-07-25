@@ -23,7 +23,7 @@
 
     ### Accept Burp Suite agreement ###
     - name: Accept Burp Suite agreement/license
-      command: "python3 license_burp.py {{ burpsuite_product_type }} {{ burpsuite_dir }} {{ burpsuite_license_path }}"
+      command: "python3 license_burp.py {{ burpsuite_product_type }} {{ burpsuite_dir }}"
       args:
         chdir: "{{ burpsuite_extras_dir }}"
       register: license_burp
