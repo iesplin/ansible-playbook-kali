@@ -1,0 +1,3 @@
+{% for user_pref in firefox_user_prefs %}
+user_pref("{{ user_pref.key }}", {{ user_pref.value }});
+{% endfor %}

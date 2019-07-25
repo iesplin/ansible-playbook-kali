@@ -10,7 +10,7 @@
         update_cache: true
         upgrade: safe
 
-    - name: Accept Wireshark setuid group
+    - name: Enable Wireshark setuid debconf selection
       debconf:
         name: wireshark
         question: wireshark-common/install-setuid
@@ -142,7 +142,7 @@
         - regexp: "^CipherStrings ="
           line: "CipherStrings = DEFAULT"
 
-    ## Configure proxychains ##
+    ### Configure proxychains ###
     - name: Configure proxychains
       lineinfile:
         path: "{{ item }}"
@@ -151,3 +151,12 @@
       loop:
         - "/etc/proxychains.conf"
         - "/etc/proxychains4.conf"
+
+    ### Firefox policy ###
+    - name: Deploy Firefox ESR policy
+      template:
+        src: templates/firefox/policies.json.j2
+        dest: /usr/share/firefox-esr/distribution/policies.json
+        owner: root
+        group: root
+        mode: 0644

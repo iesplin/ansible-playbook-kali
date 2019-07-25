@@ -38,3 +38,22 @@
         owner: "{{ kali_user }}"
         group: "{{ kali_user }}"
         mode: 0640
+
+    ### Firefox personalization ###
+    - name: Get FireFox default profile
+      command: firefox-esr -CreateProfile default -headless
+      register: firefox_default_profile
+      failed_when: "'Success' not in firefox_default_profile.stdout"
+
+    - name: Set firefox_default_profile_dir fact
+      set_fact:
+        firefox_default_profile_dir: "{{ firefox_default_profile.stdout | regex_replace('.*at ''(.*)/prefs.js''$', '\\1') }}"
+
+    - debug:
+        var: firefox_default_profile_dir
+
+    - name: Create user.js
+      template:
+        src: firefox/user.js.j2
+        dest: "{{ firefox_default_profile_dir }}/user.js"
+        mode: 0640
