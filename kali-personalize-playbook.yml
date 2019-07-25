@@ -43,11 +43,11 @@
     - name: Get FireFox default profile
       command: firefox-esr -CreateProfile default -headless
       register: firefox_default_profile
-      failed_when: "'Success' not in firefox_default_profile.stdout"
+      failed_when: "'Success' not in firefox_default_profile.stderr"
 
     - name: Set firefox_default_profile_dir fact
       set_fact:
-        firefox_default_profile_dir: "{{ firefox_default_profile.stdout | regex_replace('.*at ''(.*)/prefs.js''$', '\\1') }}"
+        firefox_default_profile_dir: "{{ firefox_default_profile.stderr | regex_replace('.*at ''(.*)/prefs.js''$', '\\1') }}"
 
     - debug:
         var: firefox_default_profile_dir
