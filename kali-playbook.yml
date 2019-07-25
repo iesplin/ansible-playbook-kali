@@ -124,6 +124,7 @@
     - name: Check msfdb status
       command: msfdb status
       register: msfdb_status
+      changed_when: false
 
     - name: Initialize msfdb
       command: msfdb init
