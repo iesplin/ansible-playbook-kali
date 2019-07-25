@@ -47,10 +47,9 @@
 
     - name: Set firefox_default_profile_dir fact
       set_fact:
-        firefox_default_profile_dir: "{{ firefox_default_profile.stderr | regex_replace('.*at ''(.*)/prefs.js''$', '\\1') }}"
-
-    - debug:
-        var: firefox_default_profile_dir
+        firefox_default_profile_dir: "{{ firefox_default_profile.stderr |
+          regex_search('(/.*)/prefs.js', multiline=True) |
+          regex_replace('(/.*)/prefs.js', '\\1') }}"
 
     - name: Create user.js
       template:
