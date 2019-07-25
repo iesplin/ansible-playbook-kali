@@ -168,3 +168,14 @@
         owner: root
         group: root
         mode: 0644
+
+    ### ScITE ###
+    - name: Default window size
+      lineinfile:
+        path: /etc/scite/SciTEGlobal.properties
+        regexp: "^{{ item | regex_search('^.*=') }}"
+        line: "{{ item }}"
+      loop:
+        - "position.width=$(scale 1024)"
+        - "position.height=$(scale 768)"
+      
