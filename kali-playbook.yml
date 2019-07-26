@@ -86,6 +86,13 @@
         direction: incoming
         default: reject
 
+    ## AppArmor ###
+    - name: Enable AppArmor
+      systemd:
+        name: apparmor.service
+        state: started
+        enabled: true
+
     ### User permissions ###
     - name: Add user to wireshark group
       user:
