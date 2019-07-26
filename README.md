@@ -12,7 +12,7 @@ git clone https://github.com/iesplin/ansible-playbook-kali
 3. Run the deploy script
 ```bash
 cd ansible-playbook-kali
-./deploy.sh`
+./deploy.sh
 ```
 
 License
