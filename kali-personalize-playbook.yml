@@ -35,8 +35,6 @@
       copy:
         src: files/tmux/.tmux.conf
         dest: "/home/{{ kali_user }}/.tmux.conf"
-        owner: "{{ kali_user }}"
-        group: "{{ kali_user }}"
         mode: 0640
 
     ### Firefox personalization ###
@@ -57,9 +55,22 @@
         dest: "{{ firefox_default_profile_dir }}/user.js"
         mode: 0640
 
-    ### SciTE user properties
-    - name: Create .SciTEUser.properties
+    ### SciTE user properties ###
+    - name: Copy SciTE user properties
       copy:
         src: files/scite/.SciTEUser.properties
         dest: "/home/{{ kali_user }}/.SciTEUser.properties"
         mode: 0640
+
+    ### VS Code ###
+    - name: Ensure ~/.config/Code/User directory exists
+      file:
+        path: "/home/{{ kali_user }}/.config/Code/User"
+        state: directory
+        mode: 0700
+
+    - name: Copy VS Code settings
+      copy:
+        src: files/vscode/settings.json
+        dest: "/home/{{ kali_user }}/.config/Code/User/settings.json"
+        mode: 0600

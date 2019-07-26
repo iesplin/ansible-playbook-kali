@@ -1,0 +1,5 @@
+{
+    "MarkdownPaste.path": "./images/",
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false
+}
