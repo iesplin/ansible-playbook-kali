@@ -17,7 +17,7 @@ gnome_settings:
   - "org.gnome.shell.extensions.dash-to-dock background-color '#1c2123'"
   - "org.gnome.shell.extensions.dash-to-dock extend-height true"  
   - "org.gnome.shell.extensions.dash-to-dock force-straight-corner true"
-  - "org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'firefox-esr.desktop', 'chromium.desktop', 'kali-burpsuite.desktop', 'org.keepassxc.KeePassXC.desktop', 'SciTE.desktop']\""
+  - "org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'firefox-esr.desktop', 'chromium.desktop', 'burpsuite.desktop', 'code.desktop', 'SciTE.desktop', 'org.keepassxc.KeePassXC.desktop' ]\""
 
 # Git repositories to clone to /opt
 git_repos:

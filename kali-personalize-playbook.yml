@@ -74,3 +74,10 @@
         src: files/vscode/settings.json
         dest: "~/.config/Code/User/settings.json"
         mode: 0640
+
+    ### Burp Suite ###
+    - name: Link desktop file for Burp Suite
+      file:
+        src: "{{ burpsuite_dir }}/Burp Suite {{ burpsuite_product_type == 'community'
+          | ternary('Community','Professional') }} Edition.desktop"
+        dest: ~/.local/share/applications/burpsuite.desktop
