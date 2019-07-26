@@ -76,8 +76,9 @@
         mode: 0640
 
     ### Burp Suite ###
-    - name: Link desktop file for Burp Suite
+    - name: Symlink to Burp Suite desktop file
       file:
         src: "{{ burpsuite_dir }}/Burp Suite {{ burpsuite_product_type == 'community'
           | ternary('Community','Professional') }} Edition.desktop"
         dest: ~/.local/share/applications/burpsuite.desktop
+        state: link
