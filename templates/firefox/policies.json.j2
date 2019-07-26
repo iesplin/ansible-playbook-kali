@@ -6,6 +6,7 @@
     },
     "DisableAppUpdate": true,
     "DisableFeedbackCommands": true,
+    "DisableFirefoxAccounts": true,
     "DisableFormHistory": true,
     "DisablePocket": true,
     "DisableProfileImport": true,
@@ -28,13 +29,42 @@
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/wappalyzer/latest.xpi"
       }
     },
+    "Homepage": {
+      "URL": "about:blank",
+      "Locked": true,
+      "StartPage": "none"
+    },
+    "NewTabPage": false,
     "OfferToSaveLogins": false,
     "OverrideFirstRunPage": "",
     "OverridePostUpdatePage": "",
+    "Permissions": {
+      "Camera": {
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Microphone": {
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Location": {
+        "BlockNewRequests": true,
+        "Locked": true
+      }
+    },
     "SearchBar": "separate",
     "SearchEngines": {
       "Default": "DuckDuckGo",
-      "PreventInstalls": true
+      "PreventInstalls": true,
+      "Remove": [
+        "Google",
+        "Bing",
+        "Amazon.com",
+        "Debian packages",
+        "eBay",
+        "Twitter",
+        "Wikipedia (en)"
+        ]
     },
     "SearchSuggestEnabled": false
   }
