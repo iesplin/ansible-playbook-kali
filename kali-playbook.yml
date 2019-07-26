@@ -169,7 +169,7 @@
         group: root
         mode: 0644
 
-    ### ScITE ###
+    ### Configure SciTE ###
     - name: Default window size
       lineinfile:
         path: /etc/scite/SciTEGlobal.properties

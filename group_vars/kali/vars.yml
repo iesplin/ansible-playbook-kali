@@ -45,6 +45,7 @@ kali_os_packages:
   - docker-compose
   - dos2unix
   - expect
+  - fonts-hack-ttf
   - gdisk
   - gparted
   - gufw

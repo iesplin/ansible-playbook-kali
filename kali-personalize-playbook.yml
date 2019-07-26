@@ -56,3 +56,10 @@
         src: files/firefox/user.js
         dest: "{{ firefox_default_profile_dir }}/user.js"
         mode: 0640
+
+    ### SciTE user properties
+    - name: Create .SciTEUser.properties
+      copy:
+        src: files/scite/.SciTEUser.properties
+        dest: "/home/{{ kali_user }}/.SciTEUser.properties"
+        mode: 0640
