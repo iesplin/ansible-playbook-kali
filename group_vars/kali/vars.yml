@@ -6,17 +6,23 @@ burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
 
 # Gnome settings
 gnome_settings:
+  - "org.gnome.desktop.interface gtk-theme 'Kali-X-Dark'"
+  - "org.gnome.desktop.interface icon-theme 'Vibrancy-Kali-Dark'"
   - "org.gnome.desktop.session idle-delay 1800"
   - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'"
   - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'"
-  - "org.gnome.desktop.interface gtk-theme 'Kali-X-Dark'"
-  - "org.gnome.desktop.interface icon-theme 'Vibrancy-Kali-Dark'"
   - "org.gnome.shell.extensions.user-theme name 'Kali-X'"
-  - "org.gnome.shell.extensions.dash-to-dock dock-fixed true"
-  - "org.gnome.shell.extensions.dash-to-dock custom-background-color true"  
+  - "org.gnome.shell.extensions.dash-to-dock apply-custom-theme false"
   - "org.gnome.shell.extensions.dash-to-dock background-color '#1c2123'"
-  - "org.gnome.shell.extensions.dash-to-dock extend-height true"  
+  - "org.gnome.shell.extensions.dash-to-dock click-action 'previews'"
+  - "org.gnome.shell.extensions.dash-to-dock custom-background-color true"
+  - "org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 40"
+  - "org.gnome.shell.extensions.dash-to-dock dock-fixed true"
+  - "org.gnome.shell.extensions.dash-to-dock dock-position 'LEFT'"
+  - "org.gnome.shell.extensions.dash-to-dock extend-height true"
   - "org.gnome.shell.extensions.dash-to-dock force-straight-corner true"
+  - "org.gnome.shell.extensions.dash-to-dock running-indicator-style 'DOTS'"
+  - "org.gnome.shell.extensions.dash-to-dock scroll-action 'cycle-windows'"
   - "org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'firefox-esr.desktop', 'chromium.desktop', 'burpsuite.desktop', 'code.desktop', 'SciTE.desktop', 'org.keepassxc.KeePassXC.desktop' ]\""
 
 # Git repositories to clone to /opt
