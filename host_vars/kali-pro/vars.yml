@@ -2,3 +2,5 @@
 # Burp Suite Pro settings
 burpsuite_product_type: pro
 burpsuite_dir: /opt/BurpSuitePro
+burpsuite_installer_checksum: 075109fb47217152b9872c3c2e7c4c89edf0a0c3cf9f2d97b8d611b89ca180d4
+burpsuite_license_path: "{{ burpsuite_installer_dir }}/burp_suite_pro_license.txt"
