@@ -1,0 +1,4 @@
+--- 
+# Burp Suite Pro settings
+burpsuite_product_type: pro
+burpsuite_dir: /opt/BurpSuitePro

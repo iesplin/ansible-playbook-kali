@@ -1,10 +1,10 @@
 ---
-# Burp Suite settings
-burpsuite_product_type: community
-burpsuite_dir: /opt/BurpSuiteCommunity
+# Burp Suite default settings
 burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: /opt/BurpSuiteExtras
+burpsuite_installer_dir: ~/Downloads
 
+# Gnome settings
 gnome_settings:
   - "org.gnome.desktop.session idle-delay 1800"
   - "org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'"

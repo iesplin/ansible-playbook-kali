@@ -1,0 +1,4 @@
+--- 
+# Burp Suite Community settings
+burpsuite_product_type: community
+burpsuite_dir: /opt/BurpSuiteCommunity

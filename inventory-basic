@@ -1,0 +1,2 @@
+[kali]
+kali-basic   ansible_connection=local
