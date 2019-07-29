@@ -2,7 +2,7 @@
 # Burp Suite default settings
 burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: /opt/BurpSuiteExtras
-burpsuite_installer_dir: ~/Downloads
+burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
 
 # Gnome settings
 gnome_settings:
