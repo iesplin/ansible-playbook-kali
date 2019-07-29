@@ -76,9 +76,15 @@
         mode: 0640
 
     ### Burp Suite ###
-    - name: Symlink to Burp Suite desktop file
-      file:
+    - name: Copy Burp Suite desktop file
+      copy:
         src: "{{ burpsuite_dir }}/Burp Suite {{ (burpsuite_product_type == 'community')
           | ternary('Community Edition','Professional') }}.desktop"
         dest: ~/.local/share/applications/burpsuite.desktop
-        state: link
+        remote_src: true
+
+    - name: Map windows to the Burp Suite launcher
+      lineinfile:
+        path: ~/.local/share/applications/burpsuite.desktop
+        regex: "^StartupWMClass="
+        line: "StartupWMClass=com-install4j-runtime-launcher-UnixLauncher"
