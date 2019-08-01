@@ -13,7 +13,7 @@ gnome_settings:
   - "org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'"
   - "org.gnome.shell.extensions.user-theme name 'Kali-X'"
   - "org.gnome.shell.extensions.dash-to-dock apply-custom-theme false"
-  - "org.gnome.shell.extensions.dash-to-dock background-color '#1c2123'"
+  - "org.gnome.shell.extensions.dash-to-dock background-color '#1C1C1C'"
   - "org.gnome.shell.extensions.dash-to-dock click-action 'previews'"
   - "org.gnome.shell.extensions.dash-to-dock custom-background-color true"
   - "org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 40"
@@ -81,8 +81,10 @@ kali_os_packages:
   - tmux
   - ufw
   - unrar
+  - vim      
   - wireguard
-  - vim                              
+  - xclip
+  - xsel
 
 # Packages to install
 kali_tool_packages:
@@ -148,7 +150,7 @@ misc_downloads:
     mode: "0755"
 
 # Settings for VS Code
-vscode_user: hacker
+vscode_user: "{{ kali_user }}"
 vscode_extensions:
   # Language extensions
   - ms-python.python
