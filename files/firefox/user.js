@@ -3,6 +3,13 @@
 // Fix widget behaviour with dark theme
 user_pref("widget.content.gtk-theme-override", "Kali-X");
 
+// Stop connections to shavar.services.mozilla.com
+user_pref("privacy.trackingprotection.annotate_channels", false);
+user_pref("privacy.trackingprotection.enabled", false);
+user_pref("privacy.trackingprotection.pbmode.enabled", false);
+user_pref("plugins.flashBlock.enabled", false);
+user_pref("browser.safebrowsing.blockedURIs.enabled", false);
+
 /* User preferences for quietening Firefox
  * Based on https://github.com/ghacksuserjs/ghacks-user.js ***/
 /*** [SECTION 0100]: STARTUP ***/
