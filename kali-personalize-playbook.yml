@@ -33,7 +33,7 @@
     ### Configure tmux ###
     - name: Copy tmux config
       copy:
-        src: files/tmux/.tmux.conf
+        src: "files/tmux/.tmux.conf"
         dest: "~/.tmux.conf"
         mode: 0640
 
@@ -51,14 +51,14 @@
 
     - name: Create user.js for Firefox user preferences
       copy:
-        src: files/firefox/user.js
+        src: "files/firefox/user.js"
         dest: "{{ firefox_default_profile_dir }}/user.js"
         mode: 0640
 
     ### SciTE user properties ###
     - name: Copy SciTE user properties
       copy:
-        src: files/scite/.SciTEUser.properties
+        src: "files/scite/.SciTEUser.properties"
         dest: "~/.SciTEUser.properties"
         mode: 0640
 
@@ -88,3 +88,25 @@
         path: ~/.local/share/applications/burpsuite.desktop
         regex: "^StartupWMClass="
         line: "StartupWMClass=com-install4j-runtime-launcher-UnixLauncher"
+
+    ### GDB ###
+    - name: Clone GEF repo
+      git:
+        repo: "https://github.com/hugsy/gef.git"
+        dest: "~/gef"
+        force: true
+
+    - name: Install optional modules for GEF
+      pip:
+        name:
+          - capstone
+          - filebytes
+          - keystone-engine
+          - ropper
+
+    - name: Copy gdb user properties
+      copy:
+        src: "files/gdb/.gdbinit"
+        dest: "~/.gdbinit"
+        mode: 0640
+
