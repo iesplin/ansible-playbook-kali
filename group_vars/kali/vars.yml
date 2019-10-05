@@ -53,6 +53,7 @@ kali_os_packages:
   - expect
   - fonts-hack-ttf
   - gufw
+  - kali-desktop-gnome
   - keepassxc
   - macchanger
   - openresolv
