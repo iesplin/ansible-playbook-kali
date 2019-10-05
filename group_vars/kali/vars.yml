@@ -73,6 +73,7 @@ kali_os_packages:
 # Tool packages to install
 kali_tool_packages:
   - aircrack-ng
+  - amass
   - apache2
   - bloodhound
   - cadaver
@@ -103,6 +104,7 @@ kali_tool_packages:
   - onesixtyone
   - passing-the-hash
   - patator
+  - powershell
   - proxychains4
   - python-impacket
   - responder
