@@ -41,58 +41,42 @@ git_repos:
   - name: SecLists
     repo: https://github.com/danielmiessler/SecLists.git
 
+# Packages for OS
 kali_os_packages:
   - apparmor
   - apt-transport-https
-  - chromium
-  - cifs-utils
+  - default-mysql-client
   - dnsutils
   - docker.io
   - docker-compose
   - dos2unix
   - expect
   - fonts-hack-ttf
-  - gdisk
-  - gparted
   - gufw
-  - iw
   - keepassxc
-  - lvm2
   - macchanger
-  - mlocate
-  - default-mysql-client
   - openresolv
-  - openvpn
-  - p7zip-full
-  - parted
   - php
   - postgresql
   - python-pip
   - python3-pip
-  - rfkill
   - ruby
   - scite
   - screen
   - sqlite3
-  - ssh
-  - sudo
-  - tcpdump
-  - testdisk
-  - tmux
   - ufw
-  - unrar
-  - vim      
   - wireguard
   - xclip
   - xsel
 
-# Packages to install
+# Tool packages to install
 kali_tool_packages:
   - aircrack-ng
   - apache2
   - bloodhound
   - cadaver
   - cewl
+  - chromium  
   - creddump
   - dirb
   - dnsrecon
@@ -100,7 +84,6 @@ kali_tool_packages:
   - exploitdb
   - eyewitness
   - freerdp2-x11
-  - ftp
   - gdb
   - gobuster
   - gpp-decrypt
@@ -126,13 +109,11 @@ kali_tool_packages:
   - smbmap
   - socat
   - sqlmap
-  - tftp
   - wafw00f
   - webshells
   - weevely
   - wfuzz
   - whatweb
-  - whois
   - wifiphisher
   - windows-binaries
   - wireshark
@@ -153,7 +134,6 @@ misc_downloads:
 vscode_extensions:
   # Language extensions
   - ms-python.python
-  #- ms-vscode.go
   - ms-vscode.cpptools
   - ms-vscode.powershell
   - rebornix.ruby
