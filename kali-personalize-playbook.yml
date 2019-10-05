@@ -4,8 +4,7 @@
 ## Personalize Kali
 - hosts: kali
   roles:
-    - role: ansible-role-vscode
-      become: true
+    - ansible-role-vscode-extensions
   tasks:
     ### Configure Gnome settings ###
     - name: Tweak Gnome settings

@@ -149,8 +149,7 @@ misc_downloads:
     dest: /opt/pspy/pspy64s
     mode: "0755"
 
-# Settings for VS Code
-vscode_user: "{{ kali_user }}"
+# Extensions for VS Code
 vscode_extensions:
   # Language extensions
   - ms-python.python

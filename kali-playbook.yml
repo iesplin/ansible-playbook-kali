@@ -44,6 +44,7 @@
   roles:
     - ansible-role-burpsuite
     - ansible-role-crackmapexec
+    - ansible-role-vscode
   tasks:
     ### Clone projects from git repos ###
     # Various projects that are either not in Kali or are updated more frequently than Kali repos
