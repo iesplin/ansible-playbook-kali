@@ -57,6 +57,7 @@ kali_os_packages:
   - keepassxc
   - macchanger
   - openresolv
+  - open-vm-tools-desktop
   - php
   - postgresql
   - python-pip
