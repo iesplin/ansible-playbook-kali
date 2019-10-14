@@ -79,7 +79,7 @@ kali_tool_packages:
   - cadaver
   - cewl
   - chromium  
-  - creddump
+  - creddump7
   - dirb
   - dnsrecon
   - exe2hexbat
