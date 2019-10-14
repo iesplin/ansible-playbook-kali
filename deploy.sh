@@ -62,7 +62,7 @@ fi
 
 
 echo -e "\n[+] Deploying user personalizations\n"
-ansible-playbook -i inventory-${kali_build} --ask-become-pass kali-personalize-playbook.yml
+ansible-playbook -i inventory-${kali_build} kali-personalize-playbook.yml
 if [ "$?" -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
     exit 1    
