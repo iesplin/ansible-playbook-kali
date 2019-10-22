@@ -44,6 +44,8 @@
   roles:
     - ansible-role-burpsuite
     - ansible-role-crackmapexec
+    - ansible-role-ghidra
+    - ansible-role-pwntools
     - ansible-role-vscode
   tasks:
     ### Clone projects from git repos ###
