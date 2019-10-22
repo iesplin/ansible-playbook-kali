@@ -74,20 +74,6 @@
         dest: "~/.config/Code/User/settings.json"
         mode: 0640
 
-    ### Burp Suite ###
-    - name: Copy Burp Suite desktop file
-      copy:
-        src: "{{ burpsuite_dir }}/Burp Suite {{ (burpsuite_product_type == 'community')
-          | ternary('Community Edition','Professional') }}.desktop"
-        dest: ~/.local/share/applications/burpsuite.desktop
-        remote_src: true
-
-    - name: Map windows to the Burp Suite launcher
-      lineinfile:
-        path: ~/.local/share/applications/burpsuite.desktop
-        regex: "^StartupWMClass="
-        line: "StartupWMClass=com-install4j-runtime-launcher-UnixLauncher"
-
     ### GDB ###
     - name: Clone GEF repo
       git:
@@ -101,6 +87,7 @@
           - capstone
           - keystone-engine
           - ropper
+          - unicorn
         executable: pip3
 
     - name: Copy gdb user properties
@@ -108,4 +95,3 @@
         src: "files/gdb/.gdbinit"
         dest: "~/.gdbinit"
         mode: 0640
-
