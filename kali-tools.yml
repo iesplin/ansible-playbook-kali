@@ -1,0 +1,176 @@
+---
+# Playbook for Kali
+
+## Deploy tools not in the Kali repositories
+- hosts: kali
+  become: true
+  var_files:
+    - config.yml
+  roles:
+    - ansible-role-burpsuite
+    - ansible-role-crackmapexec
+    - ansible-role-ghidra
+    - ansible-role-vscode
+  tasks:
+    ### Install Pwntools ###
+    - name: Install Pwntools dependencies
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - build-essential
+          - git
+          - libffi-dev
+          - libssl-dev
+          - python3-dev
+          - python3-pip
+          - python3-setuptools
+
+    - name: Pip install Pwntools
+      pip:
+        name: "git+https://github.com/Gallopsled/pwntools.git@dev3"
+        executable: pip3
+        state: latest
+
+    ### Clone projects from git repos ###
+    # Various projects that are either not in Kali or are updated more frequently than Kali repos
+    - name: Clone git repositories
+      git:
+        repo: "{{ item.repo }}"
+        dest: "/opt/{{ item.name }}"
+        version: "{{ item.version | default('master') }}"
+        force: true
+      loop: "{{ git_repos | flatten(levels=1) }}"
+
+    ### Miscellaneous tools ###
+    - name: Ensure destination directory exists
+      file:
+        dest: "{{ item.dest | dirname }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+      loop: "{{ misc_downloads }}"
+            
+    - name: Download files
+      get_url:
+        url: "{{ item.url }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: "{{ item.mode | default(0644) }}"
+      loop: "{{ misc_downloads }}"
+
+
+## Configure Kali
+- hosts: kali
+  become: true
+  tasks:
+    ### Configure UFW Firewall ###
+    - name: Block inbound traffic
+      ufw:
+        state: enabled
+        direction: incoming
+        default: reject
+
+    ## AppArmor ###
+    - name: Enable AppArmor
+      systemd:
+        name: apparmor.service
+        state: started
+        enabled: true
+
+    ### User permissions ###
+    - name: Add user to wireshark group
+      user:
+        name: "{{ kali_user }}"
+        groups: wireshark
+        append: true
+
+    ### Configure apt automatic updates ###
+    # Updates to be applied manually as we don't want these being
+    # applied during a network test.
+    - name: Disable apt systemd timers
+      systemd:
+        name: "{{ item }}"
+        state: stopped
+        enabled: false
+      loop:
+        - apt-daily.timer
+        - apt-daily-upgrade.timer
+
+    - name: Prevent apt services from running
+      systemd:
+        name: "{{ item }}"
+        masked: true
+      loop:
+        - apt-daily.service
+        - apt-daily-upgrade.service
+
+    - name: Disable apt periodic updates
+      template:
+        src: templates/apt/10periodic.j2
+        dest: /etc/apt/apt.conf.d/10periodic
+        owner: root
+        group: root
+        mode: 0644
+
+    ### Configure Metasploit ###
+    - name: Enable Postgresql service
+      service:
+        name: postgresql
+        state: started
+        enabled: true
+
+    - name: Check msfdb status
+      command: msfdb status
+      register: msfdb_status
+      changed_when: false
+
+    - name: Initialize msfdb
+      command: msfdb init
+      when: "'No configuration file found' in msfdb_status.stdout"
+
+    ### OpenSSL config ###
+    # Default OpenSSL config is too restrictive for testing
+    - name: Configure OpenSSL
+      lineinfile:
+        path: /etc/ssl/openssl.cnf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      loop:
+        - regexp: "^MinProtocol ="
+          line: "MinProtocol = None"
+        - regexp: "^CipherStrings ="
+          line: "CipherStrings = DEFAULT"
+
+    ### Configure proxychains ###
+    - name: Configure proxychains
+      lineinfile:
+        path: "{{ item }}"
+        regexp: "^proxy_dns"
+        state: absent
+      loop:
+        - "/etc/proxychains.conf"
+        - "/etc/proxychains4.conf"
+
+    ### Firefox policy ###
+    - name: Deploy Firefox ESR policy
+      template:
+        src: templates/firefox/policies.json.j2
+        dest: /usr/share/firefox-esr/distribution/policies.json
+        owner: root
+        group: root
+        mode: 0644
+
+    ### Configure SciTE ###
+    - name: Default window size
+      lineinfile:
+        path: /etc/scite/SciTEGlobal.properties
+        regexp: "^{{ item | regex_search('^.*=') }}"
+        line: "{{ item }}"
+      loop:
+        - "position.width=$(scale 1024)"
+        - "position.height=$(scale 768)"
+      

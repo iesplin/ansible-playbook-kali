@@ -1,0 +1,40 @@
+---
+# Playbook for Kali
+
+## Update Kali and deploy packages
+- hosts: kali
+  become: true
+  var_files:
+    - config.yml
+  tasks:
+    - name: Update all packages to the latest version
+      apt:
+        update_cache: true
+        upgrade: safe
+
+    - name: Enable Wireshark setuid debconf selection
+      debconf:
+        name: wireshark
+        question: wireshark-common/install-setuid
+        value: 'true'
+        vtype: boolean 
+
+    - name: Install OS packages
+      apt:
+        name: "{{ kali_os_packages }}"
+        state: present
+    
+    - name: Install tool packages
+      apt:
+        name: "{{ kali_tool_packages }}"
+        state: present
+      environment:
+        RUNLEVEL: 1
+
+    - name: Remove unnecessary packages
+      apt:
+        autoremove: true
+
+    - name: Clean apt cache
+      apt:
+        autoclean: true

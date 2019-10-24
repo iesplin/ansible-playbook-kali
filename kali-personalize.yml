@@ -5,6 +5,8 @@
 - hosts: kali
   roles:
     - ansible-role-vscode-extensions
+  become: true
+  become_user: "{{ kali_user }}"
   tasks:
     ### Configure Gnome settings ###
     - name: Tweak Gnome settings

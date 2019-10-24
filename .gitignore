@@ -3,6 +3,3 @@
 
 # Ansible retry files
 *.retry
-
-# Deploy config
-deploy.conf
