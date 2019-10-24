@@ -20,15 +20,6 @@
     - name: Configure Terminal settings
       command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout | regex_replace('''') }}/ use-transparent-background false"
 
-    ### Accept Burp Suite agreement ###
-    - name: Accept Burp Suite agreement/license
-      command: "python3 license_burp.py {{ burpsuite_product_type }} {{ burpsuite_dir }}"
-      args:
-        chdir: "{{ burpsuite_extras_dir }}"
-      register: license_burp
-      changed_when: "'Terms and conditions accepted.' in license_burp.stdout or
-        'License successfully installed and activated.' in license_burp.stdout"
-
     ### Configure tmux ###
     - name: Copy tmux config
       copy:
