@@ -19,13 +19,11 @@ if ! command -v pip3 > /dev/null; then
     fi
 fi
 
-if ! command -v ansible > /dev/null; then
-    echo "[+] Installing Ansible"
-    pip3 install --user --upgrade ansible
-    if [ $? -gt 0 ]; then
-        echo "[!] Error occurred when attempting to install Ansible."
-        exit 1
-    fi
+echo "[+] Installing/updating Ansible"
+pip3 install --user --upgrade ansible
+if [ $? -gt 0 ]; then
+    echo "[!] Error occurred when attempting to install Ansible."
+    exit 1
 fi
 
 echo -e "\n[+] Downloading latest versions of Ansible roles\n"
