@@ -4,8 +4,6 @@
 ## Update Kali and deploy packages
 - hosts: kali
   become: true
-  var_files:
-    - config.yml
   tasks:
     - name: Update all packages to the latest version
       apt:
