@@ -26,13 +26,7 @@ if ! command -v pipenv; then
         exit 1
     fi
 else
-    pipenv --three install
-    if [ "$?" -gt 0 ]; then
-        echo "[!] Error occurred when attempting to setup Pipenv environment."
-        exit 1
-    fi
-
-    pipenv update
+    pipenv --three update
     if [ "$?" -gt 0 ]; then
         echo "[!] Error occurred when attempting to update Pipenv environment."
         exit 1
@@ -40,13 +34,13 @@ else
 fi
 
 echo -e "\n[+] Downloading latest versions of Ansible roles\n"
-#ansible-galaxy install --force -r galaxy-requirements.yml
+pipenv run ansible-galaxy "install --force -r galaxy-requirements.yml"
 if [ "$?" -gt 0 ]; then
     echo "[!] Error occurred when attempting to download Ansible roles."
     exit 1    
 fi
 
-pipenv run ansible-playbook -i inventory --ask-become-pass main.yml
+pipenv run ansible-playbook "-i inventory --ask-become-pass main.yml"
 if [ "$?" -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
     exit 1    
