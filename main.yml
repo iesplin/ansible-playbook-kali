@@ -10,7 +10,7 @@
     - config.yml
   tasks:
     - debug:
-        var: burpsuite_products_map.alias()
+        var: burpsuite_products_map.alias() |list
 
     - name: Burp Suite prompt
       pause:
@@ -45,17 +45,14 @@
         mode: 0600
       delegate_to: localhost
 
-- name: Include test
-  import_playbook: test.yml
+- name: Include Kali packages playbook
+  import_playbook: kali-packages.yml
 
-    # - name: Include Kali packages playbook
-    #   import_playbook: kali-packages.yml
+- name: Include Kali tools playbook
+  import_playbook: kali-tools.yml
 
-    # - name: Include Kali tools playbook
-    #   import_playbook: kali-tools.yml
+- name: Include Kali configuration playbook
+  import_playbook: kali-config.yml
 
-    # - name: Include Kali configuration playbook
-    #   import_playbook: kali-config.yml
-
-    # - name: Include Kali personalization playbook
-    #   import_playbook: kali-personalize.yml
+- name: Include Kali personalization playbook
+  import_playbook: kali-personalize.yml
