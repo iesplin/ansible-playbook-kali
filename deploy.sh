@@ -33,6 +33,7 @@ if [ $? -gt 0 ]; then
     exit 1    
 fi
 
+echo -e "\n[+] Running Ansible 4 Kali playbooks\n"
 ansible-playbook -i inventory --ask-become-pass main.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
