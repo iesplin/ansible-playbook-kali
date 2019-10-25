@@ -10,15 +10,16 @@
     - ansible-role-burpsuite
     - ansible-role-crackmapexec
     - ansible-role-ghidra
+    - ansible-role-keystone-engine
     - ansible-role-vscode
   tasks:
     ### Install Pwntools ###
     - name: Install Pwntools dependencies
       apt:
-        name: "{{ packages }}"
+        name: "{{ pwntools_dep_packages }}"
         state: present
       vars:
-        packages:
+        pwntools_dep_packages:
           - build-essential
           - git
           - libffi-dev
@@ -61,3 +62,4 @@
         group: root
         mode: "{{ item.mode | default(0644) }}"
       loop: "{{ misc_downloads }}"
+

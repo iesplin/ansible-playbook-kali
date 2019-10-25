@@ -78,7 +78,6 @@
       pip:
         name:
           - capstone
-          - keystone-engine
           - ropper
           - unicorn
         executable: pip3
