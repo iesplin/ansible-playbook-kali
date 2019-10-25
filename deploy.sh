@@ -19,39 +19,23 @@ if ! command -v pip3 > /dev/null; then
     fi
 fi
 
-if ! command -v pipenv > /dev/null; then
-    echo "[+] Installing Pipenv module"
-    pip3 install --user --upgrade pipenv
+if ! command -v ansible > /dev/null; then
+    echo "[+] Installing Ansible"
+    pip3 install --user --upgrade ansible
     if [ $? -gt 0 ]; then
-        echo "[!] Error occurred when attempting to install Pipenv."
+        echo "[!] Error occurred when attempting to install Ansible."
         exit 1
     fi
 fi
 
-# Check for existing venv
-pipenv --venv 2>/dev/null 1>/dev/null
-
-# Create new venv
-if [ $? -eq 1 ]; then
-    pipenv --three
-fi
-
-echo "[+] Updating venv"
-# Update dependencies in venv
-pipenv update
-if [ $? -gt 0 ]; then
-    echo "[!] Error occurred when attempting to update Pipenv environment."
-    exit 1
-fi
-
 echo -e "\n[+] Downloading latest versions of Ansible roles\n"
-pipenv run ansible-galaxy install --force -r galaxy-requirements.yml
+ansible-galaxy install --force -r galaxy-requirements.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred when attempting to download Ansible roles."
     exit 1    
 fi
 
-pipenv run ansible-playbook -i inventory --ask-become-pass main.yml
+ansible-playbook -i inventory --ask-become-pass main.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
     exit 1    
