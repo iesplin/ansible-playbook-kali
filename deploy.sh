@@ -45,13 +45,13 @@ if [ $? -gt 0 ]; then
 fi
 
 echo -e "\n[+] Downloading latest versions of Ansible roles\n"
-pipenv run ansible-galaxy "install --force -r galaxy-requirements.yml"
+pipenv run ansible-galaxy install --force -r galaxy-requirements.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred when attempting to download Ansible roles."
     exit 1    
 fi
 
-pipenv run ansible-playbook "-i inventory --ask-become-pass main.yml"
+pipenv run ansible-playbook -i inventory --ask-become-pass main.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
     exit 1    
