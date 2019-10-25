@@ -12,7 +12,7 @@ echo ""
 
 if ! command -v pip3 > /dev/null; then
     echo "[+] Installing Pip for Python 3"
-    sudo apt-get install -y python3-pip python3-setuptools
+    sudo apt-get install -y python3-pip
     if [ $? -gt 0 ]; then
         echo "[!] Error occurred when attempting to install Pip."
         exit 1
