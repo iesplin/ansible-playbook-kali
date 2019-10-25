@@ -29,7 +29,7 @@ if ! command -v pipenv > /dev/null; then
 fi
 
 # Check for existing venv
-pipenv --venv 2>/dev/null
+pipenv --venv 2>/dev/null 1>/dev/null
 
 # Create new venv
 if [ $? -eq 1 ]; then
