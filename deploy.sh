@@ -25,11 +25,16 @@ if ! command -v pipenv; then
         echo "[!] Error occurred when attempting to install Pipenv."
         exit 1
     fi
-elif
+else
     pipenv --three install
+    if [ "$?" -gt 0 ]; then
+        echo "[!] Error occurred when attempting to setup Pipenv environment."
+        exit 1
+    fi
+
     pipenv update
     if [ "$?" -gt 0 ]; then
-        echo "[!] Error occurred when attempting to update Pipenv."
+        echo "[!] Error occurred when attempting to update Pipenv environment."
         exit 1
     fi
 fi
