@@ -26,7 +26,14 @@ if ! command -v pipenv > /dev/null; then
         exit 1
     fi
 else
-    pipenv --three update
+    pipenv --venv # Check if virtualenv exists
+    rc=$? # Store returned status code in var
+
+    if [ $rc -eq 1 ]; then
+        pipenv --three
+    fi
+
+    pipenv update
     if [ "$?" -gt 0 ]; then
         echo "[!] Error occurred when attempting to update Pipenv environment."
         exit 1
