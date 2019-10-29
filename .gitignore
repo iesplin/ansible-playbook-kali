@@ -3,3 +3,6 @@
 
 # Ansible retry files
 *.retry
+
+# Virtualenv
+.venv

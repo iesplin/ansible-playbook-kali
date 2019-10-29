@@ -1,10 +1,5 @@
 #!/bin/bash
 
-is_package_installed(){
-    dpkg --get-selections| grep -E "^$1\s+install$"
-    return $?
-}
-
 echo ""
 echo "  █████╗ ███╗   ██╗███████╗██╗██████╗ ██╗     ███████╗    ██╗  ██╗    ██╗  ██╗ █████╗ ██╗     ██╗"
 echo " ██╔══██╗████╗  ██║██╔════╝██║██╔══██╗██║     ██╔════╝    ██║  ██║    ██║ ██╔╝██╔══██╗██║     ██║"
@@ -15,21 +10,23 @@ echo " ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚
 echo " Manually configuring Kali? Ain't nobody got time for that."
 echo ""
 
-packages=""
+required_packages=( python3-pip python3-venv )
+missing_packages=""
 
-if ! is_package_installed "python3-pip"; then
-    packages+="python3-pip "
-fi
+for deb in "${required_packages[@]}"; do
+    dpkg --get-selections| grep -E "^$deb\s+install$"
+    if [ $? -eq 1 ]; then
+        missing_packages+="$deb "
+    fi
+done
 
-if ! is_package_installed "python3-virtualenv"; then
-    packages+="python3-virtualenv "
-fi
-
-if [ ! -z "$packages" ]; then
-    sudo apt-get install $packages
+echo "[+] Installing required packages"
+if [ ! -z "$missing_packages" ]; then
+    sudo apt-get install $missing_packages
 fi
 
 if [ ! -d ".venv" ]; then
+    echo "[+] Creating virtualenv"    
     python3 -m venv .venv
 fi
 
