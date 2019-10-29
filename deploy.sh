@@ -17,11 +17,11 @@ echo ""
 
 packages=""
 
-if ! is_package_installed("python3-pip"); then
+if ! is_package_installed "python3-pip"; then
     packages+="python3-pip "
 fi
 
-if ! is_package_installed("python3-virtualenv"); then
+if ! is_package_installed "python3-virtualenv"; then
     packages+="python3-virtualenv "
 fi
 
