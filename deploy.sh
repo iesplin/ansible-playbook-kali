@@ -26,7 +26,7 @@ if ! is_package_installed "python3-virtualenv"; then
 fi
 
 if [ ! -z "$packages" ]; then
-    sudo apt-get install "$packages"
+    sudo apt-get install $packages
 fi
 
 if [ -d ".venv" ]; then
