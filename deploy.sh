@@ -20,9 +20,9 @@ for deb in "${required_packages[@]}"; do
     fi
 done
 
-echo "[+] Installing required packages"
 if [ ! -z "$missing_packages" ]; then
-    sudo apt-get install $missing_packages
+    echo "[+] Installing required packages"
+    sudo apt-get install -y $missing_packages
 fi
 
 if [ ! -d ".venv" ]; then
