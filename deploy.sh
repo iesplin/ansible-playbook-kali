@@ -10,7 +10,7 @@ echo " ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚
 echo " Manually configuring Kali? Ain't nobody got time for that."
 echo ""
 
-required_packages=( python3-pip python3-venv )
+required_packages=( python3-pip )
 missing_packages=""
 
 for deb in "${required_packages[@]}"; do
@@ -25,27 +25,24 @@ if [ ! -z "$missing_packages" ]; then
     sudo apt-get install -y $missing_packages
 fi
 
-if [ ! -d ".venv" ]; then
-    echo "[+] Creating virtualenv"    
-    python3 -m venv .venv
-fi
-
-echo "[+] Installing/updating Ansible"
-source .venv/bin/activate && pip3 install --user --upgrade ansible
-if [ $? -gt 0 ]; then
-    echo "[!] Error occurred when attempting to install Ansible."
-    exit 1
+if ! command -v ansible; then
+    echo "[+] Installing Ansible"
+    sudo -H pip3 install --upgrade ansible
+    if [ $? -gt 0 ]; then
+        echo "[!] Error occurred when attempting to install Ansible."
+        exit 1
+    fi
 fi
 
 echo -e "\n[+] Downloading latest versions of Ansible roles\n"
-source .venv/bin/activate && ansible-galaxy install --force -r galaxy-requirements.yml
+ansible-galaxy install --force -r galaxy-requirements.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred when attempting to download Ansible roles."
     exit 1    
 fi
 
 echo -e "\n[+] Running Ansible 4 Kali playbooks\n"
-source .venv/bin/activate && ansible-playbook -i inventory --ask-become-pass main.yml
+ansible-playbook -i inventory --ask-become-pass main.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
     exit 1    
