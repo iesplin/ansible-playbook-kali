@@ -14,7 +14,7 @@ required_packages=( python3-pip python3-venv )
 missing_packages=""
 
 for deb in "${required_packages[@]}"; do
-    dpkg --get-selections| grep -E "^$deb\s+install$"
+    dpkg --get-selections| grep -E "^$deb\s+install$" 2>&1 >/dev/null
     if [ $? -eq 1 ]; then
         missing_packages+="$deb "
     fi
