@@ -29,7 +29,7 @@ if [ ! -z "$packages" ]; then
     sudo apt-get install $packages
 fi
 
-if [ -d ".venv" ]; then
+if [ ! -d ".venv" ]; then
     python3 -m venv .venv
 fi
 
