@@ -1,0 +1,49 @@
+---
+- name: User choices
+  hosts: localhost
+  vars:
+    burpsuite_products_map:
+      - { name: Burp Suite Community, alias: community }
+      - { name: Burp Suite Professional, alias: pro }
+  vars_files:
+    - config.yml
+  tasks:
+    - name: Burp Suite prompt
+      pause:
+        prompt: |
+          What Burp Suite product would you like to install?
+            {% for p in burpsuite_products_map %}
+            {{ loop.index }}. {{ p['name'] }}
+            {% endfor %}
+
+          Enter the number for the product
+      register: burpsuite_choice
+      when: (burpsuite_product is undefined) or (burpsuite_product is none) or (burpsuite_product | trim == "")
+
+    - name: Set facts based on the input
+      set_fact:
+        burpsuite_group: "{{ burpsuite_product | default(burpsuite_products_map[burpsuite_choice.user_input|default(omit)|int - 1]['alias']) }}"
+
+    - name: Add localhost to the selected Burp Suite product group
+      add_host:
+        name: localhost
+        groups: "burpsuite_{{ burpsuite_group }}"
+
+    - name: Save config
+      template:
+        src: templates/config/config.yml.j2
+        dest: ./config.yml
+        mode: 0600
+      delegate_to: localhost
+
+- name: Include Kali packages playbook
+  import_playbook: kali-packages.yml
+
+- name: Include Kali tools playbook
+  import_playbook: kali-tools.yml
+
+- name: Include Kali configuration playbook
+  import_playbook: kali-config.yml
+
+- name: Include Kali personalization playbook
+  import_playbook: kali-personalize.yml

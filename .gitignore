@@ -4,5 +4,5 @@
 # Ansible retry files
 *.retry
 
-# Deploy config
-deploy.conf
+# Virtualenv
+.venv

@@ -2,6 +2,6 @@
 - src: https://github.com/iesplin/ansible-role-burpsuite.git
 - src: https://github.com/iesplin/ansible-role-crackmapexec.git
 - src: https://github.com/iesplin/ansible-role-ghidra.git
-- src: https://github.com/iesplin/ansible-role-pwntools.git
+- src: https://github.com/iesplin/ansible-role-keystone-engine.git
 - src: https://github.com/iesplin/ansible-role-vscode.git
 - src: https://github.com/iesplin/ansible-role-vscode-extensions.git
