@@ -22,9 +22,10 @@
       changed_when: false
       register: terminal_profile
 
-    # Disable terminal background transparency
+    # Gnome terminal settings
     - name: Configure Terminal settings
-      command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout | regex_replace('''') }}/ use-transparent-background false"
+      command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout | regex_replace('''') }}/ {{ item }}"
+      loop: "{{ gnome_terminal_settings }}"
 
     ### Configure tmux ###
     - name: Copy tmux config
