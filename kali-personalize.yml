@@ -8,6 +8,10 @@
   become: true
   become_user: "{{ kali_user }}"
   tasks:
+    - name: Set home directory fact
+      set_fact:
+        kali_user_homedir: "{{ lookup('env','HOME') }}"
+
     ### Configure Gnome settings ###
     - name: Tweak Gnome settings
       command: "gsettings set {{ item }}"
@@ -26,20 +30,22 @@
     - name: Copy tmux config
       copy:
         src: "files/tmux/.tmux.conf"
-        dest: "~/.tmux.conf"
+        dest: "{{ kali_user_homedir }}/.tmux.conf"
         mode: 0640
 
     ### Firefox personalization ###
-    - name: Get FireFox default profile
-      command: firefox-esr -CreateProfile default -headless
-      register: firefox_default_profile
-      failed_when: "'Success' not in firefox_default_profile.stderr"
-
     - name: Set firefox_default_profile_dir fact
       set_fact:
-        firefox_default_profile_dir: "{{ firefox_default_profile.stderr |
-          regex_search('(/.*)/prefs.js', multiline=True) |
-          regex_replace('(/.*)/prefs.js', '\\1') }}"
+        firefox_default_profile_dir: "{{ kali_user_homedir }}/.mozilla/firefox/hacker.default"
+
+    - name: Check if Firefox profile exists
+      stat:
+        path: "{{ firefox_default_profile_dir }}"
+      register: firefox_profile
+
+    - name: Create FireFox default profile
+      command: "firefox-esr -CreateProfile \"default {{ firefox_default_profile_dir }}\" -no-remote"
+      when: not firefox_profile.stat.exists
 
     - name: Create user.js for Firefox user preferences
       copy:
@@ -51,27 +57,27 @@
     - name: Copy SciTE user properties
       copy:
         src: "files/scite/.SciTEUser.properties"
-        dest: "~/.SciTEUser.properties"
+        dest: "{{ kali_user_homedir }}/.SciTEUser.properties"
         mode: 0640
 
     ### VS Code ###
-    - name: Ensure ~/.config/Code/User directory exists
+    - name: Ensure VS Code user config directory exists
       file:
-        path: "~/.config/Code/User"
+        path: "{{ kali_user_homedir }}/.config/Code/User"
         state: directory
         mode: 0700
 
     - name: Copy VS Code settings
       copy:
         src: files/vscode/settings.json
-        dest: "~/.config/Code/User/settings.json"
+        dest: "{{ kali_user_homedir }}/.config/Code/User/settings.json"
         mode: 0640
 
     ### GDB ###
     - name: Clone GEF repo
       git:
         repo: "https://github.com/hugsy/gef.git"
-        dest: "~/gef"
+        dest: "{{ kali_user_homedir }}/gef"
         force: true
 
     - name: Install optional modules for GEF
@@ -85,5 +91,5 @@
     - name: Copy gdb user properties
       copy:
         src: "files/gdb/.gdbinit"
-        dest: "~/.gdbinit"
+        dest: "{{ kali_user_homedir }}/.gdbinit"
         mode: 0640
