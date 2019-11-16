@@ -25,7 +25,7 @@ if [ ! -z "$missing_packages" ]; then
     sudo apt-get install -y $missing_packages
 fi
 
-if ! command -v ansible; then
+if ! command -v ansible >/dev/null; then
     echo "[+] Installing Ansible"
     sudo -H pip3 install --upgrade ansible
     if [ $? -gt 0 ]; then
