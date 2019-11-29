@@ -1,7 +1,7 @@
 --- 
 # Burp Suite Pro settings
 burpsuite_product_type: pro
-burpsuite_version: "2.1.04"
-burpsuite_installer_sha256_checksum: 8a726a017f23884af79d1e3dd87d7d41d40a92191ce9cc63c51c66034f39365a
+burpsuite_version: "2.1.06"
+burpsuite_installer_sha256_checksum: 68b129ce5b7e40587919d3085ace003fcb64283e4ba3cb9753aa1db9b5930dc4
 burpsuite_dir: /opt/BurpSuitePro
 burpsuite_pro_license_path: "{{ burpsuite_installer_dir }}/burp_suite_pro_license.txt"
