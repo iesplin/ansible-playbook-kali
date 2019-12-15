@@ -47,6 +47,8 @@ git_repos:
   - name: PowerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
     version: dev
+  - name: quieter-firefox
+    repo: https://bitbucket.org/mrbbking/quieter-firefox.git
   - name: SecLists
     repo: https://github.com/danielmiessler/SecLists.git
 

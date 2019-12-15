@@ -45,13 +45,14 @@
       register: firefox_profile
 
     - name: Create FireFox default profile
-      command: "firefox-esr -CreateProfile \"default {{ firefox_default_profile_dir }}\" -no-remote"
+      command: "firefox-esr -CreateProfile \"default {{ firefox_default_profile_dir }}\""
       when: not firefox_profile.stat.exists
 
     - name: Create user.js for Firefox user preferences
       copy:
-        src: "files/firefox/user.js"
+        src: "/opt/quieter-firefox/user.js"
         dest: "{{ firefox_default_profile_dir }}/user.js"
+        remote_src: true
         mode: 0640
 
     ### SciTE user properties ###
