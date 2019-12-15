@@ -22,7 +22,7 @@ done
 
 if [ ! -z "$missing_packages" ]; then
     echo "[+] Installing required packages"
-    sudo apt-get install -y $missing_packages
+    sudo apt-get update -y && sudo apt-get install -y $missing_packages
 fi
 
 if ! command -v ansible >/dev/null; then
