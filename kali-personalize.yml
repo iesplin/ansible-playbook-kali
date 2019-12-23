@@ -3,8 +3,6 @@
 
 ## Personalize Kali
 - hosts: kali
-  roles:
-    - ansible-role-vscode-extensions
   become: true
   become_user: "{{ kali_user }}"
   tasks:
@@ -74,17 +72,26 @@
         mode: 0640
 
     ### VS Code ###
-    - name: Ensure VS Code user config directory exists
+    - name: Ensure VS Code user directories exist
       file:
-        path: "{{ kali_user_homedir }}/.config/Code/User"
+        path: "{{ item }}"
         state: directory
         mode: 0700
+      loop:
+        - "{{ kali_user_homedir }}/.config/Code/User"
+        - "{{ kali_user_homedir }}/.vscode"
 
     - name: Copy VS Code settings
       copy:
         src: files/vscode/settings.json
         dest: "{{ kali_user_homedir }}/.config/Code/User/settings.json"
         mode: 0640
+
+    - name: Install VS Code extensions
+      command: "code --user-data-dir ~/.vscode --install-extension {{ item }}"
+      loop: "{{ vscode_extensions | default([]) }}"
+      register: vscode_install_extension_result
+      changed_when: "'successfully installed' in vscode_install_extension_result.stdout"
 
     ### GDB ###
     - name: Clone GEF repo
