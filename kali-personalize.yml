@@ -37,7 +37,7 @@
     ### Firefox personalization ###
     - name: Set firefox_default_profile_dir fact
       set_fact:
-        firefox_default_profile_dir: "{{ kali_user_homedir }}/.mozilla/firefox/hacker.default"
+        firefox_default_profile_dir: "{{ kali_user_homedir }}/.mozilla/firefox/hacker.firefox-esr"
 
     - name: Check if Firefox profile exists
       stat:
@@ -45,15 +45,26 @@
       register: firefox_profile
 
     - name: Create FireFox default profile
-      command: "firefox-esr -CreateProfile \"default {{ firefox_default_profile_dir }}\""
+      command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
       when: not firefox_profile.stat.exists
 
-    - name: Create user.js for Firefox user preferences
+    - name: Copy Firefox desktop file
       copy:
-        src: "/opt/quieter-firefox/user.js"
-        dest: "{{ firefox_default_profile_dir }}/user.js"
-        remote_src: true
+        src: files/firefox/hacker-firefox-esr.desktop
+        dest: "{{ kali_user_homedir }}/.local/share/applications/hacker-firefox-esr.desktop"
         mode: 0640
+
+    - name: Copy user.js for Firefox user preferences
+      copy:
+        src: files/firefox/user.js
+        dest: "{{ firefox_default_profile_dir }}/user.js"
+        mode: 0640
+
+    - name: Add preferences from quieter-firefox
+      blockinfile:
+        block: "{{ lookup('file', '/opt/quieter-firefox/user.js') }}"
+        dest: "{{ firefox_default_profile_dir }}/user.js"
+        marker: "// {mark} ANSIBLE MANAGED BLOCK"
 
     ### SciTE user properties ###
     - name: Copy SciTE user properties
