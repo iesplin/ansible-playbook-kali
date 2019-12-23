@@ -1,6 +1,6 @@
 ---
 # Burp Suite settings
-burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
+burpsuite_extras_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: /opt/BurpSuiteExtras
 burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
 burpsuite_user: "{{ kali_user }}"
