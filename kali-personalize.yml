@@ -16,7 +16,7 @@
         paths: 
           - "{{ burpsuite_dir }}"
         patterns: ".*\\.desktop"
-        file_type: file
+        file_type: any
         use_regex: true
       register: burpsuite_desktop_files
 
