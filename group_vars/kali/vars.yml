@@ -1,5 +1,6 @@
 ---
 # Burp Suite settings
+burpsuite_dir: "/opt/BurpSuite{{ burpsuite_product_type | capitalize }}"
 burpsuite_extras_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: /opt/BurpSuiteExtras
 burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
@@ -33,7 +34,7 @@ gnome_settings:
   - "org.gnome.shell.extensions.dash-to-dock scroll-action 'cycle-windows'"
   - "org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED'"
 ## Favourite Apps
-  - "org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'hacker-firefox-esr.desktop', 'chromium.desktop', 'Burp Suite Professional-0.desktop', 'Burp Suite Community Edition-0.desktop', 'code.desktop', 'SciTE.desktop', 'org.keepassxc.KeePassXC.desktop' ]\""
+  - "org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'hacker-firefox-esr.desktop', 'chromium.desktop', 'burp-suite.desktop', 'code.desktop', 'SciTE.desktop', 'org.keepassxc.KeePassXC.desktop' ]\""
 
 gnome_terminal_settings:
   - "use-theme-colors false"

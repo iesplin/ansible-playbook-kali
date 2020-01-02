@@ -10,6 +10,35 @@
       set_fact:
         kali_user_homedir: "{{ lookup('env','HOME') }}"
 
+    ### Burp Suite shortcut
+    - name: Find Burp Suite desktop files
+      find:
+        paths: 
+          - "{{ burpsuite_dir }}"
+        patterns: ".*\\.desktop"
+        file_type: file
+        use_regex: true
+      register: burpsuite_desktop_files
+
+    - name: Ensure .local/share/applications directory exists
+      file:
+        path: "{{ kali_user_homedir }}/.local/share/applications"
+        owner: "{{ kali_user }}"
+        group: "{{ kali_user }}"
+        mode: 0700
+        state: directory
+
+    - name: Link to Burp Suite desktop file
+      file:
+        src: "{{ item.path }}"
+        dest: "{{ kali_user_homedir }}/.local/share/applications/burp-suite.desktop"
+        owner: "{{ kali_user }}"
+        group: "{{ kali_user }}"
+        state: link
+      loop:
+        - "{{ burpsuite_desktop_files.files }}"
+      when: burpsuite_desktop_files.matched > 0
+
     ### Configure Gnome settings ###
     - name: Tweak Gnome settings
       command: "gsettings set {{ item }}"
