@@ -15,9 +15,8 @@
       find:
         paths: 
           - "{{ burpsuite_dir }}"
-        patterns: ".*\\.desktop"
+        patterns: "*.desktop"
         file_type: any
-        use_regex: true
       register: burpsuite_desktop_files
 
     - name: Ensure .local/share/applications directory exists
@@ -35,8 +34,7 @@
         owner: "{{ kali_user }}"
         group: "{{ kali_user }}"
         state: link
-      loop:
-        - "{{ burpsuite_desktop_files.files }}"
+      loop: "{{ burpsuite_desktop_files.files }}"
       when: burpsuite_desktop_files.matched > 0
 
     ### Configure Gnome settings ###
