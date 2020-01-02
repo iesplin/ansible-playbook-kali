@@ -10,7 +10,7 @@ gnome_settings:
 ## Theme
   - "org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/kali/kali-logo.xml'"
   - "org.gnome.desktop.background picture-options 'zoom'"
-  - "org.gnome.desktop.interface gtk-theme 'Kali-X-Dark'"
+  - "org.gnome.desktop.interface gtk-theme 'Kali-Dark'"
   - "org.gnome.desktop.interface icon-theme 'Flat-Remix-Blue-Dark'"
   - "org.gnome.desktop.screensaver picture-uri 'file:///usr/share/backgrounds/kali/kali-light.xml'"
   - "org.gnome.desktop.screensaver picture-options 'zoom'"  
