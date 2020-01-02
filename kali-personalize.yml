@@ -31,8 +31,6 @@
       file:
         src: "{{ item.path }}"
         dest: "{{ kali_user_homedir }}/.local/share/applications/burp-suite.desktop"
-        owner: "{{ kali_user }}"
-        group: "{{ kali_user }}"
         state: link
       loop: "{{ burpsuite_desktop_files.files }}"
       when: burpsuite_desktop_files.matched > 0
