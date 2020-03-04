@@ -46,16 +46,18 @@ gnome_terminal_settings:
 
 # XFCE settings
 xfce_settings:
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", value: "30" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", value: "0" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", value: "0" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", value: "false" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", value: "14" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", value: "1" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", value: "4" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-panel-label", value: "1" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", value: "false" }
-  - { channel: "xfwm4", property: "/general/vblank_mode", value: "xpresent" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "uint", value: "30" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "uint", value: "0" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "uint", value: "0" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "uint", value: "14" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "uint", value: "1" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "uint", value: "4" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
+  - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
 
 # Git repositories to clone to /opt
 git_repos:

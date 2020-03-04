@@ -46,7 +46,7 @@
 
     ### XFCE settings
     - name: Apply XFCE settings
-      command: "xfconf-query --create -c {{ item.channel }} -p {{ item.property }} -s {{ item.value }}"
+      command: "xfconf-query --create -c {{ item.channel }} -p {{ item.property }} -t {{ item.type }} -s {{ item.value }}"
       loop: "{{ xfce_settings }}"
       when: "kali_desktop_environment == 'xfce'"
 
