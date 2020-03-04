@@ -14,6 +14,14 @@
       set_fact:
         kali_desktop_environment: "{{ lookup('env','XDG_CURRENT_DESKTOP') | lower }}"
 
+    - name: Ensure local applications directory exists
+      file:
+        path: "{{ kali_user_homedir }}/.local/share/applications"
+        state: directory
+        owner: "{{ kali_user }}"
+        group: "{{ kali_user }}"
+        mode: 0750
+
     ### Configure Gnome settings ###
     - block:
         - name: Find Burp Suite desktop files
