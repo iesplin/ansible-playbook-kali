@@ -45,11 +45,9 @@
       when: "kali_desktop_environment == 'gnome'"
 
     ### XFCE settings
-    - block:
-        - name: Apply XFCE settings
-          command: "xfconf-query -c {{ item.channel }} -p {{ item.property }} -s {{ item.value }}"
-          loop: "{{ xfce_settings }}"
-
+    - name: Apply XFCE settings
+      command: "xfconf-query --create -c {{ item.channel }} -p {{ item.property }} -s {{ item.value }}"
+      loop: "{{ xfce_settings }}"
       when: "kali_desktop_environment == 'xfce'"
 
     ### Configure tmux ###
