@@ -10,45 +10,47 @@
       set_fact:
         kali_user_homedir: "{{ lookup('env','HOME') }}"
 
-    ### Burp Suite shortcut
-    - name: Find Burp Suite desktop files
-      find:
-        paths: 
-          - "{{ burpsuite_dir }}"
-        patterns: "*.desktop"
-        file_type: any
-      register: burpsuite_desktop_files
-
-    - name: Ensure .local/share/applications directory exists
-      file:
-        path: "{{ kali_user_homedir }}/.local/share/applications"
-        owner: "{{ kali_user }}"
-        group: "{{ kali_user }}"
-        mode: 0700
-        state: directory
-
-    - name: Link to Burp Suite desktop file
-      file:
-        src: "{{ item.path }}"
-        dest: "{{ kali_user_homedir }}/.local/share/applications/burp-suite.desktop"
-        state: link
-      loop: "{{ burpsuite_desktop_files.files }}"
-      when: burpsuite_desktop_files.matched > 0
+    - name: Set desktop environment fact
+      set_fact:
+        kali_desktop_environment: "{{ lookup('env','XDG_CURRENT_DESKTOP') | lower }}"
 
     ### Configure Gnome settings ###
-    - name: Tweak Gnome settings
-      command: "gsettings set {{ item }}"
-      loop: "{{ gnome_settings }}"
+    - block:
+        - name: Find Burp Suite desktop files
+          find:
+            paths: 
+              - "{{ burpsuite_dir }}/.install4j"
+            patterns: "*.desktop"
+            file_type: any
+          register: burpsuite_desktop_files
 
-    - name: Get current terminal profile
-      command: gsettings get org.gnome.Terminal.ProfilesList default
-      changed_when: false
-      register: terminal_profile
+        - name: Set Burp Suite desktop file name
+          set_fact:
+            burpsuite_desktop_file_name: "{{ burpsuite_desktop_files.files[0].path | basename }}"
+          when: burpsuite_desktop_files.matched > 0
 
-    # Gnome terminal settings
-    - name: Configure Terminal settings
-      command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout | regex_replace('''') }}/ {{ item }}"
-      loop: "{{ gnome_terminal_settings }}"
+        - name: Tweak Gnome settings
+          command: "gsettings set {{ item.schema }} {{ item.path }} {{ item.key }}"
+          loop: "{{ gnome_settings }}"
+
+        - name: Get current terminal profile
+          command: gsettings get org.gnome.Terminal.ProfilesList default
+          changed_when: false
+          register: terminal_profile
+
+        # Gnome terminal settings
+        - name: Configure Terminal settings
+          command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout | regex_replace('''') }}/ {{ item.path }} {{ item.key }}"
+          loop: "{{ gnome_terminal_settings }}"
+      when: "kali_desktop_environment == 'gnome'"
+
+    ### XFCE settings
+    - block:
+        - name: Apply XFCE settings
+          command: "xfconf-query -c {{ item.channel }} -p {{ item.property }} -s {{ item.value }}"
+          loop: "{{ xfce_settings }}"
+
+      when: "kali_desktop_environment == 'xfce'"
 
     ### Configure tmux ###
     - name: Copy tmux config
