@@ -150,7 +150,7 @@ kali_tool_packages:
   - patator
   - powershell
   - proxychains4
-  - python-impacket
+  - python3-impacket
   - responder
   - smbclient
   - smbmap
