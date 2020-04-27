@@ -122,6 +122,7 @@ kali_tool_packages:
   - cadaver
   - cewl
   - chromium
+  - crackmapexec
   - creddump7
   - dirb
   - dnsrecon
