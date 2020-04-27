@@ -8,7 +8,6 @@
     - config.yml
   roles:
     - ansible-role-burpsuite
-    - ansible-role-crackmapexec
     - ansible-role-ghidra
     - ansible-role-keystone-engine
     - ansible-role-vscode
@@ -62,4 +61,3 @@
         group: root
         mode: "{{ item.mode | default(0644) }}"
       loop: "{{ misc_downloads }}"
-
