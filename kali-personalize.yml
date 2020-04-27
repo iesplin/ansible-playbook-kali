@@ -58,6 +58,14 @@
       loop: "{{ xfce_settings }}"
       when: "kali_desktop_environment == 'xfce'"
 
+    # QTerminal
+
+    - name: Configure QTerminal transparency
+      lineinfile:
+        path: "{{ kali_user_homedir }}/.config/qterminal.org/qterminal.ini"
+        regexp: "^ApplicationTransparency="
+        line: "ApplicationTransparency=0"
+
     ### Configure tmux ###
     - name: Copy tmux config
       copy:
