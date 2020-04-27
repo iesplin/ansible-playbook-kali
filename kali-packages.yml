@@ -37,9 +37,9 @@
       apt:
         autoclean: true
 
-    - name: Install Python3 Packages
+    - name: Install Python Pip Packages
       pip:
         name: "{{ item }}"
         state: latest
         executable: pip3
-      loop: "{{ python3_packages }}"
+      loop: "{{ python_pip_packages }}"

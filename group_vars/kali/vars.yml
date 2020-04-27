@@ -167,7 +167,7 @@ kali_tool_packages:
   - wpscan
   - xtightvncviewer
 
-python3_packages:
+python_pip_packages:
   - bloodhound
 
 kali_user: hacker
