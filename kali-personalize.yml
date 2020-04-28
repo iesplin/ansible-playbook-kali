@@ -58,8 +58,7 @@
       loop: "{{ xfce_settings }}"
       when: "kali_desktop_environment == 'xfce'"
 
-    # QTerminal
-
+    ### QTerminal
     - name: Configure QTerminal transparency
       lineinfile:
         path: "{{ kali_user_homedir }}/.config/qterminal.org/qterminal.ini"
