@@ -148,6 +148,7 @@ kali_tool_packages:
   - nikto
   - nmap
   - onesixtyone
+  - parallel
   - passing-the-hash
   - patator
   - powershell
@@ -158,6 +159,8 @@ kali_tool_packages:
   - smbmap
   - socat
   - sqlmap
+  - sslscan
+  - sslyze
   - wafw00f
   - webshells
   - weevely
