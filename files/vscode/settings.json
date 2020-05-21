@@ -1,5 +1,8 @@
 {
+    "git.autofetch": false,
     "MarkdownPaste.path": "./images/",
+    "python.formatting.provider": "black",
     "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false
+    "telemetry.enableCrashReporter": false,
+    "window.titleBarStyle": "custom"
 }
