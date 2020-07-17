@@ -73,6 +73,8 @@ git_repos:
   - name: PowerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
     version: dev
+  - name: privilege-escalation-awesome-scripts-suite
+    repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
   - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
   - name: SecLists
@@ -178,6 +180,7 @@ kali_tool_packages:
 
 python_pip_packages:
   - bloodhound
+  - mitm6
 
 kali_user: hacker
 
