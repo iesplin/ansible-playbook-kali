@@ -182,6 +182,9 @@ python_pip_packages:
   - bloodhound
   - mitm6
 
+ruby_gem_packages:
+  - evil-winrm
+
 kali_user: hacker
 
 misc_downloads:

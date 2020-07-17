@@ -43,3 +43,9 @@
         state: latest
         executable: pip3
       loop: "{{ python_pip_packages }}"
+
+    - name: Install Ruby gems
+      gem:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ ruby_gem_packages }}"
