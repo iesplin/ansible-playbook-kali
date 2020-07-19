@@ -113,7 +113,7 @@
       copy:
         src: /opt/quieter-firefox/user.js
         dest: "{{ firefox_tempdir.path }}/quieter.js"
-        remote: true
+        remote_src: true
       changed_when: false
 
     - name: Assemble from fragments from a directory
