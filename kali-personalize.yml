@@ -96,17 +96,36 @@
         dest: "{{ kali_user_homedir }}/.local/share/applications/hacker-firefox-esr.desktop"
         mode: 0640
 
-    - name: Copy user.js for Firefox user preferences
-      copy:
-        src: files/firefox/user.js
+    - block:
+      - name: Create temporary directory
+        tempfile:
+          state: directory
+          suffix: firefox
+        register: firefox_tempdir
+
+      - name: Copy user.js for Firefox user preferences
+        copy:
+          src: files/firefox/user.js
+          dest: "{{ firefox_tempdir.path }}/kali.js"
+
+      - name: Copy user.js from quieter-firefox
+        copy:
+          src: /opt/quieter-firefox/user.js
+          dest: "{{ firefox_tempdir.path }}/quieter.js"
+          remote: true
+      changed_when: false
+    
+    - name: Assemble from fragments from a directory
+      assemble:
+        src: "{{ firefox_tempdir.path }}"
         dest: "{{ firefox_default_profile_dir }}/user.js"
         mode: 0640
-
-    - name: Add preferences from quieter-firefox
-      blockinfile:
-        block: "{{ lookup('file', '/opt/quieter-firefox/user.js') }}"
-        dest: "{{ firefox_default_profile_dir }}/user.js"
-        marker: "// {mark} ANSIBLE MANAGED BLOCK"
+    
+    - name: Delete tempdir
+      file:
+        path: "{{ firefox_tempdir.path }}"
+        state: absent
+      changed_when: false
 
     ### SciTE user properties ###
     - name: Copy SciTE user properties
