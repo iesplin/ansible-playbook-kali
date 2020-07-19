@@ -1,5 +1,6 @@
 # Roles for Kali
 - src: https://github.com/iesplin/ansible-role-burpsuite.git
+- src: https://github.com/iesplin/ansible-role-covenant.git
 - src: https://github.com/iesplin/ansible-role-ghidra.git
 - src: https://github.com/iesplin/ansible-role-keystone-engine.git
 - src: https://github.com/iesplin/ansible-role-vscode.git

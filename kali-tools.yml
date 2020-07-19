@@ -8,6 +8,7 @@
     - config.yml
   roles:
     - ansible-role-burpsuite
+    - ansible-role-covenant
     - ansible-role-ghidra
     - ansible-role-keystone-engine
     - ansible-role-vscode
