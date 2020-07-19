@@ -29,7 +29,7 @@
 
     - name: Pip install Pwntools
       pip:
-        name: "git+https://github.com/Gallopsled/pwntools.git@dev3"
+        name: "git+https://github.com/Gallopsled/pwntools.git@dev"
         executable: pip3
         state: latest
 
