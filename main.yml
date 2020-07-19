@@ -28,6 +28,7 @@
       add_host:
         name: localhost
         groups: "burpsuite_{{ burpsuite_group }}"
+      changed_when: false
 
     - name: Save config
       template:
