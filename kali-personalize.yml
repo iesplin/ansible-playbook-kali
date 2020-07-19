@@ -103,6 +103,13 @@
       register: firefox_tempdir
       changed_when: false
 
+    - name: Create temporary file
+      tempfile:
+        state: file
+        suffix: user.js
+      register: firefox_temp_userjs
+      changed_when: false
+
     - name: Copy user.js for Firefox user preferences
       copy:
         src: files/firefox/user.js
@@ -119,13 +126,23 @@
     - name: Assemble from fragments from a directory
       assemble:
         src: "{{ firefox_tempdir.path }}"
+        dest: "{{ firefox_temp_userjs.path }}"
+      changed_when: false
+
+    - name: Copy user.js from quieter-firefox
+      copy:
+        src: "{{ firefox_temp_userjs.path }}"
         dest: "{{ firefox_default_profile_dir }}/user.js"
+        remote_src: true
         mode: 0640
 
-    - name: Delete tempdir
+    - name: Delete temp dir and file
       file:
-        path: "{{ firefox_tempdir.path }}"
+        path: "{{ item }}"
         state: absent
+      loop:
+        - "{{ firefox_tempdir.path }}"
+        - "{{ firefox_temp_userjs.path }}"
       changed_when: false
 
     ### SciTE user properties ###
