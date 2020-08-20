@@ -13,17 +13,23 @@
         default: reject
 
     ## AppArmor ###
-    - name: Enable AppArmor
-      systemd:
-        name: apparmor.service
-        state: started
-        enabled: true
+    # - name: Enable AppArmor
+    #   systemd:
+    #     name: apparmor.service
+    #     state: started
+    #     enabled: true
 
     ### User permissions ###
     - name: Add user to wireshark group
       user:
         name: "{{ kali_user }}"
         groups: wireshark
+        append: true
+    
+    - name: Add user to sudo group
+      user:
+        name: "{{ kali_user }}"
+        groups: sudo
         append: true
 
     ### Configure apt automatic updates ###
@@ -103,12 +109,12 @@
         mode: 0644
 
     ### Configure SciTE ###
-    - name: Default window size
-      lineinfile:
-        path: /etc/scite/SciTEGlobal.properties
-        regexp: "^{{ item | regex_search('^.*=') }}"
-        line: "{{ item }}"
-      loop:
-        - "position.width=$(scale 1024)"
-        - "position.height=$(scale 768)"
+    # - name: Default window size
+    #   lineinfile:
+    #     path: /etc/scite/SciTEGlobal.properties
+    #     regexp: "^{{ item | regex_search('^.*=') }}"
+    #     line: "{{ item }}"
+    #   loop:
+    #     - "position.width=$(scale 1024)"
+    #     - "position.height=$(scale 768)"
       

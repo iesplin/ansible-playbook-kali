@@ -87,7 +87,7 @@
       register: firefox_profile
 
     - name: Create FireFox default profile
-      command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
+      command: "firefox-esr -CreateProfile \"dts {{ firefox_default_profile_dir }}\""
       when: not firefox_profile.stat.exists
 
     - name: Copy Firefox desktop file
@@ -146,11 +146,11 @@
       changed_when: false
 
     ### SciTE user properties ###
-    - name: Copy SciTE user properties
-      copy:
-        src: "files/scite/.SciTEUser.properties"
-        dest: "{{ kali_user_homedir }}/.SciTEUser.properties"
-        mode: 0640
+    # - name: Copy SciTE user properties
+    #   copy:
+    #     src: "files/scite/.SciTEUser.properties"
+    #     dest: "{{ kali_user_homedir }}/.SciTEUser.properties"
+    #     mode: 0640
 
     ### VS Code ###
     - name: Ensure VS Code user directories exist
@@ -194,3 +194,23 @@
         src: "files/gdb/.gdbinit"
         dest: "{{ kali_user_homedir }}/.gdbinit"
         mode: 0640
+
+    ## Metasploit user properties ###
+    - name: Ensure Metasploit user directories exist (~/.msf4)
+      file:
+        path: "{{ kali_user_homedir }}/.msf4/"
+        state: directory
+        mode: 0700
+
+    - name: Copy Metasploit user properties
+      copy:
+        src: "files/metasploit/msfconsole.rc"
+        dest: "{{ kali_user_homedir }}/.msf4/msfconsole.rc"
+        mode: 0640
+
+    ## Create directory ~/.CMD_LOG
+    - name: Create PASSI directory log (~/.CMD_LOG)
+      file:
+        path: "{{ kali_user_homedir }}/.CMD_LOG/"
+        state: directory
+        mode: 0700

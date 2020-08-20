@@ -1,5 +1,31 @@
 {
   "policies": {
+    "Bookmarks": [
+      {
+        "Placement": "toolbar",
+        "Title": "Cyberchef",
+        "URL": "file:///var/www/html/cyberchef/cyberchef.htm"
+      },
+      {
+        "Favicon": "https://gtfobins.github.io/assets/logo.png",
+        "Placement": "toolbar",
+        "Title": "GTFOBins",
+        "URL": "https://gtfobins.github.io/"
+      },
+      {
+        "Favicon": "https://haveibeenpwned.com/favicon.ico",
+        "Placement": "toolbar",
+        "Title": "HaveIBeenPwned",
+        "URL": "https://haveibeenpwned.com/"
+      },
+      {
+        "Favicon": "https://gblobscdn.gitbook.com/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Favatar.png?alt=media",
+        "Placement": "toolbar",
+        "Title": "HackTricks",
+        "URL": "https://book.hacktricks.xyz/"
+      }
+      
+    ],
     "CaptivePortal": false,
     "Certificates": {
       "Install": ["{{ burpsuite_extras_cacert_path }}"]
@@ -16,7 +42,9 @@
     "Extensions": {
       "Install": [
         "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/latest.xpi",
-        "https://addons.mozilla.org/firefox/downloads/latest/wappalyzer/latest.xpi"
+        "https://addons.mozilla.org/firefox/downloads/latest/wappalyzer/latest.xpi",
+        "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi",
+        "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi"
         ]
     },
     "ExtensionSettings": {
@@ -27,6 +55,14 @@
       "wappalyzer@crunchlabz.com": {
         "installation_mode": "force_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/wappalyzer/latest.xpi"
+      },
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+      },
+      "@testpilot-containers": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi"
       }
     },
     "Homepage": {
