@@ -54,19 +54,19 @@ gnome_terminal_settings:
 
 # XFCE settings
 xfce_settings:
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "int", value: "14" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "int", value: "1" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
-  # - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
-  # - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
-  # - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "int", value: "14" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "int", value: "1" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
+  - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
+  - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }
 
 # Git repositories to clone to /opt
 git_repos:
@@ -97,6 +97,7 @@ git_repos:
     repo: https://github.com/danielmiessler/SecLists.git
   - name: TestSSL
     repo: https://github.com/drwetter/testssl.sh.git
+    version: 3.1dev
 
 # Packages for OS
 kali_os_packages:
@@ -107,7 +108,6 @@ kali_os_packages:
   - automake
   - build-essential
   - ca-certificates
-  - cc
   - curl
   - dnsutils
   - docker-compose
@@ -122,17 +122,12 @@ kali_os_packages:
   - golang
   - gparted
   - grc
+  - gufw
   - htop
   - jq
   - keepass2
   - libc6
-  - libc6-amd64
   - libc6-dev
-  - libc6-dev-amd64
-  - libc6-dev-i386
-  - libc6-dev-i686
-  - libc6-i386
-  - libc6-i686
   - libffi-dev
   - libreoffice
   - libssl-dev
@@ -150,9 +145,8 @@ kali_os_packages:
   - php-cli
   - php-curl
   - python-dev
-  - sublime-merge
-  - sublime-text
   - tmux
+  - ufw
   - unzip
   - vim
   - virtualenvwrapper
@@ -170,7 +164,6 @@ kali_tool_packages:
   - bloodhound
   - chromium
   - crackmapexec
-  - dirsearch
   - exiftool
   - exploitdb
   - eyewitness
@@ -184,7 +177,7 @@ kali_tool_packages:
   - kali-linux-large
   - masscan
   - metasploit-framework
-  - nbtsan
+  - nbtscan
   - nbtscan-unixwiz
   - ncat
   - neo4j
@@ -229,7 +222,7 @@ misc_downloads:
     dest: /opt/pspy/pspy64s
     mode: "0755"
   - url: https://github.com/NetSPI/goddi/releases/download/v1.2/goddi-linux-amd64
-    dest: /opt/goddi/goddi-linux-amd64
+    dest: /opt/Goddi/goddi-linux-amd64
     mode: "0755"
 
 # Extensions for VS Code

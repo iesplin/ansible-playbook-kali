@@ -20,11 +20,11 @@
     #     enabled: true
 
     ### User permissions ###
-    - name: Add user to wireshark group
-      user:
-        name: "{{ kali_user }}"
-        groups: wireshark
-        append: true
+    # - name: Add user to wireshark group
+    #  user:
+    #    name: "{{ kali_user }}"
+    #    groups: wireshark
+    #    append: true
     
     - name: Add user to sudo group
       user:

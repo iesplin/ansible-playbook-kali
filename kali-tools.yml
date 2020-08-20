@@ -53,6 +53,7 @@
         repo: deb https://download.sublimetext.com/ apt/stable/
         state: present
         filename: sublimetext
+        mode: 640
 
     - name: Install Sublime-text packages
       apt:
@@ -72,6 +73,7 @@
         repo: deb https://typora.io/linux ./
         state: present
         filename: typora
+        mode: 640
 
     - name: Install Typora package
       apt:
@@ -79,16 +81,24 @@
         state: present
     
     ### CyberChef ###
+    - name: Creates cyberchef directory
+      file:
+        dest: /var/www/html/cyberchef/
+        state: directory
+        owner: root
+        group: root
+        mode: 655
+
     - name: Download and unarchive CyberChef
       unarchive:
         src: https://github.com/gchq/CyberChef/releases/download/v9.21.0/CyberChef_v9.21.0.zip
-        dest: /var/www/html/
+        dest: /var/www/html/cyberchef/
         remote_src: yes
 
     - name: Create a symbolic link - CyberChef
       file:
-        src: /var/www/html/cyberchef.htm
-        dest: /var/www/html/cyberchef/CyberChef_v9.21.0.html
+        src: /var/www/html/cyberchef/CyberChef_v9.21.0.html
+        dest: /var/www/html/cyberchef.htm
         owner: root
         group: root
         state: link

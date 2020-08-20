@@ -63,11 +63,11 @@
       when: "kali_desktop_environment == 'xfce'"
 
     ### QTerminal
-    - name: Configure QTerminal transparency
-      lineinfile:
-        path: "{{ kali_user_homedir }}/.config/qterminal.org/qterminal.ini"
-        regexp: "^ApplicationTransparency="
-        line: "ApplicationTransparency=0"
+    #- name: Configure QTerminal transparency
+    #  lineinfile:
+    #    path: "{{ kali_user_homedir }}/.config/qterminal.org/qterminal.ini"
+    #    regexp: "^ApplicationTransparency="
+    #    line: "ApplicationTransparency=0"
 
     ### Configure tmux ###
     - name: Copy tmux config
@@ -118,7 +118,7 @@
 
     - name: Copy user.js from quieter-firefox
       copy:
-        src: /opt/quieter-firefox/user.js
+        src: /opt/Quieter-firefox/user.js
         dest: "{{ firefox_tempdir.path }}/quieter.js"
         remote_src: true
       changed_when: false
@@ -168,11 +168,11 @@
         dest: "{{ kali_user_homedir }}/.config/Code/User/settings.json"
         mode: 0640
 
-    - name: Install VS Code extensions
-      command: "code --user-data-dir ~/.vscode --install-extension {{ item }}"
-      loop: "{{ vscode_extensions | default([]) }}"
-      register: vscode_install_extension_result
-      changed_when: "'successfully installed' in vscode_install_extension_result.stdout"
+   # - name: Install VS Code extensions
+   #   command: "code --user-data-dir ~/.vscode --install-extension {{ item }}"
+   #   loop: "{{ vscode_extensions | default([]) }}"
+   #   register: vscode_install_extension_result
+   #   changed_when: "'successfully installed' in vscode_install_extension_result.stdout"
 
     ### GDB ###
     - name: Clone GEF repo
