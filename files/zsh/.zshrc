@@ -114,7 +114,7 @@ setopt globdots
 source $HOME/.bash_aliases
 IP=`ifconfig eth0 2>/dev/null | sed -n 2,2p | cut -d" " -f 10`
 PROMPT='%D{%f/%m}|%D{%L:%M:%S}%{$fg[grey]%} $IP ${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$fg_bold[blue]%}%{$reset_color%}'
-test "$(ps -ocommand= -p $PPID | awk '{print $1}')" = "script" || (script -f $HOME/.CMD_LOG/$(date +"%d-%b-%y_%H-%M-%S")_shell.log)
+test "$(ps -ocommand= -p $PPID | awk '{print $1}')" = "script" || (script -f $HOME/.CMD_LOG/$(date +"%b%d_%Hh-%M-%S")_shell.log)
 ## tmux
 if [[ ! $TERM =~ screen ]]; then
    exec tmux
