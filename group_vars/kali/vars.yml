@@ -70,32 +70,34 @@ xfce_settings:
 
 # Git repositories to clone to /opt
 git_repos:
-  - name: Fuzzdb
+  - name: fuzzdb
     repo: https://github.com/fuzzdb-project/fuzzdb.git
-  - name: GitTools
+  - name: gitTools
     repo: https://github.com/internetwache/GitTools.git
-  - name: Goddi
+  - name: goddi
     repo: https://github.com/NetSPI/goddi.git
-  - name: Inveigh
+  - name: inveigh
     repo: https://github.com/Kevin-Robertson/Inveigh.git
   - name: MS17-010
     repo: https://github.com/worawit/MS17-010.git
-  - name: OneRuleToRuleThemAll
+  - name: oneRuleToRuleThemAll
     repo: https://github.com/NotSoSecure/password_cracking_rules.git
-  - name: P0wnyShell
+  - name: p0wnyShell
     repo: https://github.com/flozz/p0wny-shell.git  
-  - name: PayloadsAllTheThings
+  - name: payloadsAllTheThings
     repo: https://github.com/swisskyrepo/PayloadsAllTheThings.git
-  - name: PowerSploit
+  - name: powerSploit
     repo: https://github.com/PowerShellMafia/PowerSploit.git
     version: dev
-  - name: Privilege-escalation-awesome-scripts-suite
+  - name: privilege-escalation-awesome-scripts-suite
     repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
-  - name: Quieter-firefox
+  - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
-  - name: SecLists
+  - name: secLists
     repo: https://github.com/danielmiessler/SecLists.git
-  - name: TestSSL
+  - name: dirsearch
+    repo: https://github.com/maurosoria/dirsearch.git
+  - name: testssl
     repo: https://github.com/drwetter/testssl.sh.git
     version: 3.1dev
 

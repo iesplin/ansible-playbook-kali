@@ -1,5 +1,15 @@
 ---
 # Playbook for Kali
+## Install Oh-My-Zsh as root
+- hosts: kali
+  become: false
+  tasks:
+    - name: Include Oh-My-Zsh role
+      include_role:
+        name: gantsign.oh-my-zsh
+      vars:
+        users:
+          - username: "{{ kali_user }}"
 
 ## Personalize Kali
 - hosts: kali
@@ -21,6 +31,14 @@
         owner: "{{ kali_user }}"
         group: "{{ kali_user }}"
         mode: 0750
+
+    - name: Change ownership of /opt/
+      file:
+        path: "/opt"
+        state: directory
+        recurse: yes
+        owner: "{{ kali_user }}"
+        group: "{{ kali_user }}"
 
     ### Configure Gnome settings ###
     - block:
@@ -68,6 +86,30 @@
     #    path: "{{ kali_user_homedir }}/.config/qterminal.org/qterminal.ini"
     #    regexp: "^ApplicationTransparency="
     #    line: "ApplicationTransparency=0"
+
+    - name: Copy ZSH config
+      copy:
+        src: "files/zsh/.zshrc"
+        dest: "{{ kali_user_homedir }}/.zshrc"
+        mode: 0640
+    
+    - name: Install zsh-autosuggestions
+      git:
+        repo: "https://github.com/zsh-users/zsh-autosuggestions/"
+        dest: "{{ kali_user_homedir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        version: "master"
+        force: true
+
+    - name: Copy bash_aliases config
+      copy:
+        src: "files/zsh/.bash_aliases"
+        dest: "{{ kali_user_homedir }}/.bash_aliases"
+        mode: 0640
+    
+    #- name: Change default shell to ZSH
+    #  user:
+    #    name: "{{ kali_user }}"
+    #    shell: /bin/zsh
 
     ### Configure tmux ###
     - name: Copy tmux config
@@ -214,3 +256,4 @@
         path: "{{ kali_user_homedir }}/.CMD_LOG/"
         state: directory
         mode: 0700
+
