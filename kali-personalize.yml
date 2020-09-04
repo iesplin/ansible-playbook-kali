@@ -33,6 +33,8 @@
         mode: 0750
 
     - name: Change ownership of /opt/
+      become: true
+      become_user: root
       file:
         path: "/opt"
         state: directory
@@ -160,7 +162,7 @@
 
     - name: Copy user.js from quieter-firefox
       copy:
-        src: /opt/Quieter-firefox/user.js
+        src: /opt/quieter-firefox-git/user.js
         dest: "{{ firefox_tempdir.path }}/quieter.js"
         remote_src: true
       changed_when: false
