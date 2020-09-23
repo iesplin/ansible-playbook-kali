@@ -24,17 +24,8 @@ xfce_settings:
 
 # Git repositories to clone to /opt
 git_repos:
-  - name: fuzzdb
-    repo: https://github.com/fuzzdb-project/fuzzdb.git
-  - name: Inveigh
-    repo: https://github.com/Kevin-Robertson/Inveigh.git
   - name: PayloadsAllTheThings
     repo: https://github.com/swisskyrepo/PayloadsAllTheThings.git
-  - name: Powermad
-    repo: https://github.com/Kevin-Robertson/Powermad.git
-  - name: PowerSploit
-    repo: https://github.com/PowerShellMafia/PowerSploit.git
-    version: dev
   - name: privilege-escalation-awesome-scripts-suite
     repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
   - name: quieter-firefox
