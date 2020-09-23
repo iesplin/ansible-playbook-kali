@@ -6,44 +6,6 @@ burpsuite_extras_dir: /opt/BurpSuiteExtras
 burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
 burpsuite_user: "{{ kali_user }}"
 
-# Gnome settings
-gnome_settings:
-## Theme
-  - { schema: "org.gnome.desktop.background", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-logo.xml'" }
-  - { schema: "org.gnome.desktop.background", path: "picture-options", key: "'zoom'" }
-  - { schema: "org.gnome.desktop.interface", path: "gtk-theme", key: "'Kali-Dark'" }
-  - { schema: "org.gnome.desktop.interface", path: "icon-theme", key: "'Flat-Remix-Blue-Dark'" }
-  - { schema: "org.gnome.desktop.screensaver", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-light.xml'" }
-  - { schema: "org.gnome.desktop.screensaver", path: "picture-options", key: "'zoom'" }
-## Power  
-  - { schema: "org.gnome.desktop.session", path: "idle-delay", key: "1800" }
-  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-ac-type", key: "'nothing'" }
-  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-battery-type", key: "'nothing'" }
-## Dash-to-dock extension
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "apply-custom-theme", key: "false" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "background-color", key: "'#0A1820'" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "background-opacity", key: "1.0" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "click-action", key: "'previews'" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "custom-background-color", key: "true" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dash-max-icon-size", key: "40" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dock-fixed", key: "true" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dock-position", key: "'LEFT'" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "extend-height", key: "true" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "force-straight-corner", key: "true" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "running-indicator-style", key: "'DOTS'" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "scroll-action", key: "'cycle-windows'" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "transparency-mode", key: "'FIXED'" }
-## Favourite Apps
-  - { schema: "org.gnome.shell", path: "favorite-apps", key: "\"['org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'hacker-firefox-esr.desktop', 'chromium.desktop', '{{ burpsuite_desktop_file_name }}', 'code.desktop', 'SciTE.desktop', 'org.keepassxc.KeePassXC.desktop' ]\"" }
-
-gnome_terminal_settings:
-  - { path: "use-theme-colors", key: "false" }
-  - { path: "use-transparent-background", key: "false" }
-  - { path: "foreground-color", key: "'rgb(255,255,255)'" }
-  - { path: "background-color", key: "'rgb(0,0,0)'" }
-  - { path: "palette", key: "\"['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']\"" }
-  - { path: "bold-is-bright", key: "true" }
-
 # XFCE settings
 xfce_settings:
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }

@@ -22,36 +22,6 @@
         group: "{{ kali_user }}"
         mode: 0750
 
-    ### Configure Gnome settings ###
-    - block:
-        - name: Find Burp Suite desktop files
-          find:
-            paths: 
-              - "{{ burpsuite_dir }}/.install4j"
-            patterns: "*.desktop"
-            file_type: any
-          register: burpsuite_desktop_files
-
-        - name: Set Burp Suite desktop file name
-          set_fact:
-            burpsuite_desktop_file_name: "{{ burpsuite_desktop_files.files[0].path | basename }}"
-          when: burpsuite_desktop_files.matched > 0
-
-        - name: Tweak Gnome settings
-          command: "gsettings set {{ item.schema }} {{ item.path }} {{ item.key }}"
-          loop: "{{ gnome_settings }}"
-
-        - name: Get current terminal profile
-          command: gsettings get org.gnome.Terminal.ProfilesList default
-          changed_when: false
-          register: terminal_profile
-
-        # Gnome terminal settings
-        - name: Configure Terminal settings
-          command: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout | regex_replace('''') }}/ {{ item.path }} {{ item.key }}"
-          loop: "{{ gnome_terminal_settings }}"
-      when: "kali_desktop_environment == 'gnome'"
-
     ### XFCE settings
     - name: Apply XFCE settings
       xfconf:
