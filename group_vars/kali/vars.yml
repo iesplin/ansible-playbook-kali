@@ -93,9 +93,7 @@ vscode_extensions:
   - ms-python.python
   - ms-vscode.cpptools
   - ms-vscode.powershell
-  - rebornix.ruby
   # Markdown extensions
   - yzhang.markdown-all-in-one
-  - telesoho.vscode-markdown-paste-image
   # Utility extensions
-  - hookyqr.beautify
+  - esbenp.prettier-vscode
