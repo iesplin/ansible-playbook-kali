@@ -64,7 +64,6 @@ kali_tool_packages:
   - proxychains4
   - rlwrap
   - scite
-  - snmp-walk
 
 python_pip_packages:
   - bloodhound
