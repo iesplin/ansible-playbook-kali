@@ -13,27 +13,6 @@
     - ansible-role-keystone-engine
     - ansible-role-vscode
   tasks:
-    ### Install Pwntools ###
-    - name: Install Pwntools dependencies
-      apt:
-        name: "{{ pwntools_dep_packages }}"
-        state: present
-      vars:
-        pwntools_dep_packages:
-          - build-essential
-          - git
-          - libffi-dev
-          - libssl-dev
-          - python3-dev
-          - python3-pip
-          - python3-setuptools
-
-    - name: Pip install Pwntools
-      pip:
-        name: "git+https://github.com/Gallopsled/pwntools.git@dev"
-        executable: pip3
-        state: latest
-
     ### Clone projects from git repos ###
     # Various projects that are either not in Kali or are updated more frequently than Kali repos
     - name: Clone git repositories

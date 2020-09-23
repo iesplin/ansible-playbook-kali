@@ -70,6 +70,7 @@ python_pip_packages:
   - bloodhound
   - crackmapexec
   - mitm6
+  - pwntools
 
 ruby_gem_packages:
   - winrm
