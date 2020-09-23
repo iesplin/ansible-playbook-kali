@@ -35,36 +35,12 @@ git_repos:
 
 # Packages for OS
 kali_os_packages:
-  - apparmor
   - apt-transport-https
-  - build-essential
   - cmake
-  - default-mysql-client
-  - dnsutils
-  - docker.io
-  - docker-compose
-  - dos2unix
-  - expect
-  - fonts-hack-ttf
-  - golang
   - gufw
-  - keepassxc
-  - libffi-dev
+  - kali-linux-default
   - libssl-dev
-  - macchanger
-  - openresolv
-  - open-vm-tools-desktop
-  - php
-  - postgresql
-  - python3
-  - python3-dev
-  - python3-pip
-  - python3-setuptools
   - realtek-rtl88xxau-dkms
-  - ruby
-  - scite
-  - screen
-  - sqlite3
   - ufw
   - wireguard
   - xclip
@@ -72,67 +48,27 @@ kali_os_packages:
 
 # Tool packages to install
 kali_tool_packages:
-  - aircrack-ng
-  - amass
-  - apache2
   - bloodhound
-  - cadaver
-  - cewl
   - chromium
-  - crackmapexec
-  - creddump7
-  - dirb
-  - dnsrecon
-  - exe2hexbat
-  - exploitdb
   - eyewitness
-  - freerdp2-x11
   - gdb
   - gdbserver
   - gobuster
-  - gpp-decrypt
-  - hash-identifier
-  - hydra
-  - john
   - joplin
-  - masscan
-  - metasploit-framework
-  - nasm
+  - keepassxc
   - nbtscan-unixwiz
   - ncat
   - neo4j
-  - netcat-traditional
-  - netdiscover
-  - nikto
-  - nmap
-  - onesixtyone
   - parallel
-  - passing-the-hash
-  - patator
   - powershell
   - proxychains4
-  - python3-impacket
-  - responder
   - rlwrap
-  - smbclient
-  - smbmap
-  - socat
-  - sqlmap
-  - sslscan
-  - sslyze
-  - wafw00f
-  - webshells
-  - weevely
-  - wfuzz
-  - whatweb
-  - wifiphisher
-  - windows-binaries
-  - wireshark
-  - wpscan
-  - xtightvncviewer
+  - scite
+  - snmp-walk
 
 python_pip_packages:
   - bloodhound
+  - crackmapexec
   - mitm6
 
 ruby_gem_packages:
