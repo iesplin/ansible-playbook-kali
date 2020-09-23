@@ -136,6 +136,9 @@ python_pip_packages:
   - mitm6
 
 ruby_gem_packages:
+  - winrm
+  - winrm-fs
+  - stringio
   - evil-winrm
 
 kali_user: hacker
