@@ -1,13 +1,20 @@
 ---
 # Playbook for Kali
 
+## Deploy Burp Suite Pro Professional
+- hosts: burpsuite_pro
+  become: true
+  vars_files:
+    - config.yml
+  roles:
+    - ansible-role-burpsuite
+
 ## Deploy tools not in the Kali repositories
 - hosts: kali
   become: true
   vars_files:
     - config.yml
   roles:
-    - ansible-role-burpsuite
     - ansible-role-covenant
     - ansible-role-ghidra
     - ansible-role-keystone-engine
