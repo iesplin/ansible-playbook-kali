@@ -48,4 +48,5 @@
       gem:
         name: "{{ item }}"
         state: latest
+        user_install: false
       loop: "{{ ruby_gem_packages }}"
