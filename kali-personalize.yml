@@ -49,7 +49,7 @@
     ### Firefox personalization ###
     - name: Set firefox_default_profile_dir fact
       set_fact:
-        firefox_default_profile_dir: "{{ kali_user_homedir }}/.mozilla/firefox/hacker.firefox-esr"
+        firefox_default_profile_dir: "{{ kali_user_homedir }}/.mozilla/firefox/hacker.default-esr"
 
     - name: Check if Firefox profile exists
       stat:
@@ -60,59 +60,41 @@
       command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
       when: not firefox_profile.stat.exists
 
-    - name: Copy Firefox desktop file
+    - name: Copy Firefox ini files
       copy:
-        src: files/firefox/hacker-firefox-esr.desktop
-        dest: "{{ kali_user_homedir }}/.local/share/applications/hacker-firefox-esr.desktop"
+        src: "files/firefox/{{ item }}"
+        dest: "{{ kali_user_homedir }}/.mozilla/firefox/{{ item }}"
         mode: 0640
+      loop:
+        - installs.ini
+        - profiles.ini
 
-    - name: Create temporary directory
-      tempfile:
-        state: directory
-        suffix: firefox
-      register: firefox_tempdir
-      changed_when: false
-
-    - name: Create temporary file
-      tempfile:
-        state: file
-        suffix: user.js
-      register: firefox_temp_userjs
-      changed_when: false
-
-    - name: Copy user.js for Firefox user preferences
-      copy:
-        src: files/firefox/user.js
-        dest: "{{ firefox_tempdir.path }}/kali.js"
-      changed_when: false
-
-    - name: Copy user.js from quieter-firefox
+    - name: Copy user.js from quieter-firefox to user.js.tmp
       copy:
         src: /opt/quieter-firefox/user.js
-        dest: "{{ firefox_tempdir.path }}/quieter.js"
+        dest: "{{ firefox_default_profile_dir }}/user.js.tmp"
         remote_src: true
       changed_when: false
 
-    - name: Assemble from fragments from a directory
-      assemble:
-        src: "{{ firefox_tempdir.path }}"
-        dest: "{{ firefox_temp_userjs.path }}"
+    - name: Add additional customizations to user.js.tmp
+      blockinfile:
+        path: "{{ firefox_default_profile_dir }}/user.js.tmp"
+        marker: "// {mark} ANSIBLE MANAGED BLOCK"
+        insertbefore: BOF
+        block: "{{ lookup('file', 'files/firefox/user.js') }}"
       changed_when: false
 
-    - name: Copy user.js from quieter-firefox
+    - name: Copy user.js.tmp to user.js
       copy:
-        src: "{{ firefox_temp_userjs.path }}"
+        src: "{{ firefox_default_profile_dir }}/user.js.tmp"
         dest: "{{ firefox_default_profile_dir }}/user.js"
+        mode: 0644
         remote_src: true
-        mode: 0640
 
-    - name: Delete temp dir and file
+    - name: Delete user.js.tmp
       file:
-        path: "{{ item }}"
+        path: "{{ firefox_default_profile_dir }}/user.js.tmp"
         state: absent
-      loop:
-        - "{{ firefox_tempdir.path }}"
-        - "{{ firefox_temp_userjs.path }}"
       changed_when: false
 
     ### SciTE user properties ###
