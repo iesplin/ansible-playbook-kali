@@ -111,4 +111,20 @@
       loop:
         - "position.width=$(scale 1024)"
         - "position.height=$(scale 768)"
-      
+
+    ### Resolvconf for WireGuard ###
+
+    # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939904
+    - name: Symlink resolvconf to resolvectl
+      file:
+        src: /usr/bin/resolvectl
+        dest: /usr/local/bin/resolvconf
+        state: link
+        owner: root
+        group: root
+
+    - name: Enable systemd-resolved.service
+      systemd:
+        name: systemd-resolved.service
+        state: started
+        enabled: true
