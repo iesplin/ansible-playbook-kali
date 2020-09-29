@@ -113,7 +113,6 @@
         - "position.height=$(scale 768)"
 
     ### Resolvconf for WireGuard ###
-
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939904
     - name: Symlink resolvconf to resolvectl
       file:
