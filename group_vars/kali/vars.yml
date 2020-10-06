@@ -152,6 +152,8 @@ kali_os_packages:
   - unzip
   - vim
   - virtualenvwrapper
+  - virtualbox
+  - virtualbox-guest-additions-iso
   - vlc
   - wireshark
   - xinput
