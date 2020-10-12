@@ -19,7 +19,6 @@ xfce_settings:
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
-  - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
   - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }
 
 # Git repositories to clone to /opt
