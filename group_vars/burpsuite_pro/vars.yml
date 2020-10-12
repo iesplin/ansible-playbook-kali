@@ -1,4 +1,4 @@
 --- 
 # Burp Suite Pro settings
 burpsuite_product_type: pro
-burpsuite_extras_pro_license_path: "{{ burpsuite_installer_dir }}/burp_suite_pro_license.txt"
+burpsuite_extras_pro_license_path: "{{ burpsuite_installer_dir }}/burpsuite_pro_license.txt"
