@@ -56,6 +56,7 @@ kali_tool_packages:
   - gobuster
   - joplin
   - keepassxc
+  - libreoffice
   - nbtscan-unixwiz
   - ncat
   - neo4j
