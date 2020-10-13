@@ -119,11 +119,16 @@
         src: /usr/bin/resolvectl
         dest: /usr/local/bin/resolvconf
         state: link
-        owner: root
-        group: root
 
     - name: Enable systemd-resolved.service
       systemd:
         name: systemd-resolved.service
         state: started
         enabled: true
+
+    ### John the Ripper ###
+    - name: Create link for john so it is found in the user's path
+      file:
+        src: /usr/sbin/john
+        dest: /usr/local/bin/john
+        state: link
