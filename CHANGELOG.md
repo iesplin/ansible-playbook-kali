@@ -1,5 +1,18 @@
 # Changelog
 
+## 2020.10.13
+
+### Changed
+
+- John: create symlink for john so that is is found in the user's path.
+- xfwm: Revert vblank_mode change as there is still some occassional flickering.
+
+## 2020.10.12
+
+### Changed
+
+- xfwm: use default vblank_mode
+
 ## 2020.09.24
 
 ### Changed:
