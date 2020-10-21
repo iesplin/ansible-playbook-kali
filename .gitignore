@@ -6,3 +6,6 @@
 
 # Virtualenv
 .venv
+
+# config
+config.yml

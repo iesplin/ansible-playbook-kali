@@ -4,8 +4,6 @@
 ## Deploy tools not in the Kali repositories
 - hosts: kali
   become: true
-  vars_files:
-    - config.yml
   roles:
     - ansible-role-burpsuite
     - ansible-role-covenant

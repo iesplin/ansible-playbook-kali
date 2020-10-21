@@ -3,6 +3,7 @@
 burpsuite_dir: "/opt/BurpSuite{{ burpsuite_product_type | capitalize }}"
 burpsuite_extras_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: /opt/BurpSuiteExtras
+burpsuite_extras_pro_license_path: "{{ burpsuite_installer_dir }}/burpsuite_pro_license.txt"
 burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
 burpsuite_user: "{{ kali_user }}"
 

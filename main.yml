@@ -5,30 +5,33 @@
     burpsuite_products_map:
       - { name: Burp Suite Community, alias: community }
       - { name: Burp Suite Professional, alias: pro }
-  vars_files:
-    - config.yml
   tasks:
-    - name: Burp Suite prompt
-      pause:
-        prompt: |
-          What Burp Suite product would you like to install?
-            {% for p in burpsuite_products_map %}
-            {{ loop.index }}. {{ p['name'] }}
-            {% endfor %}
+    - name: Load config.yml if it exists
+      include_vars: "{{ item }}"
+      vars:
+        params:
+          files:
+            - config.yml
+          skip: true
+      loop: 
+        - "{{ lookup('first_found', params) }}"
 
-          Enter the number for the product
-      register: burpsuite_choice
-      when: (burpsuite_product is undefined) or (burpsuite_product is none) or (burpsuite_product | trim == "")
+    - block:
+        - name: Burp Suite edition prompt
+          pause:
+            prompt: |
+              What Burp Suite product would you like to install?
+                {% for p in burpsuite_products_map %}
+                {{ loop.index }}. {{ p['name'] }}
+                {% endfor %}
 
-    - name: Set facts based on the input
-      set_fact:
-        burpsuite_group: "{{ burpsuite_product | default(burpsuite_products_map[burpsuite_choice.user_input|default(omit)|int - 1]['alias']) }}"
+              Enter the number for the product
+          register: _burpsuite_choice
 
-    - name: Add localhost to the selected Burp Suite product group
-      add_host:
-        name: localhost
-        groups: "burpsuite_{{ burpsuite_group }}"
-      changed_when: false
+        - name: Set fact
+          set_fact:
+            burpsuite_product_type: "{{ burpsuite_products_map[_burpsuite_choice.user_input|default(omit)|int - 1]['alias'] }}"
+      when: burpsuite_product_type is undefined
 
     - name: Save config
       template:
@@ -36,6 +39,11 @@
         dest: ./config.yml
         mode: 0600
       delegate_to: localhost
+
+    - name: Set cacheable facts
+      set_fact:
+        burpsuite_product_type: "{{ burpsuite_product_type }}"
+        cacheable: true
 
 - name: Include Kali packages playbook
   import_playbook: kali-packages.yml
