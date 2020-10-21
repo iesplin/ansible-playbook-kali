@@ -1,5 +1,12 @@
 # Changelog
 
+## 2020.10.21
+
+### Changed
+
+- No more hard-coding the kali_user variable. Instead, automatically set it to the user that ran the playbook.
+- Cleaned up configuration to be less awful.
+
 ## 2020.10.13
 
 ### Changed
