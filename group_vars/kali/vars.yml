@@ -166,7 +166,7 @@ kali_tool_packages:
   - amass
   - bloodhound
   - bloodhound
-  - chromium
+  - chromium-bsu
   - crackmapexec
   - exiftool
   - exploitdb
