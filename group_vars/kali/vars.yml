@@ -9,7 +9,7 @@ burpsuite_user: "{{ kali_user }}"
 # Gnome settings
 gnome_settings:
 ## Theme
-  - { schema: "org.gnome.desktop.background", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-logo.xml'" }
+  - { schema: "org.gnome.desktop.background", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-geometric.xml'" }
   - { schema: "org.gnome.desktop.background", path: "picture-options", key: "'zoom'" }
   - { schema: "org.gnome.desktop.interface", path: "gtk-theme", key: "'Kali-Dark'" }
   - { schema: "org.gnome.desktop.interface", path: "icon-theme", key: "'Flat-Remix-Blue-Dark'" }
