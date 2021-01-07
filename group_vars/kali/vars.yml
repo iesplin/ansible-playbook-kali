@@ -226,7 +226,7 @@ misc_downloads:
     dest: /opt/pspy/pspy64s
     mode: "0755"
   - url: https://github.com/NetSPI/goddi/releases/download/v1.2/goddi-linux-amd64
-    dest: /opt/Goddi/goddi-linux-amd64
+    dest: /opt/goddi-git/goddi-linux-amd64
     mode: "0755"
 
 # Extensions for VS Code
