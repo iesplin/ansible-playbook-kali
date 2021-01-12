@@ -6,15 +6,14 @@
       - { name: Burp Suite Community, alias: community }
       - { name: Burp Suite Professional, alias: pro }
   tasks:
-    - name: Load config.yml if it exists
-      include_vars: "{{ item }}"
-      vars:
-        params:
-          files:
-            - config.yml
-          skip: true
-      loop: 
-        - "{{ lookup('first_found', params) }}"
+    - name: Check if config.yml exists
+      stat:
+        path: config.yml
+      register: config_yml
+
+    - name: Load config.yml
+      include_vars: config.yml
+      when: config_yml.stat.exists
 
     - block:
         - name: Burp Suite edition prompt
