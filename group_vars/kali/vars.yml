@@ -50,8 +50,8 @@ kali_os_packages:
 # Tool packages to install
 kali_tool_packages:
   - bloodhound
-  - chromium
   - eyewitness
+  - ffuf
   - gdb
   - gdbserver
   - gobuster
@@ -69,7 +69,6 @@ kali_tool_packages:
 
 python_pip_packages:
   - bloodhound
-  - crackmapexec
   - mitm6
   - pwntools
 
@@ -96,7 +95,5 @@ vscode_extensions:
   - ms-python.python
   - ms-vscode.cpptools
   - ms-vscode.powershell
-  # Markdown extensions
-  - yzhang.markdown-all-in-one
   # Utility extensions
   - esbenp.prettier-vscode
