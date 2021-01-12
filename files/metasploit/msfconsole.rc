@@ -1,2 +1,2 @@
 setg prompt [%T] %L (s:%S j:%J)
-spool ~/.CMD_LOG/msf-console.log
+spool /home/dts/.CMD_LOG/msf-console.log
