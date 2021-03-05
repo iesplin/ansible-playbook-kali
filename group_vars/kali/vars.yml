@@ -100,6 +100,8 @@ git_repos:
   - name: testssl
     repo: https://github.com/drwetter/testssl.sh.git
     version: 3.1dev
+  - name: privexchange
+    repo: https://github.com/dirkjanm/PrivExchange.git
 
 # Packages for OS
 kali_os_packages:
