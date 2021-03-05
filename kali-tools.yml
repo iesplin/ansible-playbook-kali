@@ -91,13 +91,13 @@
 
     - name: Download and unarchive CyberChef
       unarchive:
-        src: https://github.com/gchq/CyberChef/releases/download/v9.21.0/CyberChef_v9.21.0.zip
+        src: https://github.com/gchq/CyberChef/releases/download/v9.27.6/CyberChef_v9.27.6.zip
         dest: /var/www/html/cyberchef/
         remote_src: yes
 
     - name: Create a symbolic link - CyberChef
       file:
-        src: /var/www/html/cyberchef/CyberChef_v9.21.0.html
+        src: /var/www/html/cyberchef/CyberChef_v9.27.6.html
         dest: /var/www/html/cyberchef.htm
         owner: root
         group: root
