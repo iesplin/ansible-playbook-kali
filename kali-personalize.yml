@@ -14,13 +14,15 @@
       set_fact:
         kali_desktop_environment: "{{ lookup('env','XDG_CURRENT_DESKTOP') | lower }}"
 
-    - name: Ensure local applications directory exists
+    - name: Ensure local directories exist
       file:
-        path: "{{ kali_user_homedir }}/.local/share/applications"
+        path: "{{ kali_user_homedir }}/{{ item }}"
         state: directory
         owner: "{{ kali_user }}"
         group: "{{ kali_user }}"
         mode: 0750
+      loop:
+        - ".local/bin"
 
     ### XFCE settings
     - name: Apply XFCE settings
@@ -31,13 +33,6 @@
         value: "{{ item.value }}"
       loop: "{{ xfce_settings }}"
       when: "kali_desktop_environment == 'xfce'"
-
-    ### QTerminal
-    - name: Configure QTerminal transparency
-      lineinfile:
-        path: "{{ kali_user_homedir }}/.config/qterminal.org/qterminal.ini"
-        regexp: "^ApplicationTransparency="
-        line: "ApplicationTransparency=0"
 
     ### Configure tmux ###
     - name: Copy tmux config
@@ -132,14 +127,6 @@
         repo: "https://github.com/hugsy/gef.git"
         dest: "{{ kali_user_homedir }}/gef"
         force: true
-
-    - name: Install optional modules for GEF
-      pip:
-        name:
-          - capstone
-          - ropper
-          - unicorn
-        executable: pip3
 
     - name: Copy gdb user properties
       copy:

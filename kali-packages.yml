@@ -5,6 +5,17 @@
 - hosts: kali
   become: true
   tasks:
+    - name: Ensure apt-transport-https package is installed
+      apt:
+        name: apt-transport-https
+        state: present
+    
+    - name: Configure sources.list to use HTTPS
+      replace:
+        path: /etc/apt/sources.list
+        regexp: '^(deb\s+)http(://http.kali.org/kali.*)$'
+        replace: '\1https\2'
+
     - name: Update all packages to the latest version
       apt:
         update_cache: true
@@ -17,18 +28,11 @@
         value: 'true'
         vtype: boolean 
 
-    - name: Install OS packages
+    - name: Install Kali packages
       apt:
-        name: "{{ kali_os_packages }}"
+        name: "{{ kali_packages }}"
         state: present
     
-    - name: Install tool packages
-      apt:
-        name: "{{ kali_tool_packages }}"
-        state: present
-      environment:
-        RUNLEVEL: 1
-
     - name: Remove unnecessary packages
       apt:
         autoremove: true

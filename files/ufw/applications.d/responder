@@ -1,0 +1,4 @@
+[responder]
+title=Responder
+description=Responder for NetBIOS/LLMNR/WPAD poisoning
+ports=21/tcp|25/tcp|53|80/tcp|88|110/tcp|137:138/udp|139/tcp|143/tcp|389/tcp|443/tcp|445/tcp|587/tcp|1433/tcp|1434/udp|3389/tcp|5353/udp|5355/udp|9090/tcp|9389/tcp

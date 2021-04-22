@@ -31,46 +31,50 @@ git_repos:
     repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
   - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
-  - name: SecLists
-    repo: https://github.com/danielmiessler/SecLists.git
 
-# Packages for OS
-kali_os_packages:
-  - apt-transport-https
-  - cmake
-  - gufw
-  - kali-linux-default
-  - libssl-dev
-  - realtek-rtl88xxau-dkms
-  - ufw
-  - wireguard
-  - xclip
-  - xsel
-
-# Tool packages to install
-kali_tool_packages:
+kali_packages:
+  - awscli
+  - azure-cli
   - bloodhound
+  - cmake
+  - docker.io
+  - docker-compose
   - eyewitness
   - ffuf
   - gdb
   - gdbserver
   - gobuster
-  - joplin
+  - gufw
+  - jq
+  - kali-linux-default
   - keepassxc
   - libreoffice
+  - libssl-dev
   - nbtscan-unixwiz
   - ncat
   - neo4j
   - parallel
   - powershell
   - proxychains4
+  - realtek-rtl88xxau-dkms
   - rlwrap
+  - seclists
   - scite
+  - ufw
+  - wireguard
+  - xclip
+  - xsel
 
 python_pip_packages:
   - bloodhound
+  - capstone
   - mitm6
+  - pipenv
+  - poetry
   - pwntools
+  - roadrecon
+  - ropper
+  - unicorn
 
 ruby_gem_packages:
   - winrm
@@ -88,6 +92,9 @@ misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s
     dest: /opt/pspy/pspy64s
     mode: "0755"
+
+ufw_application_profiles:
+  - responder
 
 # Extensions for VS Code
 vscode_extensions:

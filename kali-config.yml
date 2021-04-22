@@ -12,6 +12,15 @@
         direction: incoming
         default: reject
 
+    - name: Copy application profiles
+      copy:
+        src: "ufw/applications.d/{{ item }}"
+        dest: "/etc/ufw/applications.d/{{ item }}"
+        owner: root
+        group: root
+        mode: "0644"
+      loop: "{{ ufw_application_profiles }}"
+
     ## AppArmor ###
     - name: Enable AppArmor
       systemd:
@@ -125,10 +134,3 @@
         name: systemd-resolved.service
         state: started
         enabled: true
-
-    ### John the Ripper ###
-    - name: Create link for john so it is found in the user's path
-      file:
-        src: /usr/sbin/john
-        dest: /usr/local/bin/john
-        state: link
