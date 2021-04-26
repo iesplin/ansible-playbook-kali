@@ -24,6 +24,10 @@
       set_fact:
         burpsuite_group: "{{ burpsuite_product | default(burpsuite_products_map[burpsuite_choice.user_input|default(omit)|int - 1]['alias']) }}"
 
+    - debug:
+    msg: "Put burp_suite_pro_license.txt and burpsuite_pro_linux_v*.sh in {{ burpsuite_installer_dir }}"
+    when: burpsuite_product is pro
+
     - name: Add localhost to the selected Burp Suite product group
       add_host:
         name: localhost
