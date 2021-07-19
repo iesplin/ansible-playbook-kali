@@ -6,130 +6,92 @@
   become: true
   become_user: "{{ kali_user }}"
   tasks:
-    - name: Set home directory fact
-      set_fact:
-        kali_user_homedir: "{{ lookup('env','HOME') }}"
-
-    - name: Set desktop environment fact
-      set_fact:
-        kali_desktop_environment: "{{ lookup('env','XDG_CURRENT_DESKTOP') | lower }}"
-
     - name: Ensure local directories exist
-      file:
-        path: "{{ kali_user_homedir }}/{{ item }}"
+      ansible.builtin.file:
+        path: "{{ kali_user_details.home }}/{{ item }}"
         state: directory
         owner: "{{ kali_user }}"
-        group: "{{ kali_user }}"
+        group: "{{ kali_user_details.group }}"
         mode: 0750
       loop:
         - ".local/bin"
 
-    ### XFCE settings
+    # XFCE settings
     - name: Apply XFCE settings
-      xfconf:
+      community.general.xfconf:
         channel: "{{ item.channel }}"
         property: "{{ item.property }}"
         value_type: "{{ item.type }}"
         value: "{{ item.value }}"
       loop: "{{ xfce_settings }}"
-      when: "kali_desktop_environment == 'xfce'"
 
-    ### Configure tmux ###
+    # tmux
     - name: Copy tmux config
-      copy:
+      ansible.builtin.copy:
         src: "files/tmux/.tmux.conf"
-        dest: "{{ kali_user_homedir }}/.tmux.conf"
+        dest: "{{ kali_user_details.home }}/.tmux.conf"
         mode: 0640
 
-    ### Firefox personalization ###
+    # Firefox personalization
     - name: Set firefox_default_profile_dir fact
-      set_fact:
-        firefox_default_profile_dir: "{{ kali_user_homedir }}/.mozilla/firefox/hacker.default-esr"
+      ansible.builtin.set_fact:
+        firefox_default_profile_dir: "{{ kali_user_details.home }}/.mozilla/firefox/hacker.default-esr"
 
     - name: Check if Firefox profile exists
-      stat:
+      ansible.builtin.stat:
         path: "{{ firefox_default_profile_dir }}"
       register: firefox_profile
 
     - name: Create FireFox default profile
-      command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
+      ansible.builtin.command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
       when: not firefox_profile.stat.exists
 
     - name: Copy Firefox ini files
-      copy:
+      ansible.builtin.copy:
         src: "files/firefox/{{ item }}"
-        dest: "{{ kali_user_homedir }}/.mozilla/firefox/{{ item }}"
+        dest: "{{ kali_user_details.home }}/.mozilla/firefox/{{ item }}"
         mode: 0640
       loop:
         - installs.ini
         - profiles.ini
 
-    - name: Copy user.js from quieter-firefox to user.js.tmp
-      copy:
+    - name: Copy user.js from quieter-firefox
+      ansible.builtin.copy:
         src: /opt/quieter-firefox/user.js
-        dest: "{{ firefox_default_profile_dir }}/user.js.tmp"
-        remote_src: true
-      changed_when: false
-
-    - name: Add additional customizations to user.js.tmp
-      blockinfile:
-        path: "{{ firefox_default_profile_dir }}/user.js.tmp"
-        marker: "// {mark} ANSIBLE MANAGED BLOCK"
-        insertbefore: BOF
-        block: "{{ lookup('file', 'files/firefox/user.js') }}"
-      changed_when: false
-
-    - name: Copy user.js.tmp to user.js
-      copy:
-        src: "{{ firefox_default_profile_dir }}/user.js.tmp"
         dest: "{{ firefox_default_profile_dir }}/user.js"
-        mode: 0644
         remote_src: true
 
-    - name: Delete user.js.tmp
-      file:
-        path: "{{ firefox_default_profile_dir }}/user.js.tmp"
-        state: absent
-      changed_when: false
-
-    ### SciTE user properties ###
-    - name: Copy SciTE user properties
-      copy:
-        src: "files/scite/.SciTEUser.properties"
-        dest: "{{ kali_user_homedir }}/.SciTEUser.properties"
-        mode: 0640
-
-    ### VS Code ###
+    # VS Code
     - name: Ensure VS Code user directories exist
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
         mode: 0700
       loop:
-        - "{{ kali_user_homedir }}/.config/Code/User"
-        - "{{ kali_user_homedir }}/.vscode"
+        - "{{ kali_user_details.home }}/.config/Code/User"
+        - "{{ kali_user_details.home }}/.vscode"
 
     - name: Copy VS Code settings
-      copy:
+      ansible.builtin.copy:
         src: files/vscode/settings.json
-        dest: "{{ kali_user_homedir }}/.config/Code/User/settings.json"
+        dest: "{{ kali_user_details.home }}/.config/Code/User/settings.json"
         mode: 0640
 
     - name: Install VS Code extensions
-      command: "code --user-data-dir ~/.vscode --install-extension {{ item }}"
+      ansible.builtin.command: "code --user-data-dir ~/.vscode --install-extension {{ item }}"
       loop: "{{ vscode_extensions | default([]) }}"
       register: vscode_install_extension_result
       changed_when: "'successfully installed' in vscode_install_extension_result.stdout"
 
-    ### GDB ###
+    # GDB
     - name: Clone GEF repo
-      git:
+      ansible.builtin.git:
         repo: "https://github.com/hugsy/gef.git"
-        dest: "{{ kali_user_homedir }}/gef"
+        dest: "{{ kali_user_details.home }}/gef"
         force: true
 
     - name: Copy gdb user properties
-      copy:
+      ansible.builtin.copy:
         src: "files/gdb/.gdbinit"
-        dest: "{{ kali_user_homedir }}/.gdbinit"
+        dest: "{{ kali_user_details.home }}/.gdbinit"
         mode: 0640

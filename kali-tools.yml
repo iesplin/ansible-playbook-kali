@@ -1,29 +1,41 @@
 ---
 # Playbook for Kali
 
-## Deploy tools not in the Kali repositories
+# Deploy tools not found in the Kali repositories
 - hosts: kali
   become: true
-  roles:
-    - ansible-role-burpsuite
-#    - ansible-role-covenant
-    - ansible-role-ghidra
-    - ansible-role-keystone-engine
-    - ansible-role-vscode
   tasks:
-    ### Clone projects from git repos ###
-    # Various projects that are either not in Kali or are updated more frequently than Kali repos
+    - name: Install Burp Suite
+      ansible.builtin.include_role:
+        name: "ansible-role-burpsuite"
+
+    - name: Create .burpsuitepro_licensed after successful Pro install
+      ansible.builtin.file:
+        path: "{{ kali_user_details.home }}/.burpsuitepro_licensed"
+        state: touch
+      when: 'burpsuite_product_type == "pro"'
+
+    - name: Install Keystone Engine
+      ansible.builtin.include_role:
+        name: "ansible-role-keystone-engine"
+
+    - name: Install MS Visual Studio Code
+      ansible.builtin.include_role:
+        name: "ansible-role-vscode"
+
+    # Clone git repos
     - name: Clone git repositories
-      git:
+      ansible.builtin.git:
         repo: "{{ item.repo }}"
         dest: "/opt/{{ item.name }}"
         version: "{{ item.version | default('master') }}"
+        depth: 1
         force: true
       loop: "{{ git_repos | flatten(levels=1) }}"
 
-    ### Miscellaneous tools ###
+    # Miscellaneous tools
     - name: Ensure destination directory exists
-      file:
+      ansible.builtin.file:
         dest: "{{ item.dest | dirname }}"
         state: directory
         owner: root
@@ -32,7 +44,7 @@
       loop: "{{ misc_downloads }}"
             
     - name: Download files
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ item.url }}"
         dest: "{{ item.dest }}"
         owner: root

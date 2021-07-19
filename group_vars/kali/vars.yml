@@ -1,32 +1,12 @@
 ---
 # Burp Suite settings
-burpsuite_dir: "/opt/BurpSuite{{ burpsuite_product_type | capitalize }}"
-burpsuite_extras_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
-burpsuite_extras_dir: /opt/BurpSuiteExtras
-burpsuite_extras_pro_license_path: "{{ burpsuite_installer_dir }}/burpsuite_pro_license.txt"
-burpsuite_installer_dir: "/home/{{ kali_user }}/Downloads"
+burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
+burpsuite_extras_dir: "/home/{{ kali_user }}/BurpSuiteExtras"
 burpsuite_user: "{{ kali_user }}"
 
-# XFCE settings
-xfce_settings:
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "int", value: "14" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "int", value: "1" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
-  - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
-  - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }
-
 # Git repositories to clone to /opt
+# Various projects that are either not in Kali or are updated more frequently than Kali repos
 git_repos:
-  - name: PayloadsAllTheThings
-    repo: https://github.com/swisskyrepo/PayloadsAllTheThings.git
   - name: privilege-escalation-awesome-scripts-suite
     repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
   - name: quieter-firefox
@@ -37,12 +17,13 @@ kali_packages:
   - azure-cli
   - bloodhound
   - cmake
+  - covenant-kbx
   - docker.io
   - docker-compose
   - eyewitness
-  - ffuf
   - gdb
   - gdbserver
+  - ghidra
   - gobuster
   - gufw
   - jq
@@ -54,8 +35,7 @@ kali_packages:
   - ncat
   - neo4j
   - parallel
-  - powershell
-  - proxychains4
+  - payloadsallthethings
   - realtek-rtl88xxau-dkms
   - rlwrap
   - seclists
@@ -64,6 +44,17 @@ kali_packages:
   - wireguard
   - xclip
   - xsel
+
+# Set as the user account that runs the ansible playbook
+kali_user: "{{ lookup('env','USER') }}"
+
+misc_downloads:
+  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
+    dest: /opt/pspy/pspy64
+    mode: "0755"
+  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s
+    dest: /opt/pspy/pspy64s
+    mode: "0755"
 
 python_pip_packages:
   - bloodhound
@@ -82,17 +73,6 @@ ruby_gem_packages:
   - stringio
   - evil-winrm
 
-# Set as the user account that runs the ansible playbook
-kali_user: "{{ lookup('env','USER') }}"
-
-misc_downloads:
-  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
-    dest: /opt/pspy/pspy64
-    mode: "0755"
-  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s
-    dest: /opt/pspy/pspy64s
-    mode: "0755"
-
 ufw_application_profiles:
   - responder
 
@@ -104,3 +84,19 @@ vscode_extensions:
   - ms-vscode.powershell
   # Utility extensions
   - esbenp.prettier-vscode
+
+# XFCE settings
+xfce_settings:
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "int", value: "14" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "int", value: "1" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
+  - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
+  - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }

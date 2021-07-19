@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+import argparse
+import re
+import socket
+import sys
+
+systems = {}
+COLOUR_PATTERN=r"\u001B\[\d+m"
+SMB_PATTERN=r"^\w+\s+(\d+\.\d+\.\d+\.\d+\d+)\s+.*$"
+
+def getKey(line):
+    line = re.sub(COLOUR_PATTERN, "", line)
+    m = re.search(SMB_PATTERN, line)
+    return m.group(1)
+
+
+def parse(args):
+    file = args.file
+    try:
+        with open(file) as cme_log:
+            lines = cme_log.readlines()
+
+        # Assign lines to dictionary of systems
+        for line in lines:
+            line = line.rstrip()
+            key = getKey(line)
+            if key not in systems:
+                systems[key] = []
+            if args.no_colour:
+                line = re.sub(COLOUR_PATTERN, "", line)
+            systems[key].append(line)
+
+        # Read lines from dictionary
+        for key, values in sorted(systems.items(), key=lambda x: socket.inet_aton(x[0])):
+            for line in values:
+                print(line)
+    except FileNotFoundError:
+        print("Error: File {} not found".format(file))
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Process CrackMapExec output")
+    parser.add_argument("file", type=str, help="File containing CrackMapExec output")
+    parser.add_argument("--no-colour", action="store_true", help="Output without colour")
+    args = parser.parse_args()
+    parse(args)

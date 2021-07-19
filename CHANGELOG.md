@@ -1,5 +1,15 @@
 # Changelog
 
+## 2021.07.19
+
+- Changed: Updated for Ansible 2.10
+- Changed: Cleaned up Kali packages
+- Changed: Install Ghidra via Kali package
+- Changed: Install PayloadsAllTheThings via Kali package
+- Added: Prompt for Burp Suite Pro license key instead of using a file
+- Added: Install Covenant C2 (covenant-kbx) via Kali package
+- Removed: SciTE
+
 ## 2021.04.21
 
 - Use HTTPS for Kali repository

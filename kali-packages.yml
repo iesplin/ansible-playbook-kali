@@ -1,55 +1,51 @@
 ---
 # Playbook for Kali
 
-## Update Kali and deploy packages
+# Update Kali and deploy packages
 - hosts: kali
   become: true
   tasks:
+    - name: Update apt package lists
+      ansible.builtin.apt:
+        update_cache: true
+
     - name: Ensure apt-transport-https package is installed
-      apt:
+      ansible.builtin.apt:
         name: apt-transport-https
         state: present
     
     - name: Configure sources.list to use HTTPS
-      replace:
+      ansible.builtin.replace:
         path: /etc/apt/sources.list
         regexp: '^(deb\s+)http(://http.kali.org/kali.*)$'
         replace: '\1https\2'
 
     - name: Update all packages to the latest version
-      apt:
-        update_cache: true
+      ansible.builtin.apt:
         upgrade: safe
 
-    - name: Enable Wireshark setuid debconf selection
-      debconf:
-        name: wireshark
-        question: wireshark-common/install-setuid
-        value: 'true'
-        vtype: boolean 
-
     - name: Install Kali packages
-      apt:
+      ansible.builtin.apt:
         name: "{{ kali_packages }}"
         state: present
     
     - name: Remove unnecessary packages
-      apt:
+      ansible.builtin.apt:
         autoremove: true
 
     - name: Clean apt cache
-      apt:
+      ansible.builtin.apt:
         autoclean: true
 
     - name: Install Python Pip Packages
-      pip:
+      ansible.builtin.pip:
         name: "{{ item }}"
         state: latest
         executable: pip3
       loop: "{{ python_pip_packages }}"
 
     - name: Install Ruby Gem Packages
-      gem:
+      community.general.gem:
         name: "{{ item }}"
         state: latest
         user_install: false
