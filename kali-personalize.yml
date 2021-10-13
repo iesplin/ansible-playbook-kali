@@ -43,7 +43,7 @@
       register: firefox_profile
 
     - name: Create FireFox default profile
-      ansible.builtin.command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
+      ansible.builtin.command: "firefox-esr -headless -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
       when: not firefox_profile.stat.exists
 
     - name: Copy Firefox ini files
