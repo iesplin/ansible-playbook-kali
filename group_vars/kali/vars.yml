@@ -152,6 +152,7 @@ kali_os_packages:
   - tmux
   - ufw
   - unzip
+  - uuid-runtime
   - vim
   - virtualenvwrapper
   - virtualbox
