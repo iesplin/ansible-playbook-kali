@@ -117,6 +117,7 @@ kali_os_packages:
   - docker-compose
   - docker.io
   - dpkg-dev
+  - free2rdp-x11
   - g++
   - gcc
   - gcc
@@ -149,6 +150,7 @@ kali_os_packages:
   - php-cli
   - php-curl
   - python-dev
+  - remmina
   - tmux
   - ufw
   - unzip
