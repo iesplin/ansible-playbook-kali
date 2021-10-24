@@ -49,7 +49,7 @@
         dest: "{{ item.dest }}"
         owner: root
         group: root
-        mode: "{{ item.mode | default(0644) }}"
+        mode: "0755"
       loop: "{{ misc_downloads }}"
 
     ### Sublime-Text ###

@@ -156,19 +156,14 @@ kali_user: "{{ lookup('env','USER') }}"
 misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
     dest: /opt/pspy/pspy64
-    mode: "0755"
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s
     dest: /opt/pspy/pspy64s
-    mode: "0755"
   - url: https://github.com/NetSPI/goddi/releases/download/v1.2/goddi-linux-amd64
     dest: /opt/goddi-git/goddi-linux-amd64
-    mode: "0755"
   - url: https://github.com/jpillora/chisel/releases/download/v1.7.6/chisel_1.7.6_linux_amd64.gz
     dest: /opt/chisel-git/chisel_1.7.6_linux_amd64.gz
-    mode: "0755"
   - url: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb
     dest: /opt/veracrypt/veracrypt-1.24-Update7-Ubuntu-20.04-amd64.deb
-    mode: "0755"
 
 # Extensions for VS Code
 vscode_extensions:
