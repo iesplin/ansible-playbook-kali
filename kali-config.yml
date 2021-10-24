@@ -6,11 +6,11 @@
   become: true
   tasks:
     ### Configure UFW Firewall ###
-    - name: Block inbound traffic
-      ufw:
-        state: enabled
-        direction: incoming
-        default: reject
+    # - name: Block inbound traffic
+    #   ufw:
+    #     state: enabled
+    #     direction: incoming
+    #     default: reject
 
     ## AppArmor ###
     # - name: Enable AppArmor
@@ -36,7 +36,7 @@
     # Updates to be applied manually as we don't want these being
     # applied during a network test.
     - name: Disable apt systemd timers
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ item }}"
         state: stopped
         enabled: false
@@ -45,7 +45,7 @@
         - apt-daily-upgrade.timer
 
     - name: Prevent apt services from running
-      systemd:
+      ansible.builtin.systemd:
         name: "{{ item }}"
         masked: true
       loop:
@@ -53,7 +53,7 @@
         - apt-daily-upgrade.service
 
     - name: Disable apt periodic updates
-      template:
+      ansible.builtin.template:
         src: templates/apt/10periodic.j2
         dest: /etc/apt/apt.conf.d/10periodic
         owner: root
@@ -62,24 +62,24 @@
 
     ### Configure Metasploit ###
     - name: Enable Postgresql service
-      service:
-        name: postgresql
+      ansible.builtin.systemd:
+        name: postgresql.service
         state: started
         enabled: true
 
     - name: Check msfdb status
-      command: msfdb status
+      ansible.builtin.command: msfdb status
       register: msfdb_status
       changed_when: false
 
     - name: Initialize msfdb
-      command: msfdb init
+      ansible.builtin.command: msfdb init
       when: "'No configuration file found' in msfdb_status.stdout"
 
     ### OpenSSL config ###
     # Default OpenSSL config is too restrictive for testing
     - name: Configure OpenSSL
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/ssl/openssl.cnf
         regexp: "{{ item.regexp }}"
         line: "{{ item.line }}"
@@ -101,20 +101,10 @@
 
     ### Firefox policy ###
     - name: Deploy Firefox ESR policy
-      template:
+      ansible.builtin.template:
         src: templates/firefox/policies.json.j2
         dest: /usr/share/firefox-esr/distribution/policies.json
         owner: root
         group: root
         mode: 0644
-
-    ### Configure SciTE ###
-    # - name: Default window size
-    #   lineinfile:
-    #     path: /etc/scite/SciTEGlobal.properties
-    #     regexp: "^{{ item | regex_search('^.*=') }}"
-    #     line: "{{ item }}"
-    #   loop:
-    #     - "position.width=$(scale 1024)"
-    #     - "position.height=$(scale 768)"
       

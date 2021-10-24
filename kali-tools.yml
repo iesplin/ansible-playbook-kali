@@ -4,19 +4,29 @@
 ## Deploy tools not in the Kali repositories
 - hosts: kali
   become: true
-  vars_files:
-    - config.yml
-  roles:
-    - ansible-role-burpsuite
-  #  - ansible-role-covenant
-  #  - ansible-role-ghidra
-  #  - ansible-role-keystone-engine
-  #  - ansible-role-vscode
   tasks:
+    - name: Install Burp Suite
+      ansible.builtin.include_role:
+        name: "ansible-role-burpsuite"
+
+    - name: Create .burpsuitepro_licensed after successful Pro install
+      ansible.builtin.file:
+        path: "{{ kali_user_details.home }}/.burpsuitepro_licensed"
+        state: touch
+      when: 'burpsuite_product_type == "pro"'
+
+    - name: Install Keystone Engine
+      ansible.builtin.include_role:
+        name: "ansible-role-keystone-engine"
+
+    - name: Install MS Visual Studio Code
+      ansible.builtin.include_role:
+        name: "ansible-role-vscode"
+
     ### Clone projects from git repos ###
     # Various projects that are either not in Kali or are updated more frequently than Kali repos
     - name: Clone git repositories
-      git:
+      ansible.builtin.git:
         repo: "{{ item.repo }}"
         dest: "/opt/{{ item.name }}-git"
         version: "{{ item.version | default('master') }}"
@@ -25,7 +35,7 @@
 
     ### Miscellaneous tools ###
     - name: Ensure destination directory exists
-      file:
+      ansible.builtin.file:
         dest: "{{ item.dest | dirname }}"
         state: directory
         owner: root
@@ -34,7 +44,7 @@
       loop: "{{ misc_downloads }}"
             
     - name: Download files
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ item.url }}"
         dest: "{{ item.dest }}"
         owner: root
@@ -44,19 +54,19 @@
 
     ### Sublime-Text ###
     - name: Add Sublime-text apt key
-      apt_key:
+      ansible.builtin.apt_key:
         url: https://download.sublimetext.com/sublimehq-pub.gpg
         state: present
 
     - name : Add Sublime-text repository
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: deb https://download.sublimetext.com/ apt/stable/
         state: present
         filename: sublimetext
         mode: 640
 
     - name: Install Sublime-text packages
-      apt:
+      ansible.builtin.apt:
         pkg: 
           - sublime-text
           - sublime-merge
@@ -64,25 +74,25 @@
     
     ### Typora ###
     - name: Add Typora apt key
-      apt_key:
+      ansible.builtin.apt_key:
         url: https://typora.io/linux/public-key.asc
         state: present
 
     - name : Add Typora repository
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: deb https://typora.io/linux ./
         state: present
         filename: typora
         mode: 640
 
     - name: Install Typora package
-      apt:
+      ansible.builtin.apt:
         name: typora
         state: present
     
     ### CyberChef ###
     - name: Creates cyberchef directory
-      file:
+      ansible.builtin.file:
         dest: /var/www/html/cyberchef/
         state: directory
         owner: root
@@ -90,14 +100,14 @@
         mode: 655
 
     - name: Download and unarchive CyberChef
-      unarchive:
-        src: https://github.com/gchq/CyberChef/releases/download/v9.28.0/CyberChef_v9.28.0.zip
+      ansible.builtin.unarchive:
+        src: https://github.com/gchq/CyberChef/releases/download/v9.32.3/CyberChef_v9.32.3.zip
         dest: /var/www/html/cyberchef/
         remote_src: yes
 
     - name: Create a symbolic link - CyberChef
-      file:
-        src: /var/www/html/cyberchef/CyberChef_v9.28.0.html
+      ansible.builtin.file:
+        src: /var/www/html/cyberchef/CyberChef_v9.32.3.html
         dest: /var/www/html/cyberchef.htm
         owner: root
         group: root

@@ -1,0 +1,8 @@
+---
+collections:
+- community.general
+
+roles:
+- src: https://github.com/Chill3d/ansible-role-burpsuite.git
+- src: https://github.com/Chill3d/ansible-role-keystone-engine.git
+- src: https://github.com/Chill3d/ansible-role-vscode.git

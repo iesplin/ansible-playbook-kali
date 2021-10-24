@@ -6,46 +6,61 @@
   become: true
   tasks:
     - name: Update all packages to the latest version
-      apt:
+      ansible.builtin.apt:
         update_cache: true
+
+    - name: Ensure apt-transport-https package is installed
+      ansible.builtin.apt:
+        name: apt-transport-https
+        state: present
+    
+    - name: Configure sources.list to use HTTPS
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: '^(deb\s+)http(://http.kali.org/kali.*)$'
+        replace: '\1https\2'
+
+    - name: Update all packages to the latest version
+      ansible.builtin.apt:
         upgrade: safe
 
-    - name: Enable Wireshark setuid debconf selection
-      debconf:
-        name: wireshark
-        question: wireshark-common/install-setuid
-        value: 'true'
-        vtype: boolean 
-
     - name: Install OS packages
-      apt:
+      ansible.builtin.apt:
         name: "{{ kali_os_packages }}"
         state: present
     
     - name: Install tool packages
-      apt:
+      ansible.builtin.apt:
         name: "{{ kali_tool_packages }}"
         state: present
       environment:
         RUNLEVEL: 1
 
     - name: Remove unnecessary packages
-      apt:
+      ansible.builtin.apt:
         autoremove: true
 
     - name: Clean apt cache
-      apt:
+      ansible.builtin.apt:
         autoclean: true
 
-    # - name: Install Python Pip Packages
-    #   pip:
-    #     name: "{{ item }}"
-    #     state: latest
-    #     executable: pip3
-    #   loop: "{{ python_pip_packages }}"
-
-    - name: Install Ruby gems
-      gem:
+    - name: Install Python Pip Packages
+      ansible.builtin.pip:
         name: "{{ item }}"
         state: latest
+        executable: pip3
+      loop: "{{ python_pip_packages }}"
+
+    - name: Install Ruby gems
+      community.general.gem:
+        name: "{{ item }}"
+        state: latest
+        user_install: false
       loop: "{{ ruby_gem_packages }}"
+
+    - name: Enable Wireshark setuid debconf selection
+      debconf:
+        name: wireshark
+        question: wireshark-common/install-setuid
+        value: 'true'
+        vtype: boolean

@@ -1,107 +1,10 @@
 ---
 # Burp Suite settings
-burpsuite_dir: "/opt/BurpSuite{{ burpsuite_product_type | capitalize }}"
-burpsuite_extras_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
-burpsuite_extras_dir: /opt/BurpSuiteExtras
-burpsuite_installer_dir: "/home/{{ kali_user }}/Téléchargements"
+burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
+burpsuite_extras_dir:  "/home/{{ kali_user }}/BurpSuiteExtras"
 burpsuite_user: "{{ kali_user }}"
-
-# Gnome settings
-gnome_settings:
-## Theme
-  - { schema: "org.gnome.desktop.background", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-geometric.xml'" }
-  - { schema: "org.gnome.desktop.background", path: "picture-options", key: "'zoom'" }
-  - { schema: "org.gnome.desktop.interface", path: "gtk-theme", key: "'Kali-Dark'" }
-  - { schema: "org.gnome.desktop.interface", path: "icon-theme", key: "'Flat-Remix-Blue-Dark'" }
-  - { schema: "org.gnome.desktop.interface", path: "clock-show-date", key: "true" }
-  - { schema: "org.gnome.desktop.screensaver", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-light.xml'" }
-  - { schema: "org.gnome.desktop.screensaver", path: "picture-options", key: "'zoom'" }
-## Power  
-  - { schema: "org.gnome.desktop.session", path: "idle-delay", key: "1800" }
-  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-ac-type", key: "'nothing'" }
-  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-battery-type", key: "'suspend'" }
-  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-battery-timeout", key: "1200" }
-
-## Touchscreen
-  - { schema: "org.gnome.settings-daemon.peripherals.touchscreen", path: "orientation-lock", key: "true" }
-
-## Dash-to-dock extension
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "apply-custom-theme", key: "false" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "background-color", key: "'#0A1820'" } ##ffffff
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "background-opacity", key: "1.0" } #0.34999999999999998
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "click-action", key: "'previews'" } # 'cycle-windows'
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "custom-background-color", key: "true" } # false
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dash-max-icon-size", key: "40" } # 48 
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dock-fixed", key: "true" } 
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dock-position", key: "'LEFT'" } #'RIGHT'
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "extend-height", key: "true" }
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "force-straight-corner", key: "true" } # false
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "running-indicator-style", key: "'DOTS'" } # 'DEFAULT'
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "scroll-action", key: "'cycle-windows'" } # 'do-nothing'
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "transparency-mode", key: "'FIXED'" } #'DEFAULT'
-  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "multi-monitor", key: "true" }
-
-## Favourite Apps
-  - { schema: "org.gnome.shell", path: "favorite-apps", key: "\"['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'hacker-firefox-esr.desktop', 'chromium.desktop', '{{ burpsuite_desktop_file_name }}', 'kali-wireshark.desktop', 'sublime_text.desktop', 'org.gnome.Screenshot.desktop' ]\"" }
-
-gnome_terminal_settings:
-  - { path: "use-theme-colors", key: "false" }
-  - { path: "use-transparent-background", key: "false" }
-  - { path: "foreground-color", key: "'rgb(255,255,255)'" }
-  - { path: "background-color", key: "'#001828'" }
-  - { path: "palette", key: "\"['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']\"" }
-  - { path: "bold-is-bright", key: "true" }
-
-# XFCE settings
-xfce_settings:
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "int", value: "14" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "int", value: "1" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
-  - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
-  - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }
-
-# Git repositories to clone to /opt
-git_repos:
-  - name: fuzzdb
-    repo: https://github.com/fuzzdb-project/fuzzdb.git
-  - name: gitTools
-    repo: https://github.com/internetwache/GitTools.git
-  - name: goddi
-    repo: https://github.com/NetSPI/goddi.git
-  - name: inveigh
-    repo: https://github.com/Kevin-Robertson/Inveigh.git
-  - name: MS17-010
-    repo: https://github.com/worawit/MS17-010.git
-  - name: oneRuleToRuleThemAll
-    repo: https://github.com/NotSoSecure/password_cracking_rules.git
-  - name: p0wnyShell
-    repo: https://github.com/flozz/p0wny-shell.git  
-  - name: payloadsAllTheThings
-    repo: https://github.com/swisskyrepo/PayloadsAllTheThings.git
-  - name: powerSploit
-    repo: https://github.com/PowerShellMafia/PowerSploit.git
-    version: dev
-  - name: privilege-escalation-awesome-scripts-suite
-    repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
-  - name: quieter-firefox
-    repo: https://bitbucket.org/mrbbking/quieter-firefox.git
-  - name: secLists
-    repo: https://github.com/danielmiessler/SecLists.git
-  - name: dirsearch
-    repo: https://github.com/maurosoria/dirsearch.git
-  - name: testssl
-    repo: https://github.com/drwetter/testssl.sh.git
-    version: 3.1dev
-  - name: privexchange
-    repo: https://github.com/dirkjanm/PrivExchange.git
+burpsuite_dir: "/opt/BurpSuite{{ burpsuite_product_type | capitalize }}" #plus là
+burpsuite_installer_dir: "/home/{{ kali_user }}/Téléchargements"
 
 # Packages for OS
 kali_os_packages:
@@ -120,9 +23,7 @@ kali_os_packages:
   - free2rdp-x11
   - g++
   - gcc
-  - gcc
   - gcc-multilib
-  - git
   - gnome-screenshot
   - golang
   - gparted
@@ -170,7 +71,6 @@ kali_tool_packages:
   - aircrack-ng
   - amass
   - bloodhound
-  - bloodhound
   - chromium-bsu
   - crackmapexec
   - exiftool
@@ -194,6 +94,7 @@ kali_tool_packages:
   - nikto
   - nmap
   - passing-the-hash
+  - payloadsallthethings
   - powershell
   - proxychains4
   - python3-impacket
@@ -215,13 +116,42 @@ kali_tool_packages:
   - wpscan
   - xtightvncviewer
 
+# Git repositories to clone to /opt
+git_repos:
+  - name: fuzzdb
+    repo: https://github.com/fuzzdb-project/fuzzdb.git
+  - name: gitTools
+    repo: https://github.com/internetwache/GitTools.git
+  - name: goddi
+    repo: https://github.com/NetSPI/goddi.git
+  - name: MS17-010
+    repo: https://github.com/worawit/MS17-010.git
+  - name: oneRuleToRuleThemAll
+    repo: https://github.com/NotSoSecure/password_cracking_rules.git
+  - name: p0wnyShell
+    repo: https://github.com/flozz/p0wny-shell.git  
+  - name: powerSploit
+    repo: https://github.com/PowerShellMafia/PowerSploit.git
+    version: dev
+  - name: privilege-escalation-awesome-scripts-suite
+    repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
+  - name: quieter-firefox
+    repo: https://bitbucket.org/mrbbking/quieter-firefox.git
+  - name: dirsearch
+    repo: https://github.com/maurosoria/dirsearch.git
+  - name: testssl
+    repo: https://github.com/drwetter/testssl.sh.git
+    version: 3.1dev
+  - name: privexchange
+    repo: https://github.com/dirkjanm/PrivExchange.git
+
 python_pip_packages:
   - scapy
 
 ruby_gem_packages:
   - evil-winrm
 
-kali_user: dts
+kali_user: "{{ lookup('env','USER') }}"
 
 misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
@@ -246,9 +176,67 @@ vscode_extensions:
   - ms-python.python
   - ms-vscode.cpptools
   - ms-vscode.powershell
-  - rebornix.ruby
-  # Markdown extensions
-  - yzhang.markdown-all-in-one
-  - telesoho.vscode-markdown-paste-image
   # Utility extensions
-  - hookyqr.beautify
+  - esbenp.prettier-vscode
+
+# Gnome settings
+gnome_settings:
+## Theme
+  - { schema: "org.gnome.desktop.background", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-geometric.xml'" }
+  - { schema: "org.gnome.desktop.background", path: "picture-options", key: "'zoom'" }
+  - { schema: "org.gnome.desktop.interface", path: "gtk-theme", key: "'Kali-Dark'" }
+  - { schema: "org.gnome.desktop.interface", path: "icon-theme", key: "'Flat-Remix-Blue-Dark'" }
+  - { schema: "org.gnome.desktop.interface", path: "clock-show-date", key: "true" }
+  - { schema: "org.gnome.desktop.screensaver", path: "picture-uri", key: "'file:///usr/share/backgrounds/kali/kali-light.xml'" }
+  - { schema: "org.gnome.desktop.screensaver", path: "picture-options", key: "'zoom'" }
+## Power  
+  - { schema: "org.gnome.desktop.session", path: "idle-delay", key: "1800" }
+  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-ac-type", key: "'nothing'" }
+  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-battery-type", key: "'suspend'" }
+  - { schema: "org.gnome.settings-daemon.plugins.power", path: "sleep-inactive-battery-timeout", key: "1200" }
+
+## Touchscreen
+  - { schema: "org.gnome.settings-daemon.peripherals.touchscreen", path: "orientation-lock", key: "true" }
+
+## Dash-to-dock extension
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "apply-custom-theme", key: "false" }
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "background-color", key: "'#0A1820'" } ##ffffff
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "background-opacity", key: "1.0" } #0.34999999999999998
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "click-action", key: "'previews'" } # 'cycle-windows'
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "custom-background-color", key: "true" } # false
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dash-max-icon-size", key: "40" } # 48 
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dock-fixed", key: "true" } 
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "dock-position", key: "'LEFT'" } #'RIGHT'
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "extend-height", key: "true" }
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "force-straight-corner", key: "true" } # false
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "running-indicator-style", key: "'DOTS'" } # 'DEFAULT'
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "scroll-action", key: "'cycle-windows'" } # 'do-nothing'
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "transparency-mode", key: "'FIXED'" } #'DEFAULT'
+  - { schema: "org.gnome.shell.extensions.dash-to-dock", path: "multi-monitor", key: "true" }
+
+## Favourite Apps
+  - { schema: "org.gnome.shell", path: "favorite-apps", key: "\"['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'hacker-firefox-esr.desktop', 'chromium.desktop', '{{ burpsuite_desktop_file_name }}', 'kali-wireshark.desktop', 'sublime_text.desktop', 'org.gnome.Screenshot.desktop' ]\"" }
+
+gnome_terminal_settings:
+  - { path: "use-theme-colors", key: "false" }
+  - { path: "use-transparent-background", key: "false" }
+  - { path: "foreground-color", key: "'rgb(255,255,255)'" }
+  - { path: "background-color", key: "'#001828'" }
+  - { path: "palette", key: "\"['rgb(46,52,54)', 'rgb(204,0,0)', 'rgb(78,154,6)', 'rgb(196,160,0)', 'rgb(52,101,164)', 'rgb(117,80,123)', 'rgb(6,152,154)', 'rgb(211,215,207)', 'rgb(85,87,83)', 'rgb(239,41,41)', 'rgb(138,226,52)', 'rgb(252,233,79)', 'rgb(114,159,207)', 'rgb(173,127,168)', 'rgb(52,226,226)', 'rgb(238,238,236)']\"" }
+  - { path: "bold-is-bright", key: "true" }
+
+# # XFCE settings
+# xfce_settings:
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-on-ac", type: "int", value: "14" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/inactivity-sleep-mode-on-ac", type: "int", value: "1" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/lock-screen-suspend-hibernate", type: "bool", value: "true" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
+#   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
+#   - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
+#   - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }

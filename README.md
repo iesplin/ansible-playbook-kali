@@ -7,7 +7,7 @@ Steps:
 1. Deploy a minimal Kali install. See https://github.com/iesplin/kali-minimal for an example
 2. Clone this repo 
 ```bash
-git clone https://github.com/iesplin/ansible-playbook-kali
+git clone https://github.com/Chill3d/ansible-playbook-kali
 ```
 3. Run the deploy script
 ```bash
