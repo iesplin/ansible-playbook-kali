@@ -1,5 +1,11 @@
 # Changelog
 
+## 2021.10.09
+
+- Added: testssl.sh package
+- Removed: azure-cli package due to it being removed from Kali repo
+- Fixed: Quoting octal file permissions
+
 ## 2021.07.19
 
 - Changed: Updated for Ansible 2.10
