@@ -1,4 +1,7 @@
 ---
+# Set as the user account that runs the ansible playbook
+kali_user: "{{ lookup('env','USER') }}"
+
 # Burp Suite settings
 burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: "/home/{{ kali_user }}/BurpSuiteExtras"
@@ -44,9 +47,6 @@ kali_packages:
   - wireguard
   - xclip
   - xsel
-
-# Set as the user account that runs the ansible playbook
-kali_user: "{{ lookup('env','USER') }}"
 
 misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
