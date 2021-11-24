@@ -22,7 +22,8 @@
 
         - name: Set kali_user fact
           ansible.builtin.set_fact:
-            kali_user: "{{ _kali_user_choice.user_input | default(kali_user) }}"
+            kali_user: "{{ _kali_user_choice.user_input }}"
+          when: '_kali_user_choice.user_input != ""'
       when: not config_yml.stat.exists
 
     - name: Get user details
