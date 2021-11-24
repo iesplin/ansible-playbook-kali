@@ -5,20 +5,30 @@
     burpsuite_products_map:
       - { name: Burp Suite Community, alias: community }
       - { name: Burp Suite Professional, alias: pro }
+
   tasks:
+
+    - name: Check if host config exists
+      delegate_to: localhost
+      ansible.builtin.stat:
+        path: "host_vars/{{ ansible_facts['default_ipv4']['address'] }}/vars.yml"
+      register: config_yml
+
+    - block:
+        - name: Kali user prompt
+          ansible.builtin.pause:
+            prompt: Enter the username you want to use on kali (default {{ kali_user }})?
+          register: _kali_user_choice
+
+        - name: Set kali_user fact
+          ansible.builtin.set_fact:
+            kali_user: "{{ _kali_user_choice.user_input | default(kali_user) }}"
+      when: not config_yml.stat.exists
+
     - name: Get user details
       user:
         name: "{{ kali_user }}"
       register: kali_user_details
-
-    - name: Check if .a4k_config.yml exists
-      ansible.builtin.stat:
-        path: "{{ kali_user_details.home }}/.a4k_config.yml"
-      register: config_yml
-
-    - name: Load .a4k_config.yml
-      ansible.builtin.include_vars: "{{ kali_user_details.home }}/.a4k_config.yml"
-      when: config_yml.stat.exists
 
     - block:
         - name: Burp Suite edition prompt
@@ -56,10 +66,17 @@
         - 'burpsuite_product_type == "pro"'
         - 'not check_burpsuitepro_licensed.stat.exists'
 
+    - name: Create host config directory
+      delegate_to: localhost
+      file:
+        path: "host_vars/{{ ansible_facts['default_ipv4']['address'] }}"
+        state: directory
+
     - name: Save config
+      delegate_to: localhost
       ansible.builtin.template:
         src: templates/config/config.yml.j2
-        dest: "{{ kali_user_details.home }}/.a4k_config.yml"
+        dest: "host_vars/{{ ansible_facts['default_ipv4']['address'] }}/vars.yml"
         mode: 0600
 
 - name: Include Kali packages playbook

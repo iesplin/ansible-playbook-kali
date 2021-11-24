@@ -1,2 +1,5 @@
+#[kali]
+#localhost ansible_connection=local ansible_python_interpreter=python3
+
 [kali]
-localhost ansible_connection=local ansible_python_interpreter=python3
+192.168.1.165 ansible_connection=ssh ansible_python_interpreter=python3 ansible_user=kali
