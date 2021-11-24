@@ -49,5 +49,5 @@
         dest: "{{ item.dest }}"
         owner: root
         group: root
-        mode: "{{ item.mode | default(0644) }}"
+        mode: "{{ item.mode | default('0644') }}"
       loop: "{{ misc_downloads }}"
