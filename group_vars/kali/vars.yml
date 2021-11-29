@@ -20,7 +20,7 @@ kali_os_packages:
   - docker-compose
   - docker.io
   - dpkg-dev
-  - free2rdp-x11
+  - freerdp2-x11
   - g++
   - gcc
   - gcc-multilib
@@ -50,7 +50,7 @@ kali_os_packages:
   - php
   - php-cli
   - php-curl
-  - python-dev
+  - python3-dev
   - remmina
   - tmux
   - ufw
