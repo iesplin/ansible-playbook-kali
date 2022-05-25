@@ -3,6 +3,6 @@ collections:
 - community.general
 
 roles:
-- src: https://github.com/iesplin/ansible-role-burpsuite.git
+- src: iesplin.burp_suite
 - src: https://github.com/iesplin/ansible-role-keystone-engine.git
 - src: https://github.com/iesplin/ansible-role-vscode.git

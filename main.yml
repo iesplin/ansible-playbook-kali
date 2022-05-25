@@ -34,14 +34,14 @@
 
         - name: Set product type fact
           ansible.builtin.set_fact:
-            burpsuite_product_type: "{{ burpsuite_products_map[_burpsuite_choice.user_input|default(omit)|int - 1]['alias'] }}"
-      when: 'burpsuite_product_type is undefined'
+            burpsuite_edition: "{{ burpsuite_products_map[_burpsuite_choice.user_input|default(omit)|int - 1]['alias'] }}"
+      when: 'burpsuite_edition is undefined'
 
     - name: Check .burpsuitepro_licensed file
       stat:
         path: "{{ kali_user_details.home }}/.burpsuitepro_licensed"
       register: check_burpsuitepro_licensed
-      when: 'burpsuite_product_type == "pro"'
+      when: 'burpsuite_edition == "pro"'
 
     - block:
         - name: Burp Suite License prompt
@@ -53,7 +53,7 @@
           ansible.builtin.set_fact:
             burpsuite_license_key: "{{ _burpsuite_license.user_input }}"
       when: 
-        - 'burpsuite_product_type == "pro"'
+        - 'burpsuite_edition == "pro"'
         - 'not check_burpsuitepro_licensed.stat.exists'
 
     - name: Save config

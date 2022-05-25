@@ -7,21 +7,21 @@
   tasks:
     - name: Install Burp Suite
       ansible.builtin.include_role:
-        name: "ansible-role-burpsuite"
+        name: iesplin.burp_suite
 
     - name: Create .burpsuitepro_licensed after successful Pro install
       ansible.builtin.file:
         path: "{{ kali_user_details.home }}/.burpsuitepro_licensed"
         state: touch
-      when: 'burpsuite_product_type == "pro"'
+      when: 'burpsuite_edition == "pro"'
 
     - name: Install Keystone Engine
       ansible.builtin.include_role:
-        name: "ansible-role-keystone-engine"
+        name: ansible-role-keystone-engine
 
     - name: Install MS Visual Studio Code
       ansible.builtin.include_role:
-        name: "ansible-role-vscode"
+        name: ansible-role-vscode
 
     # Clone git repos
     - name: Clone git repositories
