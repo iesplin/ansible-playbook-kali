@@ -39,8 +39,13 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install test dependencies
+      - name: Install Python dependencies
         run: pip3 install ansible molecule[docker] docker jmespath
+
+      - name: Install Ansible Galaxy requirements
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+          ansible-galaxy role install -r requirements.yml
 
       - name: Run Molecule test
         run: molecule test
