@@ -2,7 +2,7 @@
 # Playbook for Kali
 
 ## Personalize Kali
-- hosts: kali
+- hosts: all
   become: true
   become_user: "{{ kali_user }}"
   tasks:
@@ -24,6 +24,9 @@
         value_type: "{{ item.type }}"
         value: "{{ item.value }}"
       loop: "{{ xfce_settings }}"
+      tags:
+        # XFCE not installed for testing
+        - molecule-notest
 
     # tmux
     - name: Copy tmux config
@@ -40,11 +43,24 @@
     - name: Check if Firefox profile exists
       ansible.builtin.stat:
         path: "{{ firefox_default_profile_dir }}"
-      register: firefox_profile
+      register: firefox_profile_stat
 
     - name: Create FireFox default profile
-      ansible.builtin.command: "firefox-esr -CreateProfile \"hacker {{ firefox_default_profile_dir }}\""
-      when: not firefox_profile.stat.exists
+      ansible.builtin.command:
+        cmd: 'firefox-esr -CreateProfile "hacker {{ firefox_default_profile_dir }}"'
+      when: not firefox_profile_stat.stat.exists
+      tags:
+        # No DISPLAY available
+        - molecule-notest
+
+    - name: Copy user.js from quieter-firefox
+      ansible.builtin.copy:
+        src: /opt/quieter-firefox/user.js
+        dest: "{{ firefox_default_profile_dir }}/user.js"
+        remote_src: true
+      tags:
+        # Profile not created
+        - molecule-notest
 
     - name: Copy Firefox ini files
       ansible.builtin.copy:
@@ -54,12 +70,9 @@
       loop:
         - installs.ini
         - profiles.ini
-
-    - name: Copy user.js from quieter-firefox
-      ansible.builtin.copy:
-        src: /opt/quieter-firefox/user.js
-        dest: "{{ firefox_default_profile_dir }}/user.js"
-        remote_src: true
+      tags:
+        # Profile not created
+        - molecule-notest
 
     # VS Code
     - name: Ensure VS Code user directories exist
@@ -78,10 +91,12 @@
         mode: 0640
 
     - name: Install VS Code extensions
-      ansible.builtin.command: "code --user-data-dir ~/.vscode --install-extension {{ item }}"
+      ansible.builtin.command:
+        cmd: "code --user-data-dir {{ kali_user_details.home }}/.vscode --install-extension {{ item }}"
+        chdir: /usr/bin
+      register: vscode_install_extension_cmd
+      changed_when: "'successfully installed' in vscode_install_extension_cmd.stdout"
       loop: "{{ vscode_extensions | default([]) }}"
-      register: vscode_install_extension_result
-      changed_when: "'successfully installed' in vscode_install_extension_result.stdout"
 
     # GDB
     - name: Clone GEF repo

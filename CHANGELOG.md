@@ -1,5 +1,12 @@
 # Changelog
 
+## 2022.05.28
+- Changed: Refactoring for testing with Molecule
+- Changed: Use custom facts for persisting Burp Suite vars
+- Changed: Use Ansible Galaxy roles for Burp Suite and VS Code
+- Removed: Keystone engine
+- Removed: Realtek drivers
+
 ## 2021.10.09
 
 - Added: testssl.sh package

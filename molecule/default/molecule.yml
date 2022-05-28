@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+platforms:
+  - name: instance
+    image: docker.io/iesplin/docker-kalilinux-systemd:latest
+    pre_build_image: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: ""
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      instance:
+        kali_user: hacker
+        burpsuite_edition: community
+verifier:
+  name: ansible

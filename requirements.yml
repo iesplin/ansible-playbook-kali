@@ -4,5 +4,5 @@ collections:
 
 roles:
 - src: iesplin.burp_suite
-- src: https://github.com/iesplin/ansible-role-keystone-engine.git
-- src: https://github.com/iesplin/ansible-role-vscode.git
+- src: iesplin.vscode
+# - src: https://github.com/iesplin/ansible-role-keystone-engine.git

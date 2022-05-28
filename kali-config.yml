@@ -2,11 +2,26 @@
 # Playbook for Kali
 
 # Configure Kali
-- hosts: kali
+- hosts: all
   become: true
   tasks:
+    # Packages required for tasks
+    - name: Ensure packages installed for config tasks
+      ansible.builtin.apt:
+        name:
+          - apparmor
+          - firefox-esr
+          - metasploit-framework
+          - postgresql
+          - ufw
+        state: present
+      register: apt_config_packages
+      until: apt_config_packages is success
+      retries: 1
+      delay: 10
+
     # UFW
-    - name: Block inbound traffic
+    - name: Block inbound traffic by default
       community.general.ufw:
         state: enabled
         direction: incoming
@@ -33,6 +48,8 @@
         name: apparmor.service
         state: started
         enabled: true
+      tags:
+        - molecule-notest
 
     # Disable automatic updates
     - name: Disable apt systemd timers
@@ -67,26 +84,11 @@
         state: started
         enabled: true
 
-    - name: Check msfdb status
-      ansible.builtin.command: msfdb status
-      register: msfdb_status
-      changed_when: false
-
     - name: Initialize msfdb
-      ansible.builtin.command: msfdb init
-      when: "'No configuration file found' in msfdb_status.stdout"
-
-    # OpenSSL
-    - name: Configure OpenSSL
-      ansible.builtin.lineinfile:
-        path: /etc/ssl/openssl.cnf
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-      loop:
-        - regexp: "^MinProtocol ="
-          line: "MinProtocol = None"
-        - regexp: "^CipherStrings ="
-          line: "CipherStrings = DEFAULT"
+      ansible.builtin.command:
+        cmd: msfdb init
+      register: msfdb_init_cmd
+      changed_when: '"Creating initial database schema" in msfdb_init_cmd.stdout'
 
     # Firefox ESR
     - name: Deploy Firefox ESR policy

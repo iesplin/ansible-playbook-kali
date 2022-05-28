@@ -2,40 +2,74 @@
 # Playbook for Kali
 
 # Update Kali and deploy packages
-- hosts: kali
+- hosts: all
   become: true
   tasks:
-    - name: Update apt package lists
+    - name: Configure apt sources.list to use Cloudflare mirror
+      ansible.builtin.replace:
+        path: /etc/apt/sources.list
+        regexp: '^(deb\s+)http://([A-Za-z0-9.-]+)(/kali.*)$'
+        replace: '\1http://kali.download\3'
+
+    - name: Update apt
       ansible.builtin.apt:
         update_cache: true
 
-    - name: Ensure apt-transport-https package is installed
+    - name: Ensure apt packages are installed
       ansible.builtin.apt:
-        name: apt-transport-https
+        name:
+          - apt-transport-https
+          - apt-utils
+          - ca-certificates
         state: present
-    
-    - name: Configure sources.list to use HTTPS
+
+    - name: Configure apt sources.list to use HTTPS
       ansible.builtin.replace:
         path: /etc/apt/sources.list
-        regexp: '^(deb\s+)http(://http.kali.org/kali.*)$'
-        replace: '\1https\2'
+        regexp: '^(deb\s+)http://(.*)$'
+        replace: '\1https://\2'
 
-    - name: Update all packages to the latest version
+    - name: Upgrade all packages
       ansible.builtin.apt:
         upgrade: safe
 
-    - name: Install Kali packages
+    - name: Install Kali meta packages
       ansible.builtin.apt:
-        name: "{{ kali_packages }}"
+        name: "{{ kali_meta_packages }}"
         state: present
-    
+      register: apt_meta_packages
+      until: apt_meta_packages is success
+      retries: 1
+      delay: 10
+      tags:
+        # exclude from testing due to size
+        - molecule-notest
+
+    - name: Install Kali tool packages
+      ansible.builtin.apt:
+        name: "{{ kali_tool_packages }}"
+        state: present
+      register: apt_tool_packages
+      until: apt_tool_packages is success
+      retries: 1
+      delay: 30
+
     - name: Remove unnecessary packages
       ansible.builtin.apt:
         autoremove: true
 
-    - name: Clean apt cache
+    # Python packages
+    - name: Ensure packages for Python pip are installed
       ansible.builtin.apt:
-        autoclean: true
+        name:
+          - python3-dev
+          - python3-pip
+          - python3-setuptools
+        state: present
+      register: apt_pip_packages
+      until: apt_pip_packages is success
+      retries: 1
+      delay: 10
 
     - name: Install Python Pip Packages
       ansible.builtin.pip:
@@ -44,9 +78,21 @@
         executable: pip3
       loop: "{{ python_pip_packages }}"
 
+    # Ruby packages
+    - name: Ensure packages for Ruby gems are installed
+      ansible.builtin.apt:
+        name:
+          - ruby-dev
+          - ruby-rubygems
+        state: present
+      register: apt_rubygems_packages
+      until: apt_rubygems_packages is success
+      retries: 1
+      delay: 10
     - name: Install Ruby Gem Packages
       community.general.gem:
         name: "{{ item }}"
         state: latest
         user_install: false
+        norc: true
       loop: "{{ ruby_gem_packages }}"

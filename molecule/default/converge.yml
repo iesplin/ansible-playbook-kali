@@ -1,0 +1,26 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Include group vars
+      ansible.builtin.include_vars: ../../group_vars/kali/vars.yml
+
+    - name: Create directory for ansible custom facts
+      ansible.builtin.file:
+        path: /etc/ansible/facts.d
+        state: directory
+        recurse: true
+
+    # Set facts to skip Burp Suite prompts
+    - name: Set custom facts
+      ansible.builtin.blockinfile:
+        path: /etc/ansible/facts.d/burpsuite.fact
+        create: true
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - {{ burpsuite_user }}"
+        block: |
+          [{{ burpsuite_user }}]
+          edition={{ burpsuite_edition }}
+          licensed=False
+
+- name: Include Kali packages playbook
+  ansible.builtin.import_playbook: ../../main.yml

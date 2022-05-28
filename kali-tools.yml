@@ -1,27 +1,29 @@
 ---
 # Playbook for Kali
 
-# Deploy tools not found in the Kali repositories
-- hosts: kali
+# Deploy additional tools
+- hosts: all
   become: true
   tasks:
     - name: Install Burp Suite
       ansible.builtin.include_role:
         name: iesplin.burp_suite
 
-    - name: Create .burpsuitepro_licensed after successful Pro install
-      ansible.builtin.file:
-        path: "{{ kali_user_details.home }}/.burpsuitepro_licensed"
-        state: touch
-      when: 'burpsuite_edition == "pro"'
+    - name: Update burpsuite custom facts
+      ansible.builtin.blockinfile:
+        path: /etc/ansible/facts.d/burpsuite.fact
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - {{ burpsuite_user }}"
+        block: |
+          [{{ burpsuite_user }}]
+          edition={{ burpsuite_edition }}
+          licensed=True
+      when:
+        - burpsuite_edition == "pro"
+        - burpsuite_activate
 
-    - name: Install Keystone Engine
+    - name: Install Visual Studio Code
       ansible.builtin.include_role:
-        name: ansible-role-keystone-engine
-
-    - name: Install MS Visual Studio Code
-      ansible.builtin.include_role:
-        name: ansible-role-vscode
+        name: iesplin.vscode
 
     # Clone git repos
     - name: Clone git repositories
@@ -42,7 +44,7 @@
         group: root
         mode: 0755
       loop: "{{ misc_downloads }}"
-            
+
     - name: Download files
       ansible.builtin.get_url:
         url: "{{ item.url }}"

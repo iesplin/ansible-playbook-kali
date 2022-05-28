@@ -1,15 +1,5 @@
 #!/bin/sh
 
-echo ""
-echo "  █████╗ ███╗   ██╗███████╗██╗██████╗ ██╗     ███████╗    ██╗  ██╗    ██╗  ██╗ █████╗ ██╗     ██╗"
-echo " ██╔══██╗████╗  ██║██╔════╝██║██╔══██╗██║     ██╔════╝    ██║  ██║    ██║ ██╔╝██╔══██╗██║     ██║"
-echo " ███████║██╔██╗ ██║███████╗██║██████╔╝██║     █████╗      ███████║    █████╔╝ ███████║██║     ██║"
-echo " ██╔══██║██║╚██╗██║╚════██║██║██╔══██╗██║     ██╔══╝      ╚════██║    ██╔═██╗ ██╔══██║██║     ██║"
-echo " ██║  ██║██║ ╚████║███████║██║██████╔╝███████╗███████╗         ██║    ██║  ██╗██║  ██║███████╗██║"
-echo " ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝╚═════╝ ╚══════╝╚══════╝         ╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝"
-echo " Manually configuring Kali? Ain't nobody got time for that."
-echo ""
-
 # Ensure .local/bin is in the PATH for ansible executables
 PATH=$PATH:$HOME/.local/bin
 
@@ -47,7 +37,7 @@ if [ $? -gt 0 ]; then
 fi
 
 echo -e "\n[+] Running Ansible 4 Kali playbooks\n"
-ansible-playbook -i inventory --ask-become-pass main.yml
+ansible-playbook -i inventory --ask-become-pass -e "kali_user=$USER" main.yml
 if [ $? -gt 0 ]; then
     echo "[!] Error occurred during playbook run."
     exit 1    

@@ -1,18 +1,19 @@
 ---
 # Burp Suite settings
+burpsuite_activate: true
 burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: "/home/{{ kali_user }}/BurpSuiteExtras"
 burpsuite_user: "{{ kali_user }}"
 
 # Git repositories to clone to /opt
-# Various projects that are either not in Kali or are updated more frequently than Kali repos
 git_repos:
-  - name: privilege-escalation-awesome-scripts-suite
-    repo: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
   - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
 
-kali_packages:
+kali_meta_packages:
+  - kali-linux-default
+
+kali_tool_packages:
   - awscli
   - bloodhound
   - cmake
@@ -26,7 +27,6 @@ kali_packages:
   - gobuster
   - gufw
   - jq
-  - kali-linux-default
   - keepassxc
   - libreoffice
   - libssl-dev
@@ -35,26 +35,34 @@ kali_packages:
   - neo4j
   - parallel
   - payloadsallthethings
-  - realtek-rtl88xxau-dkms
   - rlwrap
   - seclists
-  - scite
   - testssl.sh
-  - ufw
   - wireguard
   - xclip
   - xsel
 
-# Set as the user account that runs the ansible playbook
-kali_user: "{{ lookup('env','USER') }}"
-
 misc_downloads:
-  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64
+  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64
     dest: /opt/pspy/pspy64
-    mode: "0755"
-  - url: https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy64s
+    mode: '0755'
+  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64s
     dest: /opt/pspy/pspy64s
-    mode: "0755"
+    mode: '0755'
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
+    dest: /opt/PEASS-ng/linpeas_linux.sh
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas_linux_386
+    dest: /opt/PEASS-ng/linpeas_linux_386
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas_linux_amd64
+    dest: /opt/PEASS-ng/linpeas_linux_amd64
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
+    dest: /opt/PEASS-ng/winPEAS.bat
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASany.exe
+    dest: /opt/PEASS-ng/winPEASany.exe
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASx64.exe
+    dest: /opt/PEASS-ng/winPEASx64.exe
+  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASx86.exe
+    dest: /opt/PEASS-ng/winPEASx86.exe
 
 python_pip_packages:
   - bloodhound
@@ -88,7 +96,7 @@ vscode_extensions:
 # XFCE settings
 xfce_settings:
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/blank-on-ac", type: "int", value: "30" }
-  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }  
+  - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-enabled", type: "bool", value: "true" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-off", type: "int", value: "0" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/dpms-on-ac-sleep", type: "int", value: "0" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/general-notification", type: "bool", value: "false" }

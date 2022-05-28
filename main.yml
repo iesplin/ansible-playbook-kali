@@ -1,75 +1,90 @@
 ---
 - name: User choices
-  hosts: kali
+  hosts: all
+  become: true
   vars:
-    burpsuite_products_map:
+    burpsuite_editions_map:
       - { name: Burp Suite Community, alias: community }
       - { name: Burp Suite Professional, alias: pro }
   tasks:
-    - name: Get user details
-      user:
+    # Ensure user is created. Do not change password if user exists
+    - name: Create kali user
+      ansible.builtin.user:
         name: "{{ kali_user }}"
+        shell: "{{ kali_user_shell | default(default_shell) }}"
+        groups: "{{ kali_user_groups | default(default_groups) }}"
+        append: true
+        create_home: true
+        password: "{{ kali_user_password | default('!') }}"
+        update_password: on_create
       register: kali_user_details
+      vars:
+        default_shell: /bin/zsh
+        default_groups: sudo
 
-    - name: Check if .a4k_config.yml exists
-      ansible.builtin.stat:
-        path: "{{ kali_user_details.home }}/.a4k_config.yml"
-      register: config_yml
-
-    - name: Load .a4k_config.yml
-      ansible.builtin.include_vars: "{{ kali_user_details.home }}/.a4k_config.yml"
-      when: config_yml.stat.exists
+    - name: Set burpsuite_edition
+      ansible.builtin.set_fact:
+        burpsuite_edition: "{{ ansible_local['burpsuite'][burpsuite_user]['edition'] }}"
+      when: ansible_local['burpsuite'][burpsuite_user]['edition'] is defined
 
     - block:
         - name: Burp Suite edition prompt
           ansible.builtin.pause:
             prompt: |
-              What Burp Suite product would you like to install?
-                {% for p in burpsuite_products_map %}
+              Which Burp Suite edition to install?
+                {% for p in burpsuite_editions_map %}
                 {{ loop.index }}. {{ p['name'] }}
                 {% endfor %}
 
-              Enter the number for the product
-          register: _burpsuite_choice
+              Enter the number for the product:
+          register: _burpsuite_edition_choice
 
-        - name: Set product type fact
+        - name: Set burp_edition
           ansible.builtin.set_fact:
-            burpsuite_edition: "{{ burpsuite_products_map[_burpsuite_choice.user_input|default(omit)|int - 1]['alias'] }}"
-      when: 'burpsuite_edition is undefined'
+            burpsuite_edition: "{{ burpsuite_editions_map[_burpsuite_edition_choice.user_input|default(omit)|int - 1]['alias'] }}"
+      when: ansible_local['burpsuite'][burpsuite_user]['edition'] is undefined
 
-    - name: Check .burpsuitepro_licensed file
-      stat:
-        path: "{{ kali_user_details.home }}/.burpsuitepro_licensed"
-      register: check_burpsuitepro_licensed
-      when: 'burpsuite_edition == "pro"'
+    - name: Set burpsuite_licensed
+      ansible.builtin.set_fact:
+        burpsuite_licensed: "{{ ansible_local['burpsuite'][burpsuite_user]['licensed'] | default(false) }}"
 
     - block:
         - name: Burp Suite License prompt
           ansible.builtin.pause:
             prompt: "Enter the Burp Suite Pro license key:"
-          register: _burpsuite_license
+          register: _burpsuite_license_choice
 
         - name: Set Burp Suite license key fact
           ansible.builtin.set_fact:
-            burpsuite_license_key: "{{ _burpsuite_license.user_input }}"
-      when: 
-        - 'burpsuite_edition == "pro"'
-        - 'not check_burpsuitepro_licensed.stat.exists'
+            burpsuite_license_key: "{{ _burpsuite_license_choice.user_input }}"
+      when:
+        - burpsuite_edition == "pro"
+        - not burpsuite_licensed
 
-    - name: Save config
-      ansible.builtin.template:
-        src: templates/config/config.yml.j2
-        dest: "{{ kali_user_details.home }}/.a4k_config.yml"
-        mode: 0600
+    - name: Create directory for ansible custom facts
+      ansible.builtin.file:
+        path: /etc/ansible/facts.d
+        state: directory
+        recurse: true
+
+    - name: Update burpsuite custom facts
+      ansible.builtin.blockinfile:
+        path: /etc/ansible/facts.d/burpsuite.fact
+        create: true
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - {{ burpsuite_user }}"
+        block: |
+          [{{ burpsuite_user }}]
+          edition={{ burpsuite_edition }}
+          licensed={{ burpsuite_licensed }}
 
 - name: Include Kali packages playbook
   ansible.builtin.import_playbook: kali-packages.yml
 
-- name: Include Kali tools playbook
-  ansible.builtin.import_playbook: kali-tools.yml
-
 - name: Include Kali configuration playbook
   ansible.builtin.import_playbook: kali-config.yml
+
+- name: Include Kali tools playbook
+  ansible.builtin.import_playbook: kali-tools.yml
 
 - name: Include Kali personalization playbook
   ansible.builtin.import_playbook: kali-personalize.yml
