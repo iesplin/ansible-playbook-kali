@@ -11,7 +11,7 @@ on:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
 
   molecule:
     name: Molecule
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,9 +40,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install test dependencies
-        run: |
-          sudo apt-get install -y podman
-          pip3 install ansible molecule[podman] jmespath
+        run: pip3 install ansible molecule[docker] docker jmespath
 
       - name: Run Molecule test
         run: molecule test
