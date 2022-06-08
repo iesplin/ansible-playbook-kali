@@ -56,7 +56,7 @@
 
         - name: Set Burp Suite license key fact
           ansible.builtin.set_fact:
-            burpsuite_license_key: "{{ _burpsuite_license_choice.user_input }}"
+            burpsuite_pro_license_key: "{{ _burpsuite_license_choice.user_input }}"
       when:
         - burpsuite_edition == "pro"
         - not burpsuite_licensed
