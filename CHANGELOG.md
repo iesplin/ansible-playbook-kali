@@ -1,5 +1,9 @@
 # Changelog
 
+## 2022.07.26
+- Changed: Use peass package
+- Removed: gufw no longer available from Kali repo
+
 ## 2022.05.28
 - Changed: Refactoring for testing with Molecule
 - Changed: Use custom facts for persisting Burp Suite vars

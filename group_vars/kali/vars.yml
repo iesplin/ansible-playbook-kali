@@ -25,7 +25,6 @@ kali_tool_packages:
   - gdbserver
   - ghidra
   - gobuster
-  - gufw
   - jq
   - keepassxc
   - libreoffice
@@ -35,6 +34,7 @@ kali_tool_packages:
   - neo4j
   - parallel
   - payloadsallthethings
+  - peass
   - rlwrap
   - seclists
   - testssl.sh
@@ -49,20 +49,6 @@ misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64s
     dest: /opt/pspy/pspy64s
     mode: '0755'
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
-    dest: /opt/PEASS-ng/linpeas_linux.sh
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas_linux_386
-    dest: /opt/PEASS-ng/linpeas_linux_386
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas_linux_amd64
-    dest: /opt/PEASS-ng/linpeas_linux_amd64
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat
-    dest: /opt/PEASS-ng/winPEAS.bat
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASany.exe
-    dest: /opt/PEASS-ng/winPEASany.exe
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASx64.exe
-    dest: /opt/PEASS-ng/winPEASx64.exe
-  - url: https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASx86.exe
-    dest: /opt/PEASS-ng/winPEASx86.exe
 
 python_pip_packages:
   - bloodhound
