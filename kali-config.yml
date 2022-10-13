@@ -101,14 +101,14 @@
 
     # Resolvconf for WireGuard
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939904
-    - name: Symlink resolvconf to resolvectl
-      ansible.builtin.file:
-        src: /usr/bin/resolvectl
-        dest: /usr/local/bin/resolvconf
-        state: link
+    # - name: Symlink resolvconf to resolvectl
+    #   ansible.builtin.file:
+    #     src: /usr/bin/resolvectl
+    #     dest: /usr/local/bin/resolvconf
+    #     state: link
 
-    - name: Enable systemd-resolved.service
-      ansible.builtin.systemd:
-        name: systemd-resolved.service
-        state: started
-        enabled: true
+    # - name: Enable systemd-resolved.service
+    #   ansible.builtin.systemd:
+    #     name: systemd-resolved.service
+    #     state: started
+    #     enabled: true

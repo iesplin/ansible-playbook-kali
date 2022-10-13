@@ -1,5 +1,8 @@
 # Changelog
 
+## 2022.10.13
+- Disable configuration tasks for systemd-resolved
+
 ## 2022.07.26
 - Changed: Use peass package
 - Removed: gufw no longer available from Kali repo
