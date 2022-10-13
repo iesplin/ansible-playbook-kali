@@ -1,5 +1,8 @@
 # Changelog
 
+## 2022.10.14
+- Workaround for msfdb init failure
+
 ## 2022.10.13
 - Disable configuration tasks for systemd-resolved
 

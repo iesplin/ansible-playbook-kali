@@ -89,6 +89,8 @@
         cmd: msfdb init
       register: msfdb_init_cmd
       changed_when: '"Creating initial database schema" in msfdb_init_cmd.stdout'
+      # Temporarily disable for msfdb bug
+      failed_when: false
 
     # Firefox ESR
     - name: Deploy Firefox ESR policy
@@ -98,17 +100,3 @@
         owner: root
         group: root
         mode: 0644
-
-    # Resolvconf for WireGuard
-    # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=939904
-    # - name: Symlink resolvconf to resolvectl
-    #   ansible.builtin.file:
-    #     src: /usr/bin/resolvectl
-    #     dest: /usr/local/bin/resolvconf
-    #     state: link
-
-    # - name: Enable systemd-resolved.service
-    #   ansible.builtin.systemd:
-    #     name: systemd-resolved.service
-    #     state: started
-    #     enabled: true
