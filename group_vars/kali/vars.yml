@@ -72,6 +72,14 @@ kali_tool_packages:
   - mdk4
   - sslstrip
 
+misc_downloads:
+  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64
+    dest: /opt/pspy/pspy64
+    mode: '0755'
+  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64s
+    dest: /opt/pspy/pspy64s
+    mode: '0755'
+
 python_pip_packages:
   - bloodhound
   - capstone
