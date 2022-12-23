@@ -39,6 +39,7 @@ kali_tool_packages:
   - gdbserver
   - ghidra
   - gobuster
+  - golang
   - jq
   - keepassxc
   - libreoffice
