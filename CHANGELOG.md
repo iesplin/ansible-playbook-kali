@@ -1,5 +1,11 @@
 # Changelog
 
+## 2022.12.23
+- Added: Project Discovery tools
+- Added: Wi-Fi pentest tools
+- Added: VOIP pentest tools
+- Removed: msfdb init workaround
+
 ## 2022.10.14
 - Workaround for msfdb init failure
 
