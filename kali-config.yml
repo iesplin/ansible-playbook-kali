@@ -89,8 +89,6 @@
         cmd: msfdb init
       register: msfdb_init_cmd
       changed_when: '"Creating initial database schema" in msfdb_init_cmd.stdout'
-      # Temporarily disable for msfdb bug
-      failed_when: false
 
     # Firefox ESR
     - name: Deploy Firefox ESR policy
