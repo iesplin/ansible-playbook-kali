@@ -97,3 +97,13 @@
         user_install: false
         norc: true
       loop: "{{ ruby_gem_packages }}"
+
+    # Go packages
+    - name: Install Go packages
+      ansible.builtin.command:
+        cmd: "/usr/bin/go install -x {{ item }}"
+      environment:
+        GOBIN: /usr/local/bin
+      register: go_install_cmd
+      changed_when: go_install_cmd.stderr | regex_search('/pkg/tool/linux_.*/buildid')
+      loop: "{{ go_packages }}"

@@ -10,8 +10,22 @@ git_repos:
   - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
 
+go_packages:
+  - github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+  - github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+  - github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
+  - github.com/projectdiscovery/httpx/cmd/httpx@latest
+  - github.com/projectdiscovery/tlsx/cmd/tlsx@latest
+  - github.com/projectdiscovery/katana/cmd/katana@latest
+  - github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+  - github.com/projectdiscovery/proxify/cmd/proxify@latest
+  - github.com/projectdiscovery/mapcidr/cmd/mapcidr@latest
+  - github.com/projectdiscovery/asnmap/cmd/asnmap@latest
+
 kali_meta_packages:
   - kali-linux-default
+  - kali-tools-802-11
+  - kali-tools-voip 
 
 kali_tool_packages:
   - awscli
@@ -41,14 +55,21 @@ kali_tool_packages:
   - wireguard
   - xclip
   - xsel
-
-misc_downloads:
-  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64
-    dest: /opt/pspy/pspy64
-    mode: '0755'
-  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64s
-    dest: /opt/pspy/pspy64s
-    mode: '0755'
+  # libpcap-dev required for naabu
+  - libpcap-dev
+  # Below packages for airgeddon
+  - asleap
+  - beef-xss
+  - bettercap
+  - dsniff
+  - hcxdumptool
+  - hcxtools
+  - hostapd
+  - hostapd-wpe
+  - isc-dhcp-server
+  - lighttpd
+  - mdk4
+  - sslstrip
 
 python_pip_packages:
   - bloodhound
