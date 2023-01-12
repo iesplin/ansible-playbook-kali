@@ -118,14 +118,18 @@
         dest: "{{ kali_user_details.home }}/.local/bin/xfce4-panel-genmon-vpnip.sh"
         mode: 0750
 
-    - name: Update config for widget 
+    - name: Update config for widget
       ansible.builtin.lineinfile:
         path: "{{ kali_user_details.home }}/.config/xfce4/panel/genmon-15.rc"
         regexp: "^Command="
         line: "Command={{ kali_user_details.home }}/.local/bin/xfce4-panel-genmon-vpnip.sh"
       register: genmon_config
+      tags:
+        - molecule-notest
 
     - name: Kill widget process to apply config
       ansible.builtin.command:
         cmd: /usr/bin/pkill -f '/usr/lib/x86_64-linux-gnu/xfce4/panel/plugins/libgenmon.so 15'
       when: genmon_config.changed
+      tags:
+        - molecule-notest
