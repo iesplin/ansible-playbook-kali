@@ -30,6 +30,7 @@ kali_meta_packages:
 kali_tool_packages:
   - awscli
   - bloodhound
+  - bloodhound.py
   - cmake
   - covenant-kbx
   - docker.io
@@ -50,7 +51,13 @@ kali_tool_packages:
   - parallel
   - payloadsallthethings
   - peass
+  - pipenv
+  - pipx
+  - python3-poetry
+  - python3-pwntools
+  - python3-unicorn
   - rlwrap
+  - ropper
   - seclists
   - testssl.sh
   - wireguard
@@ -81,15 +88,8 @@ misc_downloads:
     mode: '0755'
 
 python_pip_packages:
-  - bloodhound
-  - capstone
   - mitm6
-  - pipenv
-  - poetry
-  - pwntools
   - roadrecon
-  - ropper
-  - unicorn
 
 ruby_gem_packages:
   - winrm
