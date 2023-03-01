@@ -87,9 +87,11 @@ misc_downloads:
     dest: /opt/pspy/pspy64s
     mode: '0755'
 
-python_pip_packages:
+pipx_packages:
   - mitm6
   - roadrecon
+
+python_pip_packages: []
 
 ruby_gem_packages:
   - winrm
