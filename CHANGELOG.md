@@ -1,5 +1,15 @@
 # Changelog
 
+## 2023.03.02
+- Fixed: Workaround for Python pip error
+- Changed: Use Kali Python packages where applicable
+- Changed: Use pipx for tools not supplied in Kali repo
+- Changed: Added .local/bin to PATH
+
+## 2023.01.12
+- Added: Better VPN IP widget script
+- Added: Update Nuclei
+
 ## 2022.12.23
 - Added: Project Discovery tools
 - Added: Wi-Fi pentest tools
