@@ -76,6 +76,7 @@
         name: "{{ item }}"
         state: latest
         executable: pip3
+        extra_args: "--break-system-packages"
       loop: "{{ python_pip_packages }}"
       changed_when: false
 
@@ -90,6 +91,7 @@
       until: apt_rubygems_packages is success
       retries: 1
       delay: 10
+
     - name: Install Ruby Gem Packages
       community.general.gem:
         name: "{{ item }}"
