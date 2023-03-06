@@ -98,10 +98,3 @@
         owner: root
         group: root
         mode: 0644
-
-    # Nuclei
-    - name: Update Nuclei
-      ansible.builtin.command:
-        cmd: /usr/local/bin/nuclei -update -verbose
-      register: nuclei_update
-      changed_when: '"No new updates found for nuclei engine" not in nuclei_update.stderr'
