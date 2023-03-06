@@ -80,6 +80,23 @@
       loop: "{{ python_pip_packages }}"
       changed_when: false
 
+    # Pipx packages
+    - name: Create Pipx home directory
+      ansible.builtin.file:
+        path: /usr/local/share/pipx
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Install Pipx packages
+      community.general.pipx:
+        name: "{{ item }}"
+      environment:
+        PIPX_HOME: /usr/local/share/pipx
+        PIPX_BIN_DIR: /usr/local/bin
+      loop: "{{ pipx_packages }}"
+
     # Ruby packages
     - name: Ensure packages for Ruby gems are installed
       ansible.builtin.apt:
