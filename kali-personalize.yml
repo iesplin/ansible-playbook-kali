@@ -139,9 +139,3 @@
       ansible.builtin.blockinfile:
         path: "{{ kali_user_details.home }}/.zshrc"
         block: export PATH="$HOME/.local/bin:$PATH"
-
-    # Pipx
-    - name: Install Pipx packages
-      community.general.pipx:
-        name: "{{ item }}"
-      loop: "{{ pipx_packages }}"
