@@ -1,9 +1,9 @@
 # Changelog
 
-## 2023.03.02
+## 2023.03.06
 - Fixed: Workaround for Python pip error
-- Changed: Use Kali Python packages where applicable
-- Changed: Use pipx for tools not supplied in Kali repo
+- Changed: Install from Kali packages where applicable
+- Changed: Use Pipx to install other Python tools
 - Changed: Added .local/bin to PATH
 
 ## 2023.01.12
