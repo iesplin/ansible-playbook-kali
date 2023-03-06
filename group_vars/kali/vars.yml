@@ -11,7 +11,6 @@ git_repos:
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
 
 go_packages:
-  - github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
   - github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
   - github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
   - github.com/projectdiscovery/httpx/cmd/httpx@latest
@@ -35,6 +34,7 @@ kali_tool_packages:
   - covenant-kbx
   - docker.io
   - docker-compose
+  - evil-winrm
   - eyewitness
   - gdb
   - gdbserver
@@ -48,6 +48,7 @@ kali_tool_packages:
   - nbtscan-unixwiz
   - ncat
   - neo4j
+  - nuclei
   - parallel
   - payloadsallthethings
   - peass
@@ -93,11 +94,7 @@ pipx_packages:
 
 python_pip_packages: []
 
-ruby_gem_packages:
-  - winrm
-  - winrm-fs
-  - stringio
-  - evil-winrm
+ruby_gem_packages: []
 
 ufw_application_profiles:
   - responder
