@@ -40,7 +40,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install Python dependencies
-        run: pip3 install ansible molecule[docker] docker jmespath
+        run: pip3 install ansible molecule-plugins[docker] docker jmespath
 
       - name: Install Ansible Galaxy requirements
         run: |
