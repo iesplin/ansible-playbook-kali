@@ -10,16 +10,7 @@ git_repos:
   - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
 
-go_packages:
-  - github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-  - github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
-  - github.com/projectdiscovery/httpx/cmd/httpx@latest
-  - github.com/projectdiscovery/tlsx/cmd/tlsx@latest
-  - github.com/projectdiscovery/katana/cmd/katana@latest
-  - github.com/projectdiscovery/dnsx/cmd/dnsx@latest
-  - github.com/projectdiscovery/proxify/cmd/proxify@latest
-  - github.com/projectdiscovery/mapcidr/cmd/mapcidr@latest
-  - github.com/projectdiscovery/asnmap/cmd/asnmap@latest
+go_packages: []
 
 kali_meta_packages:
   - kali-linux-default
@@ -89,6 +80,8 @@ misc_downloads:
     mode: '0755'
 
 pipx_packages:
+  - gin
+  - git-dumper
   - mitm6
   - roadrecon
 

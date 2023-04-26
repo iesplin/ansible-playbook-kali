@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023.04.26
+- Changed: Use pdtm for installing ProjectDiscovery tools
+- Added: git-dumper and gin tools
+
 ## 2023.03.06
 - Fixed: Workaround for Python pip error
 - Changed: Install from Kali packages where applicable

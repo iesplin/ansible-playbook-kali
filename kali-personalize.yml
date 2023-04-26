@@ -15,6 +15,13 @@
         mode: 0750
       loop:
         - ".local/bin"
+        - ".pdtm/go/bin"
+
+    # ZSH
+    - name: Set PATH
+      ansible.builtin.blockinfile:
+        path: "{{ kali_user_details.home }}/.zshrc"
+        block: export PATH="$HOME/.local/bin:$HOME:/.pdtm/go/bin:$PATH"
 
     # XFCE settings
     - name: Apply XFCE settings
@@ -134,8 +141,26 @@
       tags:
         - molecule-notest
 
-    # ZSH
-    - name: Set PATH
-      ansible.builtin.blockinfile:
-        path: "{{ kali_user_details.home }}/.zshrc"
-        block: export PATH="$HOME/.local/bin:$PATH"
+    # ProjectDiscovery tools
+    - name: Check if pdtm exists
+      ansible.builtin.stat:
+        path: "{{ kali_user_details.home }}/.local/bin/pdtm"
+      register: pdtm_bin_stat
+
+    - name: Download ProjectDiscovery Tool Manager
+      ansible.builtin.unarchive:
+        src: https://github.com/projectdiscovery/pdtm/releases/download/v0.0.6/pdtm_0.0.6_linux_amd64.zip
+        dest: "{{ kali_user_details.home }}/.local/bin"
+        remote_src: true
+        include: pdtm
+      when: not pdtm_bin_stat.stat.exists
+    
+    - name: Update pdtm
+      ansible.builtin.command: "{{ kali_user_details.home }}/.local/bin/pdtm -self-update -no-color"
+      register: pdtm_update_cmd
+      changed_when: "'already updated' not in pdtm_update_cmd.stdout"
+
+    - name: Install all ProjectDiscovery tools
+      ansible.builtin.command: "{{ kali_user_details.home }}/.local/bin/pdtm -install-all -no-color"
+      register: pdtm_install_tools_cmd
+      changed_when: "'installing' in pdtm_install_tools_cmd.stdout"
