@@ -154,7 +154,7 @@
         remote_src: true
         include: pdtm
       when: not pdtm_bin_stat.stat.exists
-    
+
     - name: Update pdtm
       ansible.builtin.command: "{{ kali_user_details.home }}/.local/bin/pdtm -self-update -no-color"
       register: pdtm_update_cmd
