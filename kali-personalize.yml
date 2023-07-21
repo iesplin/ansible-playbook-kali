@@ -38,6 +38,8 @@
  # install selected terminal package 
 
     - name: install selected terminal
+      become: true
+      become_user: root
       ansible.builtin.apt:
         name: "{{ desired_terminal }}"
         state: present
