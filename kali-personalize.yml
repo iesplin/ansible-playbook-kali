@@ -90,9 +90,16 @@
       tags: install_terminal
       when:
         - desired_terminal == "tmux"   
-     
+  
+    - name: Make sure the file required to change the XFCE default exists
+      ansible.builtin.file:
+        path: "{{kali_user_details.home}}/.config/xfce4/helpers.rc"
+        state: touch
+      tags: install_terminal    
+
     - name: Make terminator the default terminalemulator in XFCE
       ansible.builtin.lineinfile:
+        create: true
         path: "{{kali_user_details.home}}/.config/xfce4/helpers.rc"
         regexp : "TerminalEmulator=*"
         line: "TerminalEmulator=terminator" 
@@ -122,10 +129,12 @@
       ansible.builtin.copy:
         src: "files/terminals/terminator/config"
         dest: "{{ kali_user_details.home }}/.config/terminator/config"
+        create: yes
         mode: 0640
       tags: install_terminal
       when:
         - desired_terminal == "terminator"   
+
 
     - name: ensures tilix config  dir exists
       file: 
