@@ -6,6 +6,10 @@
     burpsuite_editions_map:
       - { name: Burp Suite Community, alias: community }
       - { name: Burp Suite Professional, alias: pro }
+    terminal_options_map:
+      - { name: terminator , alias: terminator}
+      - { name: tilix, alias: tilix }
+      - { name: tmux, alias: tmux}
   tasks:
     # Ensure user is created. Do not change password if user exists
     - name: Create kali user
@@ -21,6 +25,10 @@
       vars:
         default_shell: /bin/zsh
         default_groups: sudo
+      tags: 
+        - install_terminal
+        - install_pyenv
+        - install_python_tools
 
     - name: Set burpsuite_edition
       ansible.builtin.set_fact:
@@ -76,7 +84,26 @@
           [{{ burpsuite_user }}]
           edition={{ burpsuite_edition }}
           licensed={{ burpsuite_licensed }}
+################# TERMINAL PROMPT  #################       
+    - block:
+        - name: Desired Terminal prompt
+          ansible.builtin.pause:
+            prompt: |
+              Which Terminal to install?
+                {% for p in terminal_options_map %}
+                {{ loop.index }}. {{ p['name'] }}
+                {% endfor %}
 
+              Enter the number for the desired terminal:
+          register: _desired_terminal_choice
+
+        - name: Set desired terminal
+          ansible.builtin.set_fact:
+            desired_terminal: "{{ terminal_options_map[_desired_terminal_choice.user_input|default(omit)|int - 1]['alias'] }}"
+      when: ansible_local['desired_terminal'] is undefined
+      tags: install_terminal
+
+################# ################# #################   
 - name: Include Kali packages playbook
   ansible.builtin.import_playbook: kali-packages.yml
 

@@ -1,4 +1,4 @@
-# Kalifigurator 2.0  test12
+# Kalifigurator2.0  
 
 [![CI](https://github.com/iesplin/ansible-playbook-kali/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/iesplin/ansible-playbook-kali/actions/workflows/ci.yml)
 
@@ -22,6 +22,10 @@ How to use
 
 Author
 -------
+jurjurijur 
+
+heavily based on 
+
 iesplin
 
 License

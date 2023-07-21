@@ -27,6 +27,14 @@
         direction: incoming
         default: reject
 
+    - name: allow port 22
+      community.general.ufw:
+        state: enabled
+        direction: incoming
+        default: allow
+        to_port: "22" 
+
+
     - name: Copy application profiles
       ansible.builtin.copy:
         src: "ufw/applications.d/{{ item }}"

@@ -58,6 +58,61 @@
       ansible.builtin.apt:
         autoremove: true
 
+    - name: Set  pyenv python versions variable
+      set_fact:
+        extracted_pyenv_python_versions: "{{ python_tools | map(attribute='python_version') | unique | list }}"
+      loop: "{{ python_tools }}"
+      tags: 
+       - install_pyenv
+       - install_python_tools
+
+    - name: Set python virtualenv variable
+      set_fact:
+        extracted_pyenv_virtualenvs: "{{ extracted_pyenv_virtualenvs | default([]) + [{'venv_name': item.name, 'py_version': item.python_version}] }}"
+      loop: "{{ python_tools }}"
+      tags: 
+       - install_pyenv
+       - install_python_tools
+    #install pyenv 
+    - name: install pyenv
+      import_role:
+        name: staticdev.pyenv
+      vars:
+        pyenv_shellrc_file: "{{ kali_user_details.home }}/.zshrc"
+        pyenv_path: "{{kali_user_details.home  }}/.pyenv"
+        pyenvrc_path: "{{ kali_user_details.home }}"
+        pyenv_owner: "{{ kali_user}}"
+        pyenv_owner_group: "{{ kali_user }}"
+        pyenv_env: 'system'
+        pyenv_global: ["system"]
+        pyenv_enable_virtualenvs: true
+        pyenv_python_versions: "{{extracted_pyenv_python_versions}}"
+        pyenv_virtualenvs: "{{extracted_pyenv_virtualenvs}}"
+        pyenv_uninstall_python_w_wrong_configure_opts: True
+      tags: 
+       - install_pyenv
+       - install_python_tools
+
+    #change folder permissions to user 
+    - name: Ensure the right folder permissions for pyenv folder
+      ansible.builtin.file:
+         path: "{{kali_user_details.home  }}/.pyenv"
+         owner: "{{kali_user}}"
+         group: "{{kali_user}}"
+         recurse: true 
+      tags: 
+       - install_pyenv
+       - install_python_tools
+
+    - name: Ensure the right folder permissions for pyenvrc file
+      ansible.builtin.file:
+         path: "{{kali_user_details.home  }}/.pyenvrc"
+         owner: "{{kali_user}}"
+         group: "{{kali_user}}"
+      tags: 
+       - install_pyenv
+       - install_python_tools
+
     # Python packages
     - name: Ensure packages for Python pip are installed
       ansible.builtin.apt:
@@ -91,11 +146,12 @@
 
     - name: Install Pipx packages
       community.general.pipx:
-        name: "{{ item }}"
+       name: "{{ item }}"
       environment:
         PIPX_HOME: /usr/local/share/pipx
         PIPX_BIN_DIR: /usr/local/bin
       loop: "{{ pipx_packages }}"
+
 
     # Ruby packages
     - name: Ensure packages for Ruby gems are installed
@@ -117,7 +173,7 @@
         norc: true
       loop: "{{ ruby_gem_packages }}"
 
-    # Go packages
+    # Go install packages
     - name: Install Go packages
       ansible.builtin.command:
         cmd: "/usr/bin/go install -x {{ item }}"
@@ -125,4 +181,4 @@
         GOBIN: /usr/local/bin
       register: go_install_cmd
       changed_when: go_install_cmd.stderr | regex_search('/pkg/tool/linux_.*/buildid')
-      loop: "{{ go_packages }}"
+      loop: "{{ go_install_packages }}"

@@ -1,0 +1,5 @@
+Bij problemen 
+
+1. checkout branch die behind is
+2. fetch de branch 
+3. push opnieuw

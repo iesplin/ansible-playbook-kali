@@ -1,0 +1,5 @@
+[kali]
+192.168.49.147 ansible_connection=ssh ansible_user=kali ansible_ssh_pass=kali ansible_become_pass=kali ansible_python_interpreter=python3
+
+[local]
+localhost ansible_connection=local ansible_python_interpreter=python3

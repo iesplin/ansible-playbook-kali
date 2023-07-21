@@ -23,7 +23,139 @@
         path: "{{ kali_user_details.home }}/.zshrc"
         block: export PATH="$HOME/.local/bin:$HOME:/.pdtm/go/bin:$PATH"
 
-    # XFCE settings
+     # ZSH Conigure fzf for history
+    - name: Configure fzf for history fuzzer
+      ansible.builtin.blockinfile:
+        path: "{{ kali_user_details.home }}/.zshrc"
+        block: |
+              #Append this line to ~/.zshrc to enable fzf keybindings for Zsh:
+              source /usr/share/doc/fzf/examples/key-bindings.zsh
+              #Append this line to ~/.zshrc to enable fuzzy auto-completion for Zsh:
+              source /usr/share/doc/fzf/examples/completion.zsh
+        marker: "# {mark} FZF block ansible"
+
+    #################### INSTALLL TERMINAL ####################
+ # install selected terminal package 
+
+    - name: install selected terminal
+      ansible.builtin.apt:
+        name: "{{ desired_terminal }}"
+        state: present
+      register: terminal_install
+      until: terminal_install is success
+      retries: 1
+      delay: 30
+      tags: install_terminal
+
+    - name: Set terminator as Default
+      become: true
+      become_user: root
+      community.general.alternatives:
+        name: x-terminal-emulator
+        path: "/usr/bin/terminator"
+      tags: install_terminal
+      when:
+        - desired_terminal == "terminator"
+      
+    - name: Set tilix as Default
+      become: true
+      become_user: root
+      community.general.alternatives:
+        name: x-terminal-emulator
+        path: "/usr/bin/tilix.wrapper"
+      tags: install_terminal
+      when:
+        - desired_terminal == "tilix"
+
+    - name: Set qterminal as Default for tmux
+      become: true
+      become_user: root
+      community.general.alternatives:
+        name: x-terminal-emulator
+        path: "/usr/bin/qterminal"
+      tags: install_terminal
+      when:
+        - desired_terminal == "tmux"
+
+    - name: Configure tmux to launch on opening shell 
+      ansible.builtin.blockinfile:
+        path: "{{ kali_user_details.home }}/.zshrc"
+        block: |
+              if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+                  tmux attach -t default || tmux new -s default
+              fi
+        marker: "# {mark} tmux block ansible"
+      tags: install_terminal
+      when:
+        - desired_terminal == "tmux"   
+     
+    - name: Make terminator the default terminalemulator in XFCE
+      ansible.builtin.lineinfile:
+        path: "{{kali_user_details.home}}/.config/xfce4/helpers.rc"
+        regexp : "TerminalEmulator=*"
+        line: "TerminalEmulator=terminator" 
+      tags: install_terminal    
+      when:
+        - desired_terminal == "terminator"
+
+    - name: Make tilix the default terminalemulator in XFCE
+      ansible.builtin.lineinfile:
+        path: "{{kali_user_details.home}}/.config/xfce4/helpers.rc"
+        regexp : "TerminalEmulator=*"
+        line: "TerminalEmulator=custom-TerminalEmulator" 
+      tags: install_terminal    
+      when:
+        - desired_terminal == "tilix"  
+
+    - name: Make qterminal for TMUX the default terminalemulator in XFCE
+      ansible.builtin.lineinfile:
+        path: "{{kali_user_details.home}}/.config/xfce4/helpers.rc"
+        regexp : "TerminalEmulator=*"
+        line: "TerminalEmulator=qterminal" 
+      tags: install_terminal    
+      when:
+        - desired_terminal == "tmux"   
+
+    - name: Copy the terminator config
+      ansible.builtin.copy:
+        src: "files/terminals/terminator/config"
+        dest: "{{ kali_user_details.home }}/.config/terminator/config"
+        mode: 0640
+      tags: install_terminal
+      when:
+        - desired_terminal == "terminator"   
+
+    - name: ensures tilix config  dir exists
+      file: 
+        path: "{{ kali_user_details.home }}/.config/tilix/schemes/"
+        state: directory
+      tags: install_terminal
+      when:
+        - desired_terminal == "tilix"  
+
+    - name: Copy the tilix config
+      ansible.builtin.synchronize:
+        src: "files/terminals/tilix/schemes"
+        dest: "{{ kali_user_details.home }}/.config/tilix/"
+        rsync_opts:
+         - "--chmod=F644"
+        mode: push
+      tags: install_terminal
+      when:
+        - desired_terminal == "tilix"  
+
+    - name: Copy the tmux config
+      ansible.builtin.copy:
+        src: "files/terminals/tmux/.tmux.conf"
+        dest: "{{ kali_user_details.home }}/.tmux.conf"
+        mode: 0640
+      tags: install_terminal
+      when:
+        - desired_terminal == "tmux"   
+    
+      #################### #################### ############
+
+     # XFCE settings
     - name: Apply XFCE settings
       community.general.xfconf:
         channel: "{{ item.channel }}"
@@ -34,14 +166,8 @@
       tags:
         # XFCE not installed for testing
         - molecule-notest
-
-    # tmux
-    - name: Copy tmux config
-      ansible.builtin.copy:
-        src: "files/tmux/.tmux.conf"
-        dest: "{{ kali_user_details.home }}/.tmux.conf"
-        mode: 0640
-
+        #- install_terminal
+    
     # Firefox personalization
     - name: Set firefox_default_profile_dir fact
       ansible.builtin.set_fact:
@@ -169,3 +295,15 @@
       ansible.builtin.command: "{{ kali_user_details.home }}/.local/bin/pdtm -update-all -no-color"
       register: pdtm_update_tools_cmd
       changed_when: "'updating' in pdtm_update_tools_cmd.stderr"
+
+    - name: Create Menu Shortcuts
+      become: true
+      ansible.builtin.template:
+        src: templates/menu_items/menu_item.desktop.j2
+        dest: "{{kali_user_details.home}}/.local/share/applications/{{item.command}}"
+        #dest: "/home/kali/.local/share/applications/{{item.command}}.desktop"
+        mode: "0700"
+      with_items:
+         - "{{tar_packages}}"
+      tags: install_tar_packages 
+

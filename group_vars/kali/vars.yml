@@ -9,15 +9,26 @@ burpsuite_user: "{{ kali_user }}"
 git_repos:
   - name: quieter-firefox
     repo: https://bitbucket.org/mrbbking/quieter-firefox.git
+  - name: azurehound
+    repo: https://github.com/BloodHoundAD/AzureHound.git
 
-go_packages: []
+# go buildin repo
+go_install_packages: []
+
+
+# Add repo to git_repos var and add the given name of the repo here
+go_build_packages:
+  - azurehound 
+
 
 kali_meta_packages:
   - kali-linux-default
   - kali-tools-802-11
   - kali-tools-voip
 
+#kali apt repo
 kali_tool_packages:
+  - fzf
   - awscli
   - bloodhound
   - bloodhound.py
@@ -71,6 +82,23 @@ kali_tool_packages:
   - mdk4
   - sslstrip
 
+python_tools:
+# install a python tool in its own virtual envoirment.
+  - name: securityheaders
+    repo: https://github.com/koenbuyens/securityheaders.git
+    dest: /opt/securityheaders/
+    mode: '0755'
+    #needs to be exact version name that is installable with pyenv
+    python_version: '2.7.18'
+    main_file: 'securityheaders.py' 
+  - name: jwt_tool
+    repo: https://github.com/ticarpi/jwt_tool.git
+    dest: /opt/jwt_tool/
+    mode: '0755'
+    #needs to be exact version name that is installable with pyenv
+    python_version: '3.11.4'
+    main_file: 'jwt_tool.py' 
+
 misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64
     dest: /opt/pspy/pspy64
@@ -78,6 +106,16 @@ misc_downloads:
   - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64s
     dest: /opt/pspy/pspy64s
     mode: '0755'
+
+tar_packages:
+  - url: https://dl.pstmn.io/download/latest/linux_64
+    dest: /opt/Postman/
+    mode: '0755'
+    #binary path inside of Dest path
+    bin_path: "app/Postman"
+    icon: "app/icons/icon_128x128.png"
+    categories: 03-webapp-analysis;03-06-web-application-proxies;
+    command: "postman"
 
 pipx_packages:
   - gin
@@ -114,5 +152,4 @@ xfce_settings:
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/logind-handle-lid-switch", type: "bool", value: "false" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/power-button-action", type: "int", value: "4" }
   - { channel: "xfce4-power-manager", property: "/xfce4-power-manager/show-tray-icon", type: "bool", value: "false" }
-  # - { channel: "xfwm4", property: "/general/vblank_mode", type: "string", value: "xpresent" }
   - { channel: "xfwm4", property: "/general/workspace_count", type: "int", value: "4" }
