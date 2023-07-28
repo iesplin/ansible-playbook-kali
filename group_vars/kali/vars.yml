@@ -20,13 +20,13 @@ go_install_packages: []
 go_build_packages:
   - azurehound 
 
-
+#Kali apt meta package, install tool package in one go
 kali_meta_packages:
   - kali-linux-default
   - kali-tools-802-11
   - kali-tools-voip
 
-#kali apt repo
+#kali apt repo, add apt name to install 
 kali_tool_packages:
   - fzf
   - awscli
@@ -111,7 +111,7 @@ tar_packages:
   - url: https://dl.pstmn.io/download/latest/linux_64
     dest: /opt/Postman/
     mode: '0755'
-    #binary path inside of Dest path
+    #binary path inside of Dest path 
     bin_path: "app/Postman"
     icon: "app/icons/icon_128x128.png"
     categories: 03-webapp-analysis;03-06-web-application-proxies;
