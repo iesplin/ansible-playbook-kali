@@ -125,16 +125,23 @@
       when:
         - desired_terminal == "tmux"   
 
+    - name: ensures terminator config  dir exists
+      file: 
+        path: "{{ kali_user_details.home }}/.config/terminator/config/"
+        state: directory
+      tags: install_terminal
+      when:
+        - desired_terminal == "terminator"  
+
     - name: Copy the terminator config
       ansible.builtin.copy:
         src: "files/terminals/terminator/config"
         dest: "{{ kali_user_details.home }}/.config/terminator/config"
-        create: yes
         mode: 0640
+        force: false
       tags: install_terminal
       when:
         - desired_terminal == "terminator"   
-
 
     - name: ensures tilix config  dir exists
       file: 
@@ -312,7 +319,6 @@
       ansible.builtin.template:
         src: templates/menu_items/menu_item.desktop.j2
         dest: "{{kali_user_details.home}}/.local/share/applications/{{item.command}}"
-        #dest: "/home/kali/.local/share/applications/{{item.command}}.desktop"
         mode: "0700"
       with_items:
          - "{{tar_packages}}"
