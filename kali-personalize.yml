@@ -164,8 +164,12 @@
       ansible.builtin.command: "{{ kali_user_details.home }}/.local/bin/pdtm -install-all -no-color"
       register: pdtm_install_tools_cmd
       changed_when: "'installing' in pdtm_install_tools_cmd.stderr"
+      tags:
+        - molecule-idempotence-notest
 
     - name: Update all ProjectDiscovery tools
       ansible.builtin.command: "{{ kali_user_details.home }}/.local/bin/pdtm -update-all -no-color"
       register: pdtm_update_tools_cmd
       changed_when: "'updating' in pdtm_update_tools_cmd.stderr"
+      tags:
+        - molecule-idempotence-notest
