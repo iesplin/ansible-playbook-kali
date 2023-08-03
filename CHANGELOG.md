@@ -1,5 +1,11 @@
 # Changelog
 
+## 2023.08.03
+- Added: certipy-ad
+- Added: coercer
+- Fixed: Typo in PATH env
+- Fixed: Ignore idempotence for installing/updating with pdtm
+
 ## 2023.04.26
 - Changed: Use pdtm for installing ProjectDiscovery tools
 - Added: git-dumper and gin tools
