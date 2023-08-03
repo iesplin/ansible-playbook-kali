@@ -149,7 +149,7 @@
 
     - name: Download ProjectDiscovery Tool Manager
       ansible.builtin.unarchive:
-        src: https://github.com/projectdiscovery/pdtm/releases/download/v0.0.6/pdtm_0.0.6_linux_amd64.zip
+        src: https://github.com/projectdiscovery/pdtm/releases/download/v0.0.8/pdtm_0.0.8_linux_amd64.zip
         dest: "{{ kali_user_details.home }}/.local/bin"
         remote_src: true
         include: pdtm
