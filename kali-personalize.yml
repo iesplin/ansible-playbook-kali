@@ -21,7 +21,7 @@
     - name: Set PATH
       ansible.builtin.blockinfile:
         path: "{{ kali_user_details.home }}/.zshrc"
-        block: export PATH="$HOME/.local/bin:$HOME:/.pdtm/go/bin:$PATH"
+        block: export PATH="$HOME/.local/bin:$HOME/.pdtm/go/bin:$PATH"
 
     # XFCE settings
     - name: Apply XFCE settings
