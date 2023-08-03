@@ -21,6 +21,7 @@ kali_tool_packages:
   - awscli
   - bloodhound
   - bloodhound.py
+  - certipy-ad
   - cmake
   - covenant-kbx
   - docker.io
@@ -80,6 +81,7 @@ misc_downloads:
     mode: '0755'
 
 pipx_packages:
+  - coercer
   - gin
   - git-dumper
   - mitm6
