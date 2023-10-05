@@ -1,0 +1,36 @@
+---
+
+- name: Clone tool git repositories
+  ansible.builtin.git:
+      repo: "{{ item.repo }}"
+      dest: "{{tool_folder}}/{{ item.name }}"
+      update: "{{ pyenv_update_git_install }}"
+      force: true
+
+#Install Python Tools 
+- name: Install requirements in virtual environment for each tool 
+  ansible.builtin.pip:
+      requirements:   "{{tool_folder}}/{{item.name}}/requirements.txt"  
+      virtualenv: "{{python_tools_user_homefolder}}/.pyenv/versions/{{item.python_version}}/envs/{{item.name}}"
+
+  # change the main script of the tool to launch in its virtualenv
+- name: change the main script of the tool to launch in its virtualenv
+  ansible.builtin.replace:
+    path: "{{ tool_folder }}/{{ item.name }}/{{ item.main_file | default(item.name + '.py') }}"
+    regexp: "#!/usr/bin/env python" 
+    replace: "#!{{python_tools_user_homefolder}}/.pyenv/versions/{{item.python_version}}/envs/{{item.name}}/bin/python" 
+
+# make the main script executable 
+- name: make the main file executable 
+  ansible.builtin.file:
+    path: "{{ tool_folder }}/{{ item.name }}/{{ item.main_file | default(item.name + '.py') }}"
+    mode: "0755"
+
+# Create Symlinks
+- name: Create Symlinks for python tool
+  ansible.builtin.file: 
+    src: "{{ tool_folder }}/{{ item.name }}/{{ item.main_file | default(item.name + '.py') }}"
+    force: true
+    dest: "/usr/local/bin/{{ item.name }}"
+    state: link
+     

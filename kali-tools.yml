@@ -34,8 +34,7 @@
         depth: 1
         force: true
       with_items: 
-       - "{{ git_repos | flatten(levels=1) }}"
-       - "{{ python_tools }}" 
+       - "{{ git_repos | flatten(levels=1) }}" 
       tags: go_build
 
     # Miscellaneous tools
@@ -49,7 +48,6 @@
       with_items: 
         - "{{ misc_downloads}}"
         - "{{ tar_packages}}"
-        - "{{ python_tools }}"
       tags: install_tar_packages
 
     - name: Download files
@@ -83,55 +81,12 @@
       loop: "{{ tar_packages }}"
       tags: install_tar_packages 
 
-      #Install Python Tools 
-    - name: Install requirements in virtual environment for each tool 
-      ansible.builtin.pip:
-         requirements:   "{{item.dest}}/requirements.txt"  
-         virtualenv: "{{kali_user_details.home}}/.pyenv/versions/{{item.python_version}}/envs/{{item.name}}"
-      loop: "{{ python_tools }}"
-      tags: install_python_tools 
-     
-    # change the main script of the tool to launch in its virtualenv
-    - name:  
-      ansible.builtin.replace:
-        path: "{{item.dest}}/{{item.main_file}}"
-        regexp: "#!/usr/bin/env python" 
-        replace: "#!{{kali_user_details.home}}/.pyenv/versions/{{item.python_version}}/envs/{{item.name}}/bin/python" 
-      with_items:
-         - "{{python_tools}}"
-      tags: install_python_tools   
+    - name: Install python tools
+      ansible.builtin.include_role: 
+       name: python-tool-carousel 
+      tags: install_python_tools
 
-    - name:  
-      ansible.builtin.replace:
-        path: "{{item.dest}}/{{item.main_file}}"
-        regexp: "#!/usr/bin/env python" 
-        replace: "#!{{kali_user_details.home}}/.pyenv/versions/{{item.python_version}}/envs/{{item.name}}/bin/python" 
-      with_items:
-         - "{{python_tools}}"
-      tags: install_python_tools    
-    
-    # make the main script executable 
-    - name: make the main file executable 
-      ansible.builtin.file:
-        path: "{{item.dest}}{{item.main_file}}"
-        mode: "0755"
-      with_items:
-         - "{{python_tools}}"
-      tags:
-       - install_python_tools
-
-    # Create Symlinks
-    - name: Create Symlinks for python tools
-      ansible.builtin.file: 
-        src: "{{item.dest}}{{item.main_file}}"
-        force: true
-        dest: "/usr/local/bin/{{ item.name }}"
-        state: link 
-      with_items:
-         - "{{python_tools}}"
-      tags: install_python_tools 
-
-    # Create Symlinks
+        # Create Symlinks
     - name: Create Symlinks for tar_packages
       ansible.builtin.file: 
         src: "{{item.dest}}{{item.bin_path}}"

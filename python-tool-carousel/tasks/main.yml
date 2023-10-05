@@ -1,0 +1,45 @@
+---
+# extract all versions required for pyenv
+  - name: Set  pyenv python versions variable
+    set_fact:
+      extracted_pyenv_python_versions: "{{ python_tools | map(attribute='python_version') | unique | list }}"
+    loop: "{{ python_tools }}"
+
+  - name: Set python virtualenv variable
+    set_fact:
+      extracted_pyenv_virtualenvs: "{{ extracted_pyenv_virtualenvs | default([]) + [{'venv_name': item.name, 'py_version': item.python_version}] }}"
+    loop: "{{ python_tools }}"
+      
+  #install pyenv 
+  - name: install pyenv and create all virtual envoirments
+    import_role:
+      name: staticdev.pyenv
+    vars:
+      pyenv_shellrc_file: "{{python_tools_user}}/{{python_tools_user_shellrcfile}}"
+      pyenv_path: "{{python_tools_user_homefolder}}/.pyenv"
+      pyenvrc_path: "{{ python_tools_user_homefolder }}"
+      pyenv_owner: "{{ python_tools_user}}"
+      pyenv_owner_group: "{{ python_tools_user }}"
+      pyenv_enable_virtualenvs: true
+      pyenv_python_versions: "{{extracted_pyenv_python_versions}}"
+      pyenv_virtualenvs: "{{extracted_pyenv_virtualenvs}}"
+      pyenv_uninstall_python_w_wrong_configure_opts: True
+
+  #change folder permissions to user 
+  - name: Ensure the right folder permissions for pyenv folder
+    ansible.builtin.file:
+        path: "{{python_tools_user_homefolder}}/.pyenv"
+        owner: "{{python_tools_user}}"
+        group: "{{python_tools_user}}"
+        recurse: true 
+
+  - name: Ensure the right folder permissions for pyenvrc file
+    ansible.builtin.file:
+        path: "{{python_tools_user_homefolder  }}/.pyenvrc"
+        owner: "{{python_tools_user}}"
+        group: "{{python_tools_user}}"
+
+  - name: Download and install each tool in a virtual envoirment
+    include: download_and_install_tools.yml
+    with_items: 
+      - "{{python_tools}}"

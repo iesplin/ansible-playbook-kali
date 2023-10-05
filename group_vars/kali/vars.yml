@@ -5,6 +5,12 @@ burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
 burpsuite_extras_dir: "/home/{{ kali_user }}/BurpSuiteExtras"
 burpsuite_user: "{{ kali_user }}"
 
+# Python-Tool-Carousell settings
+python_tools_user: '{{kali_user}}'
+python_tools_user_homefolder: '{{kali_user_details.home}}'
+pyenv_global: ["system"]
+python_tools_user_shellrcfile: '{{kali_user_details.shell}}'
+
 # Git repositories to clone to /opt
 git_repos:
   - name: quieter-firefox
@@ -86,17 +92,13 @@ python_tools:
 # install a python tool in its own virtual envoirment.
   - name: securityheaders
     repo: https://github.com/koenbuyens/securityheaders.git
-    dest: /opt/securityheaders/
-    mode: '0755'
     #needs to be exact version name that is installable with pyenv
     python_version: '2.7.18'
-    main_file: 'securityheaders.py' 
   - name: jwt_tool
-    repo: https://github.com/ticarpi/jwt_tool.git
-    dest: /opt/jwt_tool/
-    mode: '0755'
+    repo: https://github.com/ticarpi/jwt_tool.gi
     #needs to be exact version name that is installable with pyenv
     python_version: '3.11.4'
+    # Specify the main file to make executable. Without one specified it will search for {{name}}.py
     main_file: 'jwt_tool.py' 
 
 misc_downloads:
