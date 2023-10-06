@@ -9,3 +9,6 @@
 
 # config
 config.yml
+
+#inventory files
+inventory

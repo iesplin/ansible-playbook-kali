@@ -95,7 +95,7 @@ python_tools:
     #needs to be exact version name that is installable with pyenv
     python_version: '2.7.18'
   - name: jwt_tool
-    repo: https://github.com/ticarpi/jwt_tool.gi
+    repo: https://github.com/ticarpi/jwt_tool.git
     #needs to be exact version name that is installable with pyenv
     python_version: '3.11.4'
     # Specify the main file to make executable. Without one specified it will search for {{name}}.py
