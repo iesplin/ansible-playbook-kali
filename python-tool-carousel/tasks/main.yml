@@ -40,6 +40,6 @@
         group: "{{python_tools_user}}"
 
   - name: Download and install each tool in a virtual envoirment
-    include: download_and_install_tools.yml
+    include_tasks: download_and_install_tools.yml
     with_items: 
       - "{{python_tools}}"
