@@ -23,9 +23,9 @@ kali_tool_packages:
   - bloodhound.py
   - certipy-ad
   - cmake
+  - coercer
   - covenant-kbx
   - docker.io
-  - docker-compose
   - evil-winrm
   - eyewitness
   - gdb
@@ -33,10 +33,13 @@ kali_tool_packages:
   - ghidra
   - gobuster
   - golang
+  - gowitness
   - jq
   - keepassxc
   - libreoffice
   - libssl-dev
+  - ligolo-ng
+  - mitm6
   - nbtscan-unixwiz
   - ncat
   - neo4j
@@ -46,6 +49,8 @@ kali_tool_packages:
   - peass
   - pipenv
   - pipx
+  - pspy
+  - python3-jmespath
   - python3-poetry
   - python3-pwntools
   - python3-unicorn
@@ -72,19 +77,11 @@ kali_tool_packages:
   - mdk4
   - sslstrip
 
-misc_downloads:
-  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64
-    dest: /opt/pspy/pspy64
-    mode: '0755'
-  - url: https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64s
-    dest: /opt/pspy/pspy64s
-    mode: '0755'
+misc_downloads: []
 
 pipx_packages:
-  - coercer
   - gin
   - git-dumper
-  - mitm6
   - roadrecon
 
 python_pip_packages: []
