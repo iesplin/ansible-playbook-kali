@@ -1,5 +1,11 @@
 # Changelog
 
+## 2024.08.11
+- Changed: Use Kali repo for coercer, mitm6, & pspy
+- Changed: Remove deprecated docker-compose
+- Changed: Included tasks for installing VS Code
+- Removed: Removed iesplin.vscode role
+
 ## 2023.08.03
 - Added: certipy-ad
 - Added: coercer
