@@ -21,9 +21,26 @@
         - burpsuite_edition == "pro"
         - burpsuite_activate
 
+    # Visual Studio Code
+    - name: Fetch Microsoft signing key
+      ansible.builtin.get_url:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        dest: /etc/apt/keyrings/packages.microsoft.asc
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Add Microsoft VS Code repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.asc] https://packages.microsoft.com/repos/code stable main"
+        state: present
+        filename: vscode
+
     - name: Install Visual Studio Code
-      ansible.builtin.include_role:
-        name: iesplin.vscode
+      ansible.builtin.apt:
+        name: code
+        state: present
+        update_cache: true
 
     # Clone git repos
     - name: Clone git repositories
